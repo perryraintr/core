@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="activityDetail">
+	<select id="byActivityId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.ActivityDetailBean">
+	<![CDATA[select id,activity_id,store_id,order_id,create_time,modify_time from pinshe.activity_detail where activity_id=#activity_id#]]>
+	</select>
+	<select id="byActivityIdStoreId" parameterClass="com.raintr.pinshe.bean.ActivityDetailBean" resultClass="com.raintr.pinshe.bean.ActivityDetailBean">
+	<![CDATA[select id,activity_id,store_id,order_id,create_time,modify_time from pinshe.activity_detail where activity_id=#activity_id# and store_id=#store_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.ActivityDetailBean">
+	<![CDATA[insert into pinshe.activity_detail(activity_id,store_id,order_id,create_time,modify_time) values(#activity_id#,#store_id#,#order_id#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.ActivityDetailBean">
+	<![CDATA[update pinshe.activity_detail set activity_id=#activity_id#,store_id=#store_id#,order_id=#order_id#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+</sqlMap>

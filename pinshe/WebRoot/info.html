@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+	品选10组<br/>
+	http://localhost:8080/pinshe/vote.a?uid=1&page=1<br/>
+	品选详细页<br/>
+	http://localhost:8080/pinshe/vote.a?vid=1<br/>
+	帖子详细页<br/>
+	http://localhost:8080/pinshe/post.a?pid=1<br/>
+	帖子详细页评论<br/>
+	http://localhost:8080/pinshe/comment.a?pid=1&page=1<br/>
+	用户品选详细页评论<br/>
+	http://localhost:8080/pinshe/comment.a?vid=1&page=1<br/>
+	商品详细页<br/>
+	http://localhost:8080/pinshe/product.a?pid=1<br/>
+	消息<br/>
+	http://localhost:8080/pinshe/message.a?uid=1&page=1<br/>
+	返回大于time的消息数量<br/>
+	http://localhost:8080/pinshe/message.a?uid=2&time=20160505165501<br/>
+	
+	愿望清单<br/>
+	http://localhost:8080/pinshe/wish.a?uid=1&page=1<br/>
+	我发布的<br/>
+	http://localhost:8080/pinshe/publish.a?uid=1&page=1<br/>
+	分类下的商品<br/>
+	http://localhost:8080/pinshe/product.a?t1=1&t2=2&page=1<br/>
+	分类下的帖子<br/>
+	http://localhost:8080/pinshe/post.a?t1=1&page=1<br/>
+	http://localhost:8080/pinshe/post.a?t1=1&t2=2&page=1<br/>
+	排行商品top3<br/>
+	http://localhost:8080/pinshe/tag.a?t1=1<br/>
+	分类下最新回复的帖子<br/>
+	http://localhost:8080/pinshe/comment.a?t1=1&page=1<br/>
+	用户信息<br/>
+	http://localhost:8080/pinshe/user.a?uid=1<br/>
+	商品下的帖子<br/>
+	http://localhost:8080/pinshe/post.a?productid=1<br/>
+	
+	
+	<br/><br/>
+	
+	添加用户<br/>
+	http://localhost:8080/pinshe/adduser.a name wechat phone address file wcid avatar<br/>
+	添加品选<br/>
+	http://localhost:8080/pinshe/addvote.a uid name file<br/>
+	添加帖子<br/>
+	http://localhost:8080/pinshe/addpost.a uid name view comment favorite price address brand description t1 t2 file<br/>
+	添加品选历史(用户评选后调用)<br/>
+	http://localhost:8080/pinshe/addhistory.a?uid=1&vid=1<br/>
+	添加愿望清单<br/>
+	http://localhost:8080/pinshe/addwish.a?uid=1&pid=1<br/>
+	添加评论<br/>
+	http://localhost:8080/pinshe/addcomment.a?vid=1&pid=1&uid=1&uaid=3&ubid=2&m=dfsdfsdf<br/>
+	添加feedback<br/>
+	http://localhost:8080/pinshe/addfeedback.a?name=sdfsdf&email=sdfasdfc.com<br/>
+	添加赞<br/>
+	http://localhost:8080/pinshe/addfavorite.a?uid=1&pid=1<br/>
+	
+	<br/><br/>
+	
+	编辑用户<br/>
+	http://localhost:8080/pinshe/modifyuser.a id name wechat phone address file<br/>
+	编辑品选<br/>
+	http://localhost:8080/pinshe/modifyvote.a id uid name a b view comment description file<br/>
+	编辑帖子<br/>
+	http://localhost:8080/pinshe/modifypost.a id uid name view comment price address brand description t1 t2 file<br/>
+	编辑愿望清单<br/>
+	http://localhost:8080/pinshe/modifywish.a?id=1&uid=1&pid=1&buy=1<br/>
+	
+	<br/><br/>
+	
+	删除愿望清单<br/>
+	http://localhost:8080/pinshe/removewish.a?wid=1<br/>
+	http://localhost:8080/pinshe/removewish.a?uid=1&pid=1<br/>
+	删除赞<br/>
+	http://localhost:8080/pinshe/removefavorite.a?uid=1&pid=1<br/>
+	
+	<br/><br/>
+	分享帖子<br/>
+	http://localhost:8080/pinshe/share_post.a?pid=1<br/>
+	分享品选<br/>
+	http://localhost:8080/pinshe/share_vote.a?vid=1<br/>
+	
+	<br/><br/>
+	
+	用户协议<br/>
+	http://localhost:8080/pinshe/protocol.html<br/>
+	
+	ad<br/>
+	http://localhost:8080/pinshe/ad.a?page=1<br/>
+	
+	
+	
+
+	http://localhost/pinshe/chat_group_add.a?name=&description=&uid=122
+	http://localhost/v1/group_member.a?gid=1
+	http://localhost/pinshe/group.a?gid=1
+	
+	
+	
+	pinshe cafe
+	http://localhost/pinshe/member.a?wcid=o1D_JwGKMNWZmBYLxghYYw0GIlUg
+	http://localhost/pinshe/commodity.a?t1=3
+	http://localhost/pinshe/commodity.a?id=9
+	http://localhost/pinshe/commodity_add_yzs.a
+	
+	// admin
+	http://localhost/pinshe/admin_login.a?method=signup&name=perry&phone=13241991175&password=perry2016
+</body>
+</html>

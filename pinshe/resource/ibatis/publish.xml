@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="publish">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.PublishBean">
+	<![CDATA[select id,user_id,vote_id,post_id,create_time,modify_time from pinshe.publish where id=#id#]]>
+	</select>
+	<select id="byUserId" parameterClass="com.raintr.pinshe.bean.PublishBean" resultClass="com.raintr.pinshe.bean.PublishBean">
+	<![CDATA[select id,user_id,vote_id,post_id,create_time,modify_time from pinshe.publish where user_id=#user_id# and modify_time<=(select modify_time from pinshe.publish where user_id=#user_id# order by modify_time desc limit #id#,1) order by modify_time desc limit 100]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.PublishBean">
+	<![CDATA[insert into pinshe.publish(user_id,vote_id,post_id,create_time,modify_time) values(#user_id#,#vote_id#,#post_id#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+</sqlMap>

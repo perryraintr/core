@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="history">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.HistoryBean">
+	<![CDATA[select id,user_id,vote_id,create_time,modify_time from pinshe.history where id=#id#]]>
+	</select>
+	<select id="byUserIdVoteId" parameterClass="com.raintr.pinshe.bean.HistoryBean" resultClass="com.raintr.pinshe.bean.HistoryBean">
+	<![CDATA[select id,user_id,vote_id,create_time,modify_time from pinshe.history where user_id=#user_id# and vote_id=#vote_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.HistoryBean">
+	<![CDATA[insert into pinshe.history(user_id,vote_id,create_time,modify_time) values(#user_id#,#vote_id#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+</sqlMap>

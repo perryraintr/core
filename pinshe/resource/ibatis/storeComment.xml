@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="storeComment">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreCommentBean">
+	<![CDATA[select id,store_id,member_id,star,message,create_time,modify_time from pinshe.store_comment where id=#id#]]>
+	</select>
+	<select id="byStoreId" parameterClass="com.raintr.pinshe.bean.StoreCommentBean" resultClass="com.raintr.pinshe.bean.StoreCommentBean">
+	<![CDATA[select id,store_id,member_id,star,message,create_time,modify_time from pinshe.store_comment where store_id=#store_id# and message != "" and modify_time>=(select modify_time from pinshe.store_comment where store_id=#store_id# and message != "" order by modify_time limit #id#,1) order by modify_time limit 100]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.StoreCommentBean">
+	<![CDATA[insert into pinshe.store_comment(store_id,member_id,star,message,create_time,modify_time) values(#store_id#,#member_id#,#star#,#message#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+</sqlMap>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="favorite">
+	<select id="byUserIdPostId" parameterClass="com.raintr.pinshe.bean.FavoriteBean" resultClass="com.raintr.pinshe.bean.FavoriteBean">
+	<![CDATA[select id,user_id,vote_id,post_id,product_id,create_time,modify_time from pinshe.favorite where user_id=#user_id# and post_id=#post_id#]]>
+	</select>
+	<select id="byUserIdVoteId" parameterClass="com.raintr.pinshe.bean.FavoriteBean" resultClass="com.raintr.pinshe.bean.FavoriteBean">
+	<![CDATA[select id,user_id,vote_id,post_id,product_id,create_time,modify_time from pinshe.favorite where user_id=#user_id# and vote_id=#vote_id#]]>
+	</select>
+	<select id="byUserIdProductId" parameterClass="com.raintr.pinshe.bean.FavoriteBean" resultClass="com.raintr.pinshe.bean.FavoriteBean">
+	<![CDATA[select id,user_id,vote_id,post_id,product_id,create_time,modify_time from pinshe.favorite where user_id=#user_id# and product_id=#product_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.FavoriteBean">
+	<![CDATA[insert into pinshe.favorite(user_id,vote_id,post_id,product_id,create_time,modify_time) values(#user_id#,#vote_id#,#post_id#,#product_id#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<delete id="removeUserIdPostId" parameterClass="com.raintr.pinshe.bean.FavoriteBean">
+	<![CDATA[delete from pinshe.favorite where user_id=#user_id# and post_id=#post_id#]]>
+	</delete>
+	<delete id="removeUserIdVoteId" parameterClass="com.raintr.pinshe.bean.FavoriteBean">
+	<![CDATA[delete from pinshe.favorite where user_id=#user_id# and vote_id=#vote_id#]]>
+	</delete>
+	<delete id="removeUserIdProductId" parameterClass="com.raintr.pinshe.bean.FavoriteBean">
+	<![CDATA[delete from pinshe.favorite where user_id=#user_id# and product_id=#product_id#]]>
+	</delete>
+</sqlMap>

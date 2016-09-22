@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="wish">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.WishBean">
+	<![CDATA[select id,user_id,vote_id,post_id,create_time,modify_time from pinshe.wish where id=#id#]]>
+	</select>
+	<select id="byUserId" parameterClass="com.raintr.pinshe.bean.WishBean" resultClass="com.raintr.pinshe.bean.WishBean">
+	<![CDATA[select id,user_id,vote_id,post_id,create_time,modify_time from pinshe.wish where user_id=#user_id# and modify_time<=(select modify_time from pinshe.wish where user_id=#user_id# order by modify_time desc limit #id#,1) order by modify_time desc limit 100]]>
+	</select>
+	<select id="byUserIdPostId" parameterClass="com.raintr.pinshe.bean.WishBean" resultClass="com.raintr.pinshe.bean.WishBean">
+	<![CDATA[select id,user_id,vote_id,post_id,create_time,modify_time from pinshe.wish where user_id=#user_id# and post_id=#post_id#]]>
+	</select>
+	<select id="byUserIdVoteId" parameterClass="com.raintr.pinshe.bean.WishBean" resultClass="com.raintr.pinshe.bean.WishBean">
+	<![CDATA[select id,user_id,vote_id,post_id,create_time,modify_time from pinshe.wish where user_id=#user_id# and vote_id=#vote_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.WishBean">
+	<![CDATA[insert into pinshe.wish(user_id,vote_id,post_id,create_time,modify_time) values(#user_id#,#vote_id#,#post_id#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.WishBean">
+	<![CDATA[update pinshe.wish set user_id=#user_id#,vote_id=#vote_id#,post_id=#post_id#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.wish where id=#id#]]>
+	</delete>
+	<delete id="removeByUserIdPostId" parameterClass="com.raintr.pinshe.bean.WishBean">
+	<![CDATA[delete from pinshe.wish where user_id=#user_id# and post_id=#post_id#]]>
+	</delete>
+	<delete id="removeByUserIdVoteId" parameterClass="com.raintr.pinshe.bean.WishBean">
+	<![CDATA[delete from pinshe.wish where user_id=#user_id# and vote_id=#vote_id#]]>
+	</delete>
+</sqlMap>

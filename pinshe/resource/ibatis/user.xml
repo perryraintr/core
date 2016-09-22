@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="user">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.UserBean">
+	<![CDATA[select id,name,wechat_guid,wechat,phone,address,avatar,password,create_time,modify_time from pinshe.user where id=#id#]]>
+	</select>
+	<select id="byWechatGuid" parameterClass="String" resultClass="com.raintr.pinshe.bean.UserBean">
+	<![CDATA[select id,name,wechat_guid,wechat,phone,address,avatar,password,create_time,modify_time from pinshe.user where wechat_guid=#wechat_guid#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.UserBean">
+	<![CDATA[insert into pinshe.user(name,wechat_guid,wechat,phone,address,avatar,password,create_time,modify_time) values(#name#,#wechat_guid#,#wechat#,#phone#,#address#,#avatar#,#password#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.UserBean">
+	<![CDATA[update pinshe.user set name=#name#,wechat_guid=#wechat_guid#,wechat=#wechat#,phone=#phone#,address=#address#,avatar=#avatar#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+</sqlMap>

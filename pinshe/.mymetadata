@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="pinshe"
+  id="myeclipse.1460079889641"
+  context-root="/pinshe"
+  j2ee-spec="5.0"
+  archive="pinshe.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="hit">
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.HitBean">
+	<![CDATA[select id,name,count,create_time,modify_time from pinshe.hit where create_time<=(select create_time from pinshe.hit order by create_time desc limit #id#,1) order by create_time desc limit 10]]>
+	</select>
+	<select id="byName" parameterClass="String" resultClass="com.raintr.pinshe.bean.HitBean">
+	<![CDATA[select id,name,count,create_time,modify_time from pinshe.hit where name=#name#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.HitBean">
+	<![CDATA[insert into pinshe.hit(name,count,create_time,modify_time) values(#name#,#count#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.HitBean">
+	<![CDATA[update pinshe.hit set name=#name#,count=#count#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.hit where id=#id#]]>
+	</delete>
+</sqlMap>

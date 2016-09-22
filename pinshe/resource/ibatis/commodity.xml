@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="commodity">
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CommodityBean">
+	<![CDATA[select id,num_iid,outer_id,name,t0,t1,t2,t3,t4,t5,price,count,description,detail,other_name,other_description,cost,url,memo,status,rank,create_time,modify_time from pinshe.commodity where create_time<=(select create_time from pinshe.commodity order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	</select>
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CommodityBean">
+	<![CDATA[select id,num_iid,outer_id,name,t0,t1,t2,t3,t4,t5,price,count,description,detail,other_name,other_description,cost,url,memo,status,rank,create_time,modify_time from pinshe.commodity where id=#id#]]>
+	</select>
+	<select id="byT0" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CommodityBean">
+	<![CDATA[select id,num_iid,outer_id,name,t0,t1,t2,t3,t4,t5,price,count,description,detail,other_name,other_description,cost,url,memo,status,rank,create_time,modify_time from pinshe.commodity where status=0 and t0=#t0# order by rank desc,modify_time desc]]>
+	</select>
+	<select id="byT1" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CommodityBean">
+	<![CDATA[select id,num_iid,outer_id,name,t0,t1,t2,t3,t4,t5,price,count,description,detail,other_name,other_description,cost,url,memo,status,rank,create_time,modify_time from pinshe.commodity where status=0 and t1=#t1# order by rank desc,modify_time desc]]>
+	</select>
+	<select id="byYZ" parameterClass="com.raintr.pinshe.bean.CommodityBean" resultClass="com.raintr.pinshe.bean.CommodityBean">
+	<![CDATA[select id,num_iid,outer_id,name,t0,t1,t2,t3,t4,t5,price,count,description,detail,other_name,other_description,cost,url,memo,status,rank,create_time,modify_time from pinshe.commodity where num_iid=#num_iid# and outer_id=#outer_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.CommodityBean">
+	<![CDATA[insert into pinshe.commodity(num_iid,outer_id,name,t0,t1,t2,t3,t4,t5,price,count,description,detail,other_name,other_description,cost,url,memo,status,rank,create_time,modify_time) values(#num_iid#,#outer_id#,#name#,#t0#,#t1#,#t2#,#t3#,#t4#,#t5#,#price#,#count#,#description#,#detail#,#other_name#,#other_description#,#cost#,#url#,#memo#,#status#,#rank#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.CommodityBean">
+	<![CDATA[update pinshe.commodity set num_iid=#num_iid#,outer_id=#outer_id#,name=#name#,t0=#t0#,t1=#t1#,t2=#t2#,t3=#t3#,t4=#t4#,t5=#t5#,price=#price#,count=#count#,description=#description#,detail=#detail#,other_name=#other_name#,other_description=#other_description#,cost=#cost#,url=#url#,memo=#memo#,status=#status#,rank=#rank#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<update id="modifyStatus" parameterClass="Integer">
+	<![CDATA[update pinshe.commodity set status=#status#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.commodity where id=#id#]]>
+	</delete>
+</sqlMap>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="message">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.MessageBean">
+	<![CDATA[select id,vote_id,post_id,user_id_a,user_id_b,message,create_time,modify_time from pinshe.message where id=#id#]]>
+	</select>
+	<select id="byUserId" parameterClass="com.raintr.pinshe.bean.MessageBean" resultClass="com.raintr.pinshe.bean.MessageBean">
+	<![CDATA[select id,vote_id,post_id,user_id_a,user_id_b,message,create_time,modify_time from pinshe.message where user_id_b=#user_id_b# and modify_time<=(select modify_time from pinshe.message where user_id_b=#user_id_b# order by modify_time desc limit #id#,1) order by modify_time desc limit 10]]>
+	</select>
+	<select id="byUserIdAndModifyTime" parameterClass="com.raintr.pinshe.bean.MessageBean" resultClass="com.raintr.pinshe.bean.MessageBean">
+	<![CDATA[select id,vote_id,post_id,user_id_a,user_id_b,message,create_time,modify_time from pinshe.message where user_id_b=#user_id_b# and modify_time>#modify_time#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.MessageBean">
+	<![CDATA[insert into pinshe.message(vote_id,post_id,user_id_a,user_id_b,message,create_time,modify_time) values(#vote_id#,#post_id#,#user_id_a#,#user_id_b#,#message#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+</sqlMap>

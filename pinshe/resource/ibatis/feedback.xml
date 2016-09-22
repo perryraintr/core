@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="feedback">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.FeedbackBean">
+	<![CDATA[select id,name,e_mail,create_time,modify_time from pinshe.feedback where id=#id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.FeedbackBean">
+	<![CDATA[insert into pinshe.feedback(name,e_mail,create_time,modify_time) values(#name#,#e_mail#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+</sqlMap>

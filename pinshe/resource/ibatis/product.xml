@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="product">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.ProductBean">
+	<![CDATA[select id,name,favorite,image,price,address,brand,description,create_time,modify_time from pinshe.product where id=#id#]]>
+	</select>
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.ProductBean">
+	<![CDATA[select id,name,favorite,image,price,address,brand,description,create_time,modify_time from pinshe.product where id>=(select id from pinshe.product order by id limit #id#,1) order by id limit 10]]>
+	</select>
+	<select id="byTag" parameterClass="com.raintr.pinshe.bean.TagBean" resultClass="com.raintr.pinshe.bean.ProductBean">
+	<![CDATA[select id,name,favorite,image,price,address,brand,description,create_time,modify_time from pinshe.product where id in (select product_id from pinshe.tag where t1=#t1# and t2=#t2#) and favorite<=(select favorite FROM pinshe.product where id in (select product_id from pinshe.tag where t1=#t1# and t2=#t2#) order by favorite desc limit #id#,1) order by favorite desc limit 10]]>
+	</select>
+	<select id="byName" parameterClass="String" resultClass="com.raintr.pinshe.bean.ProductBean">
+	<![CDATA[select id,name,favorite,image,price,address,brand,description,create_time,modify_time from pinshe.product where name like concat('%',#name#,'%')]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.ProductBean">
+	<![CDATA[insert into pinshe.product(name,favorite,image,price,address,brand,description,create_time,modify_time) values(#name#,#favorite#,#image#,#price#,#address#,#brand#,#description#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.ProductBean">
+	<![CDATA[update pinshe.product set name=#name#,favorite=#favorite#,image=#image#,price=#price#,address=#address#,brand=#brand#,description=#description#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.product where id=#id#]]>
+	</delete>
+</sqlMap>

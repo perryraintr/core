@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="pv">
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.PVBean">
+	<![CDATA[select id,product_id,count,create_time,modify_time from pinshe.pv where id>=(select id from pinshe.pv order by id limit #id#,1) order by id limit 10]]>
+	</select>
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.PVBean">
+	<![CDATA[select id,product_id,count,create_time,modify_time from pinshe.pv where id=#id#]]>
+	</select>
+	<select id="byProductId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.PVBean">
+	<![CDATA[select id,product_id,count,create_time,modify_time from pinshe.pv where product_id=#product_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.PVBean">
+	<![CDATA[insert into pinshe.pv(product_id,count,create_time,modify_time) values(#product_id#,#count#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.PVBean">
+	<![CDATA[update pinshe.pv set product_id=#product_id#,count=#count#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+</sqlMap>

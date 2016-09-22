@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="comment">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CommentBean">
+	<![CDATA[select id,vote_id,post_id,user_id_a,user_id_b,message,create_time,modify_time from pinshe.comment where id=#id#]]>
+	</select>
+	<select id="byPostId" parameterClass="com.raintr.pinshe.bean.CommentBean" resultClass="com.raintr.pinshe.bean.CommentBean">
+	<![CDATA[select id,vote_id,post_id,user_id_a,user_id_b,message,create_time,modify_time from pinshe.comment where post_id=#post_id# and modify_time>=(select modify_time from pinshe.comment where post_id=#post_id# order by modify_time limit #id#,1) order by modify_time limit 10]]>
+	</select>
+	<select id="byVoteId" parameterClass="com.raintr.pinshe.bean.CommentBean" resultClass="com.raintr.pinshe.bean.CommentBean">
+	<![CDATA[select id,vote_id,post_id,user_id_a,user_id_b,message,create_time,modify_time from pinshe.comment where vote_id=#vote_id# and modify_time>=(select modify_time from pinshe.comment where vote_id=#vote_id# order by modify_time limit #id#,1) order by modify_time limit 10]]>
+	</select>
+	<select id="byModifyTime" parameterClass="com.raintr.pinshe.bean.TagBean" resultClass="com.raintr.pinshe.bean.CommentBean">
+	<![CDATA[select id,vote_id,post_id,user_id_a,user_id_b,message,create_time,modify_time from pinshe.comment where post_id in (select post_id from pinshe.tag where t1=#t1#) and modify_time<=(select modify_time from pinshe.comment where post_id in (select post_id from pinshe.tag where t1=#t1#) order by modify_time desc limit #id#,1) order by modify_time desc limit 10]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.CommentBean">
+	<![CDATA[insert into pinshe.comment(vote_id,post_id,user_id_a,user_id_b,message,create_time,modify_time) values(#vote_id#,#post_id#,#user_id_a#,#user_id_b#,#message#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+</sqlMap>

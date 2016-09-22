@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${dataSource.mysql.driverClassName}" />
+		<property name="jdbcUrl" value="${dataSource.mysql.url}" />
+		<property name="user" value="${dataSource.mysql.username}" />
+		<property name="password" value="${dataSource.mysql.password}" />
+		<property name="acquireIncrement" value="${c3p0.acquireIncrement}" />
+		<property name="initialPoolSize" value="${c3p0.initialPoolSize}" />
+		<property name="minPoolSize" value="${c3p0.minPoolSize}" />
+		<property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
+		<property name="maxStatements" value="${c3p0.maxStatements}" />
+		<property name="numHelperThreads" value="${c3p0.numHelperThreads}" />
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+	</bean>
+
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>classpath:ibatis/sqlMapConfig.xml</value>
+		</property>
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	
+	<bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="activityDao" class="com.raintr.pinshe.dao.ActivityDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="activityDetailDao" class="com.raintr.pinshe.dao.ActivityDetailDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="adDao" class="com.raintr.pinshe.dao.AdDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="adminDao" class="com.raintr.pinshe.dao.AdminDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="cartDao" class="com.raintr.pinshe.dao.CartDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="cashDao" class="com.raintr.pinshe.dao.CashDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="commentDao" class="com.raintr.pinshe.dao.CommentDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="commodityDao" class="com.raintr.pinshe.dao.CommodityDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="commodityImageDao" class="com.raintr.pinshe.dao.CommodityImageDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="consigneeDao" class="com.raintr.pinshe.dao.ConsigneeDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="couponDao" class="com.raintr.pinshe.dao.CouponDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="couponMemberDao" class="com.raintr.pinshe.dao.CouponMemberDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="favoriteDao" class="com.raintr.pinshe.dao.FavoriteDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="feedbackDao" class="com.raintr.pinshe.dao.FeedbackDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="groupDao" class="com.raintr.pinshe.dao.GroupDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="groupMemberDao" class="com.raintr.pinshe.dao.GroupMemberDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="groupMessageDao" class="com.raintr.pinshe.dao.GroupMessageDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="historyDao" class="com.raintr.pinshe.dao.HistoryDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="hitDao" class="com.raintr.pinshe.dao.HitDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="imageDao" class="com.raintr.pinshe.dao.ImageDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="memberDao" class="com.raintr.pinshe.dao.MemberDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="messageDao" class="com.raintr.pinshe.dao.MessageDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="orderDao" class="com.raintr.pinshe.dao.OrderDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="orderDetailDao" class="com.raintr.pinshe.dao.OrderDetailDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="postDao" class="com.raintr.pinshe.dao.PostDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="productDao" class="com.raintr.pinshe.dao.ProductDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="publishDao" class="com.raintr.pinshe.dao.PublishDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="pvDao" class="com.raintr.pinshe.dao.PVDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="recommendDao" class="com.raintr.pinshe.dao.RecommendDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="storeDao" class="com.raintr.pinshe.dao.StoreDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="storeCommentDao" class="com.raintr.pinshe.dao.StoreCommentDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="storeImageDao" class="com.raintr.pinshe.dao.StoreImageDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="subscriptionDao" class="com.raintr.pinshe.dao.SubscriptionDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+
+	<bean id="tagDao" class="com.raintr.pinshe.dao.TagDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="userDao" class="com.raintr.pinshe.dao.UserDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="voteDao" class="com.raintr.pinshe.dao.VoteDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="wishDao" class="com.raintr.pinshe.dao.WishDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+</beans>

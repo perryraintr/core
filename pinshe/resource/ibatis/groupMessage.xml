@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="groupMessage">
+	<select id="byCreateTime" parameterClass="com.raintr.pinshe.bean.GroupMessageBean" resultClass="com.raintr.pinshe.bean.GroupMessageBean">
+	<![CDATA[select id,group_id,user_id,post_id,text,image,audio,create_time,modify_time from pinshe.group_message where group_id=#group_id# create_time<#create_time# order by create_time desc limit 10]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.GroupMessageBean">
+	<![CDATA[insert into pinshe.group_message(group_id,user_id,post_id,text,image,audio,create_time,modify_time) values(#group_id#,#user_id#,#post_id#,#text#,#image#,#audio#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.group_message where id=#id#]]>
+	</delete>
+</sqlMap>

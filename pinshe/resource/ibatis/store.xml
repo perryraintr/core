@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="store">
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreBean">
+	<![CDATA[select id,member_id,longitude,latitude,name,star,address,phone,date,slogan,owner,avatar,recommend,feature1,feature2,feature3,image,video,activity,comment,description,create_time,modify_time from pinshe.store where invaild=0 and create_time<=(select create_time from pinshe.store where invaild=0 order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	</select>
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreBean">
+	<![CDATA[select id,member_id,longitude,latitude,name,star,address,phone,date,slogan,owner,avatar,recommend,feature1,feature2,feature3,image,video,activity,comment,description,create_time,modify_time from pinshe.store where id=#id#]]>
+	</select>
+	<select id="byMemberId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreBean">
+	<![CDATA[select id,member_id,longitude,latitude,name,star,address,phone,date,slogan,owner,avatar,recommend,feature1,feature2,feature3,image,video,activity,comment,description,create_time,modify_time from pinshe.store where member_id=#member_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.StoreBean">
+	<![CDATA[insert into pinshe.store(member_id,longitude,latitude,name,star,address,phone,date,slogan,owner,avatar,recommend,feature1,feature2,feature3,image,video,activity,comment,invaild,description,create_time,modify_time) values(#member_id#,#longitude#,#latitude#,#name#,#star#,#address#,#phone#,#date#,#slogan#,#owner#,#avatar#,#recommend#,#feature1#,#feature2#,#feature3#,#image#,#video#,#activity#,#comment#,#invaild#,#description#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.StoreBean">
+	<![CDATA[update pinshe.store set member_id=#member_id#,longitude=#longitude#,latitude=#latitude#,name=#name#,star=#star#,address=#address#,phone=#phone#,date=#date#,slogan=#slogan#,owner=#owner#,avatar=#avatar#,recommend=#recommend#,feature1=#feature1#,feature2=#feature2#,feature3=#feature3#,image=#image#,video=#video#,activity=#activity#,comment=#comment#,invaild=#invaild#,description=#description#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.store where id=#id#]]>
+	</delete>
+</sqlMap>

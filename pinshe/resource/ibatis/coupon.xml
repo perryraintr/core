@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="coupon">
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CouponBean">
+	<![CDATA[select id,member_id,current,count,amount,expire_time,status,create_time,modify_time from pinshe.coupon where create_time<=(select create_time from pinshe.coupon order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	</select>
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CouponBean">
+	<![CDATA[select id,member_id,current,count,amount,expire_time,status,create_time,modify_time from pinshe.coupon where id=#id#]]>
+	</select>
+	<select id="byMemberId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CouponBean">
+	<![CDATA[select id,member_id,current,count,amount,expire_time,status,create_time,modify_time from pinshe.coupon where member_id=#member_id#]]>
+	</select>
+	<select id="byCouponMember" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CouponBean">
+	<![CDATA[select id,member_id,current,count,amount,expire_time,status,create_time,modify_time from pinshe.coupon where id in (select coupon_id from pinshe.coupon_member where member_id=#member_id# and status=0) and expire_time >= now() order by amount desc,expire_time]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.CouponBean">
+	<![CDATA[insert into pinshe.coupon(member_id,current,count,amount,expire_time,status,create_time,modify_time) values(#member_id#,#current#,#count#,#amount#,#expire_time#,#status#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.CouponBean">
+	<![CDATA[update pinshe.coupon set member_id=#member_id#,current=#current#,count=#count#,amount=#amount#,expire_time=#expire_time#,status=#status#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.coupon where id=#id#]]>
+	</delete>
+</sqlMap>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="vote">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.VoteBean">
+	<![CDATA[select id,user_id,name,post_id_a,post_id_b,product_id_a,product_id_b,count_a,count_b,view,comment,favorite,description,create_time,modify_time from pinshe.vote where id=#id#]]>
+	</select>
+	<select id="by" parameterClass="com.raintr.pinshe.bean.VoteBean" resultClass="com.raintr.pinshe.bean.VoteBean">
+	<![CDATA[select id,user_id,name,post_id_a,post_id_b,product_id_a,product_id_b,count_a,count_b,view,comment,favorite,description,create_time,modify_time from pinshe.vote where id not in (select vote_id from pinshe.history where user_id=#user_id#) and modify_time<=(select modify_time from pinshe.vote where id not in(select vote_id from pinshe.history where user_id=#user_id#) order by modify_time desc limit #id#,1) order by modify_time desc limit 10]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.VoteBean">
+	<![CDATA[insert into pinshe.vote(user_id,name,post_id_a,post_id_b,product_id_a,product_id_b,count_a,count_b,view,comment,favorite,description,create_time,modify_time) values(#user_id#,#name#,#post_id_a#,#post_id_b#,#product_id_a#,#product_id_b#,#count_a#,#count_b#,#view#,#comment#,#favorite#,#description#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.VoteBean">
+	<![CDATA[update pinshe.vote set user_id=#user_id#,name=#name#,post_id_a=#post_id_a#,post_id_b=#post_id_b#,product_id_a=#product_id_a#,product_id_b=#product_id_b#,count_a=#count_a#,count_b=#count_b#,view=#view#,comment=#comment#,favorite=#favorite#,description=#description#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+</sqlMap>

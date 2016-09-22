@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	
+	<bean id="activityService" class="com.raintr.pinshe.service.ActivityService">
+		<property name="activityDao" ref="activityDao" />
+		<property name="memberDao" ref="memberDao" />
+	</bean>
+	
+	<bean id="activityDetailService" class="com.raintr.pinshe.service.ActivityDetailService">
+		<property name="activityDetailDao" ref="activityDetailDao" />
+		<property name="orderDao" ref="orderDao" />
+	</bean>
+	
+	<bean id="adService" class="com.raintr.pinshe.service.AdService">
+		<property name="adDao" ref="adDao" />
+		<property name="domain" value="${domain}" />
+		<property name="imageRemote" value="${image.remote}" />
+		<property name="imageLocal" value="${image.local}" />
+		<property name="articleRemote" value="${article.remote}" />
+		<property name="articleLocal" value="${article.local}" />
+	</bean>
+	
+	<bean id="adminService" class="com.raintr.pinshe.service.AdminService">
+		<property name="adminDao" ref="adminDao" />
+	</bean>
+	
+	<bean id="cartService" class="com.raintr.pinshe.service.CartService">
+		<property name="cartDao" ref="cartDao" />
+		<property name="commodityDao" ref="commodityDao" />
+		<property name="commodityImageDao" ref="commodityImageDao" />
+	</bean>
+	
+	<bean id="cashService" class="com.raintr.pinshe.service.CashService">
+		<property name="cashDao" ref="cashDao" />
+		<property name="storeDao" ref="storeDao" />
+		<property name="orderDao" ref="orderDao" />
+		<property name="memberDao" ref="memberDao" />
+	</bean>
+	
+	<bean id="commentService" class="com.raintr.pinshe.service.CommentService">
+		<property name="userDao" ref="userDao" />
+		<property name="postDao" ref="postDao" />
+		<property name="commentDao" ref="commentDao" />
+	</bean>
+	
+	<bean id="commodityService" class="com.raintr.pinshe.service.CommodityService">
+		<property name="commodityDao" ref="commodityDao" />
+		<property name="commodityImageDao" ref="commodityImageDao" />
+	</bean>
+	
+	<bean id="commodityImageService" class="com.raintr.pinshe.service.CommodityImageService">
+		<property name="commodityImageDao" ref="commodityImageDao" />
+	</bean>
+	
+	<bean id="consigneeService" class="com.raintr.pinshe.service.ConsigneeService">
+		<property name="consigneeDao" ref="consigneeDao" />
+	</bean>
+	
+	<bean id="couponService" class="com.raintr.pinshe.service.CouponService">
+		<property name="couponDao" ref="couponDao" />
+		<property name="memberDao" ref="memberDao" />
+	</bean>
+	
+	<bean id="couponMemberService" class="com.raintr.pinshe.service.CouponMemberService">
+		<property name="couponMemberDao" ref="couponMemberDao" />
+		<property name="couponDao" ref="couponDao" />
+		<property name="memberDao" ref="memberDao" />
+	</bean>
+	
+	<bean id="favoriteService" class="com.raintr.pinshe.service.FavoriteService">
+		<property name="favoriteDao" ref="favoriteDao" />
+	</bean>
+	
+	<bean id="feedbackService" class="com.raintr.pinshe.service.FeedbackService">
+		<property name="feedbackDao" ref="feedbackDao" />
+	</bean>
+	
+	<bean id="groupService" class="com.raintr.pinshe.service.GroupService">
+		<property name="groupDao" ref="groupDao" />
+		<property name="remote" value="${image.remote}" />
+		<property name="local" value="${image.local}" />
+		<property name="org_name" value="${easemob.org_name}" />
+		<property name="app_name" value="${easemob.app_name}" />
+		<property name="tokenService" ref="tokenService" />
+	</bean>
+	
+	<bean id="groupMemberService" class="com.raintr.pinshe.service.GroupMemberService">
+		<property name="groupMemberDao" ref="groupMemberDao" />
+		<property name="userDao" ref="userDao" />
+	</bean>
+	
+	<bean id="groupMessageService" class="com.raintr.pinshe.service.GroupMessageService">
+		<property name="groupMessageDao" ref="groupMessageDao" />
+		<property name="userDao" ref="userDao" />
+		<property name="postDao" ref="postDao" />
+	</bean>
+	
+	<bean id="historyService" class="com.raintr.pinshe.service.HistoryService">
+		<property name="historyDao" ref="historyDao" />
+	</bean>
+	
+	<bean id="hitService" class="com.raintr.pinshe.service.HitService">
+		<property name="hitDao" ref="hitDao" />
+	</bean>
+	
+	<bean id="imageService" class="com.raintr.pinshe.service.ImageService">
+		<property name="imageDao" ref="imageDao" />
+		<property name="remote" value="${image.remote}" />
+		<property name="local" value="${image.local}" />
+	</bean>
+	
+	<bean id="memberService" class="com.raintr.pinshe.service.MemberService">
+		<property name="memberDao" ref="memberDao" />
+	</bean>
+
+	<bean id="messageService" class="com.raintr.pinshe.service.MessageService">
+		<property name="userDao" ref="userDao" />
+		<property name="voteDao" ref="voteDao" />
+		<property name="postDao" ref="postDao" />
+		<property name="tagDao" ref="tagDao" />
+		<property name="messageDao" ref="messageDao" />
+	</bean>
+	
+	<bean id="orderService" class="com.raintr.pinshe.service.OrderService">
+		<property name="orderDao" ref="orderDao" />
+		<property name="orderDetailDao" ref="orderDetailDao" />
+		<property name="commodityDao" ref="commodityDao" />
+		<property name="couponDao" ref="couponDao" />
+		<property name="consigneeDao" ref="consigneeDao" />
+		<property name="commodityImageDao" ref="commodityImageDao" />
+		<property name="storeDao" ref="storeDao" />
+		<property name="storeImageDao" ref="storeImageDao" />
+		<property name="memberDao" ref="memberDao" />
+	</bean>
+	
+	<bean id="orderDetailService" class="com.raintr.pinshe.service.OrderDetailService">
+		<property name="orderDetailDao" ref="orderDetailDao" />
+	</bean>
+	
+	<bean id="postService" class="com.raintr.pinshe.service.PostService">
+		<property name="userDao" ref="userDao" />
+		<property name="tagDao" ref="tagDao" />
+		<property name="postDao" ref="postDao" />
+		<property name="commentDao" ref="commentDao" />
+		<property name="imageDao" ref="imageDao" />
+		<property name="groupDao" ref="groupDao" />
+		<property name="remote" value="${image.remote}" />
+		<property name="local" value="${image.local}" />
+	</bean>
+		
+	<bean id="productService" class="com.raintr.pinshe.service.ProductService">
+		<property name="userDao" ref="userDao" />
+		<property name="tagDao" ref="tagDao" />
+		<property name="productDao" ref="productDao" />
+		<property name="imageDao" ref="imageDao" />
+		<property name="groupDao" ref="groupDao" />
+		<property name="domain" value="${domain}" />
+		<property name="remote" value="${image.remote}" />
+		<property name="local" value="${image.local}" />
+	</bean>
+	
+	<bean id="publishService" class="com.raintr.pinshe.service.PublishService">
+		<property name="userDao" ref="userDao" />
+		<property name="publishDao" ref="publishDao" />
+		<property name="voteDao" ref="voteDao" />
+		<property name="postDao" ref="postDao" />
+		<property name="commentDao" ref="commentDao" />
+		<property name="tagDao" ref="tagDao" />
+	</bean>
+	
+	<bean id="pvService" class="com.raintr.pinshe.service.PVService">
+		<property name="pvDao" ref="pvDao" />
+		<property name="productDao" ref="productDao" />
+	</bean>
+	
+	<bean id="recommendService" class="com.raintr.pinshe.service.RecommendService">
+		<property name="recommendDao" ref="recommendDao" />
+		<property name="storeDao" ref="storeDao" />
+		<property name="commodityDao" ref="commodityDao" />
+	</bean>
+
+	<bean id="storeService" class="com.raintr.pinshe.service.StoreService">
+		<property name="storeDao" ref="storeDao" />
+		<property name="storeImageDao" ref="storeImageDao" />
+		<property name="remote" value="${image.remote}" />
+		<property name="local" value="${image.local}" />
+	</bean>
+	
+	<bean id="storeCommentService" class="com.raintr.pinshe.service.StoreCommentService">
+		<property name="storeCommentDao" ref="storeCommentDao" />
+		<property name="memberDao" ref="memberDao" />
+	</bean>
+	
+	<bean id="storeImageService" class="com.raintr.pinshe.service.StoreImageService">
+		<property name="storeImageDao" ref="storeImageDao" />
+	</bean>
+	
+	<bean id="subscriptionService" class="com.raintr.pinshe.service.SubscriptionService">
+		<property name="subscriptionDao" ref="subscriptionDao" />
+		<property name="consigneeDao" ref="consigneeDao" />
+		<property name="commodityDao" ref="commodityDao" />
+		<property name="memberDao" ref="memberDao" />
+	</bean>
+
+	<bean id="tagService" class="com.raintr.pinshe.service.TagService">
+		<property name="tagDao" ref="tagDao" />
+	</bean>
+	
+	<bean id="userService" class="com.raintr.pinshe.service.UserService">
+		<property name="userDao" ref="userDao" />
+		<property name="remote" value="${image.remote}" />
+		<property name="local" value="${image.local}" />
+		<property name="org_name" value="${easemob.org_name}" />
+		<property name="app_name" value="${easemob.app_name}" />
+		<property name="tokenService" ref="tokenService" />
+		<property name="appid" value="${wechat.appid}" />
+		<property name="appsecret" value="${wechat.appsecret}" />
+		<property name="url" value="${url}" />
+	</bean>
+
+	<bean id="voteService" class="com.raintr.pinshe.service.VoteService">
+		<property name="voteDao" ref="voteDao" />
+		<property name="userDao" ref="userDao" />
+		<property name="postDao" ref="postDao" />
+		<property name="productDao" ref="productDao" />
+	</bean>
+	
+	<bean id="wishService" class="com.raintr.pinshe.service.WishService">
+		<property name="wishDao" ref="wishDao" />
+		<property name="voteDao" ref="voteDao" />
+		<property name="postDao" ref="postDao" />
+		<property name="userDao" ref="userDao" />
+		<property name="tagDao" ref="tagDao" />
+		<property name="commentDao" ref="commentDao" />
+		<property name="productDao" ref="productDao" />
+	</bean>
+	
+	
+	
+	<bean id="yunpianService" class="com.raintr.pinshe.service.YunpianService">
+		<property name="apikey" value="${yunpian.apikey}" />
+	</bean>
+	
+	<bean id="tokenService" class="com.raintr.pinshe.service.TokenService">
+		<property name="org_name" value="${easemob.org_name}" />
+		<property name="app_name" value="${easemob.app_name}" />
+		<property name="client_id" value="${easemob.client_id}" />
+		<property name="client_secret" value="${easemob.client_secret}" />
+	</bean>
+	
+	<bean id="youzanService" class="com.raintr.pinshe.service.YouzanService">
+		<property name="appkey" value="${youzan.appkey}" />
+		<property name="secret" value="${youzan.secret}" />
+	</bean>
+	
+	<bean id="wechatService" class="com.raintr.pinshe.service.WechatService">
+		<property name="appid" value="${wechat.appid}" />
+		<property name="appsecret" value="${wechat.appsecret}" />
+	</bean>
+</beans>

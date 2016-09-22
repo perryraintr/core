@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="cart">
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CartBean">
+	<![CDATA[select id,member_id,commodity_id,count,create_time,modify_time from pinshe.cart where create_time<=(select create_time from pinshe.cart order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	</select>
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CartBean">
+	<![CDATA[select id,member_id,commodity_id,count,create_time,modify_time from pinshe.cart where id=#id#]]>
+	</select>
+	<select id="byMemberId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CartBean">
+	<![CDATA[select id,member_id,commodity_id,count,create_time,modify_time from pinshe.cart where member_id=#member_id#]]>
+	</select>
+	<select id="byMemberIdCommodityId" parameterClass="com.raintr.pinshe.bean.CartBean" resultClass="com.raintr.pinshe.bean.CartBean">
+	<![CDATA[select id,member_id,commodity_id,count,create_time,modify_time from pinshe.cart where member_id=#member_id# and commodity_id=#commodity_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.CartBean">
+	<![CDATA[insert into pinshe.cart(member_id,commodity_id,count,create_time,modify_time) values(#member_id#,#commodity_id#,#count#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.CartBean">
+	<![CDATA[update pinshe.cart set member_id=#member_id#,commodity_id=#commodity_id#,count=#count#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.cart where id=#id#]]>
+	</delete>
+	<delete id="removeMemberIdCommodityId" parameterClass="com.raintr.pinshe.bean.CartBean">
+	<![CDATA[delete from pinshe.cart where member_id=#member_id# and commodity_id=#commodity_id#]]>
+	</delete>
+</sqlMap>

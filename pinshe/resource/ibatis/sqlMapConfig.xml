@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<!DOCTYPE sqlMapConfig         
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"         
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings cacheModelsEnabled="false" enhancementEnabled="true" lazyLoadingEnabled="false" maxRequests="512" maxSessions="128" maxTransactions="32" useStatementNamespaces="true" />
+	<sqlMap resource="ibatis/activity.xml"/>
+	<sqlMap resource="ibatis/activityDetail.xml"/>
+	<sqlMap resource="ibatis/ad.xml"/>
+	<sqlMap resource="ibatis/admin.xml"/>
+	<sqlMap resource="ibatis/cart.xml"/>
+	<sqlMap resource="ibatis/cash.xml"/>
+	<sqlMap resource="ibatis/comment.xml"/>
+	<sqlMap resource="ibatis/commodity.xml"/>
+	<sqlMap resource="ibatis/commodityImage.xml"/>
+	<sqlMap resource="ibatis/consignee.xml"/>
+	<sqlMap resource="ibatis/coupon.xml"/>
+	<sqlMap resource="ibatis/couponMember.xml"/>
+	<sqlMap resource="ibatis/favorite.xml"/>
+	<sqlMap resource="ibatis/feedback.xml"/>
+	<sqlMap resource="ibatis/group.xml"/>
+	<sqlMap resource="ibatis/groupMember.xml"/>
+	<sqlMap resource="ibatis/groupMessage.xml"/>
+	<sqlMap resource="ibatis/history.xml"/>
+	<sqlMap resource="ibatis/hit.xml"/>
+	<sqlMap resource="ibatis/image.xml"/>
+	<sqlMap resource="ibatis/member.xml"/>
+	<sqlMap resource="ibatis/message.xml"/>
+	<sqlMap resource="ibatis/order.xml"/>
+	<sqlMap resource="ibatis/orderDetail.xml"/>
+	<sqlMap resource="ibatis/post.xml"/>
+	<sqlMap resource="ibatis/product.xml"/>
+	<sqlMap resource="ibatis/publish.xml"/>
+	<sqlMap resource="ibatis/pv.xml"/>
+	<sqlMap resource="ibatis/recommend.xml"/>
+	<sqlMap resource="ibatis/store.xml"/>
+	<sqlMap resource="ibatis/storeComment.xml"/>
+	<sqlMap resource="ibatis/storeImage.xml"/>
+	<sqlMap resource="ibatis/subscription.xml"/>
+	<sqlMap resource="ibatis/tag.xml"/>
+	<sqlMap resource="ibatis/user.xml"/>
+	<sqlMap resource="ibatis/vote.xml"/>
+	<sqlMap resource="ibatis/wish.xml"/>
+</sqlMapConfig>

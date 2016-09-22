@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="tag">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.TagBean">
+	<![CDATA[select id,product_id,post_id,t1,t2,create_time,modify_time from pinshe.tag where id=#id#]]>
+	</select>
+	<select id="byPostId" parameterClass="com.raintr.pinshe.bean.TagBean" resultClass="com.raintr.pinshe.bean.TagBean">
+	<![CDATA[select id,product_id,post_id,t1,t2,create_time,modify_time from pinshe.tag where post_id=#post_id#]]>
+	</select>
+	<select id="byProductId" parameterClass="com.raintr.pinshe.bean.TagBean" resultClass="com.raintr.pinshe.bean.TagBean">
+	<![CDATA[select id,product_id,post_id,t1,t2,create_time,modify_time from pinshe.tag where product_id=#product_id#]]>
+	</select>
+	<select id="byT1T2" parameterClass="com.raintr.pinshe.bean.TagBean" resultClass="com.raintr.pinshe.bean.TagBean">
+	<![CDATA[select id,product_id,post_id,t1,t2,create_time,modify_time from pinshe.tag where t1=#t1# and t2=#t2# and modify_time>=cast(curdate() as datetime)]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.TagBean">
+	<![CDATA[insert into pinshe.tag(product_id,post_id,t1,t2,create_time,modify_time) values(#product_id#,#post_id#,#t1#,#t2#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.TagBean">
+	<![CDATA[update pinshe.tag set product_id=#product_id#,post_id=#post_id#,t1=#t1#,t2=#t2#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.tag where id=#id#]]>
+	</delete>
+</sqlMap>

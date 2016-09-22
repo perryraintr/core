@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="post">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.PostBean">
+	<![CDATA[select id,user_id,product_id,name,view,comment,favorite,image,price,address,brand,description,create_time,modify_time from pinshe.post where id=#id#]]>
+	</select>
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.PostBean">
+	<![CDATA[select id,user_id,product_id,name,view,comment,favorite,image,price,address,brand,description,create_time,modify_time from pinshe.post where id>=(select id from pinshe.post order by id limit #id#,1) order by id limit 10]]>
+	</select>
+	<select id="byProductId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.PostBean">
+	<![CDATA[select id,user_id,product_id,name,view,comment,favorite,image,price,address,brand,description,create_time,modify_time from pinshe.post where product_id=#product_id# order by favorite desc]]>
+	</select>
+	<select id="byTagT1" parameterClass="com.raintr.pinshe.bean.TagBean" resultClass="com.raintr.pinshe.bean.PostBean">
+	<![CDATA[
+		select id,user_id,product_id,name,view,comment,favorite,image,price,address,brand,description,create_time,modify_time,rowid from (
+		select id,user_id,product_id,name,view,comment,favorite,image,price,address,brand,description,create_time,modify_time,(@row:=@row+1) rowid from (
+		select p.id,p.user_id,p.product_id,p.name,p.view,p.comment,p.favorite,p.image,p.price,p.address,p.brand,p.description,p.create_time,p.modify_time
+		from pinshe.post p left join pinshe.comment c on c.post_id=p.id and c.modify_time=(select max(modify_time) from pinshe.comment d where d.post_id=c.post_id)
+		where p.id in (select post_id from pinshe.tag where t1=#t1#) 
+		order by IFNULL(c.modify_time,p.modify_time) desc) a,(select @row:=0) b) a
+		
+		where a.rowid>=(
+		select rowid from (
+		select (@row:=@row+1) rowid from (
+		select p.id
+		from pinshe.post p left join pinshe.comment c on c.post_id=p.id and c.modify_time=(select max(modify_time) from pinshe.comment d where d.post_id=c.post_id)
+		where p.id in (select post_id from pinshe.tag where t1=#t1#) 
+		order by IFNULL(c.modify_time,p.modify_time) desc) a,(select @row:=0) b) a limit #id#,1)
+		limit 10
+	]]>
+	</select>
+	<select id="byTagT1T2" parameterClass="com.raintr.pinshe.bean.TagBean" resultClass="com.raintr.pinshe.bean.PostBean">
+	<![CDATA[
+		select id,user_id,product_id,name,view,comment,favorite,image,price,address,brand,description,create_time,modify_time,rowid from (
+		select id,user_id,product_id,name,view,comment,favorite,image,price,address,brand,description,create_time,modify_time,(@row:=@row+1) rowid from (
+		select p.id,p.user_id,p.product_id,p.name,p.view,p.comment,p.favorite,p.image,p.price,p.address,p.brand,p.description,p.create_time,p.modify_time
+		from pinshe.post p left join pinshe.comment c on c.post_id=p.id and c.modify_time=(select max(modify_time) from pinshe.comment d where d.post_id=c.post_id)
+		where p.id in (select post_id from pinshe.tag where t1=#t1# and t2=#t2#) 
+		order by IFNULL(c.modify_time,p.modify_time) desc) a,(select @row:=0) b) a
+		
+		where a.rowid>=(
+		select rowid from (
+		select (@row:=@row+1) rowid from (
+		select p.id
+		from pinshe.post p left join pinshe.comment c on c.post_id=p.id and c.modify_time=(select max(modify_time) from pinshe.comment d where d.post_id=c.post_id)
+		where p.id in (select post_id from pinshe.tag where t1=#t1# and t2=#t2#) 
+		order by IFNULL(c.modify_time,p.modify_time) desc) a,(select @row:=0) b) a limit #id#,1)
+		limit 10
+	]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.PostBean">
+	<![CDATA[insert into pinshe.post(user_id,product_id,name,view,comment,favorite,image,price,address,brand,description,create_time,modify_time) values(#user_id#,#product_id#,#name#,#view#,#comment#,#favorite#,#image#,#price#,#address#,#brand#,#description#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.PostBean">
+	<![CDATA[update pinshe.post set user_id=#user_id#,product_id=#product_id#,name=#name#,view=#view#,comment=#comment#,favorite=#favorite#,image=#image#,price=#price#,address=#address#,brand=#brand#,description=#description#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.post where id=#id#]]>
+	</delete>
+</sqlMap>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="subscription">
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.SubscriptionBean">
+	<![CDATA[select id,member_id,day,next_time,commodity_id1,status1,commodity_id2,status2,commodity_id3,status3,commodity_id4,status4,commodity_id5,status5,commodity_id6,status6,create_time,modify_time from pinshe.subscription where create_time<=(select create_time from pinshe.subscription order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	</select>
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.SubscriptionBean">
+	<![CDATA[select id,member_id,day,next_time,commodity_id1,status1,commodity_id2,status2,commodity_id3,status3,commodity_id4,status4,commodity_id5,status5,commodity_id6,status6,create_time,modify_time from pinshe.subscription where id=#id#]]>
+	</select>
+	<select id="byMemberId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.SubscriptionBean">
+	<![CDATA[select id,member_id,day,next_time,commodity_id1,status1,commodity_id2,status2,commodity_id3,status3,commodity_id4,status4,commodity_id5,status5,commodity_id6,status6,create_time,modify_time from pinshe.subscription where member_id=#member_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.SubscriptionBean">
+	<![CDATA[insert into pinshe.subscription(member_id,day,next_time,commodity_id1,status1,commodity_id2,status2,commodity_id3,status3,commodity_id4,status4,commodity_id5,status5,commodity_id6,status6,create_time,modify_time) values(#member_id#,#day#,#next_time#,#commodity_id1#,#status1#,#commodity_id2#,#status2#,#commodity_id3#,#status3#,#commodity_id4#,#status4#,#commodity_id5#,#status5#,#commodity_id6#,#status6#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.SubscriptionBean">
+	<![CDATA[update pinshe.subscription set member_id=#member_id#,day=#day#,next_time=#next_time#,commodity_id1=#commodity_id1#,status1=#status1#,commodity_id2=#commodity_id2#,status2=#status2#,commodity_id3=#commodity_id3#,status3=#status3#,commodity_id4=#commodity_id4#,status4=#status4#,commodity_id5=#commodity_id5#,status5=#status5#,commodity_id6=#commodity_id6#,status6=#status6#,create_time=#create_time#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.subscription where id=#id#]]>
+	</delete>
+</sqlMap>

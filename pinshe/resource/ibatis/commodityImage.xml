@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="commodityImage">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CommodityImageBean">
+	<![CDATA[select id,commodity_id,url,create_time,modify_time from pinshe.commodity_image where id=#id#]]>
+	</select>
+	<select id="byCommodityId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.CommodityImageBean">
+	<![CDATA[select id,commodity_id,url,create_time,modify_time from pinshe.commodity_image where commodity_id=#commodity_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.CommodityImageBean">
+	<![CDATA[insert into pinshe.commodity_image(commodity_id,url,create_time,modify_time) values(#commodity_id#,#url#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.CommodityImageBean">
+	<![CDATA[update pinshe.commodity_image set commodity_id=#commodity_id#,url=#url#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="removeCommodityId" parameterClass="Integer">
+	<![CDATA[delete from pinshe.commodity_image where commodity_id=#commodity_id#]]>
+	</delete>
+</sqlMap>
