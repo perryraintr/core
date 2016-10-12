@@ -32,6 +32,7 @@ public class ActivityService {
 		return activityDao.ByMemberId(memberId);
 	}
 	
+	
 	public int Add(ActivityBean activity){
 		return activityDao.Add(activity);
 	}

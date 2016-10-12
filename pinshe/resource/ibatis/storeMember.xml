@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="storeMember">
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreMemberBean">
+	<![CDATA[select id,store_id,merchant_id,create_time,modify_time from pinshe.store_member where id=#id#]]>
+	</select>
+	<select id="byStoreId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreMemberBean">
+	<![CDATA[select id,store_id,merchant_id,create_time,modify_time from pinshe.store_member where store_id=#store_id#]]>
+	</select>
+	<select id="byMerchantId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreMemberBean">
+	<![CDATA[select id,store_id,merchant_id,create_time,modify_time from pinshe.store_member where merchant_id=#merchant_id#]]>
+	</select>
+	<select id="byStoreIdMerchantId" parameterClass="com.raintr.pinshe.bean.StoreMemberBean" resultClass="com.raintr.pinshe.bean.StoreMemberBean">
+	<![CDATA[select id,store_id,merchant_id,create_time,modify_time from pinshe.store_member where store_id=#store_id# and merchant_id=#merchant_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.StoreMemberBean">
+	<![CDATA[insert into pinshe.store_member(store_id,merchant_id,create_time,modify_time) values(#store_id#,#merchant_id#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.StoreMemberBean">
+	<![CDATA[update pinshe.store_member set store_id=#store_id#,merchant_id=#merchant_id#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.store_member where id=#id#]]>
+	</delete>
+</sqlMap>

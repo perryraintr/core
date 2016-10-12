@@ -6,7 +6,8 @@ import java.util.List;
 
 public class StoreBean implements Comparator<StoreBean> {
 	private int id;
-	private int member_id;
+	private int merchant_id;
+	private double current;
 	private double longitude;
 	private double latitude;
 	private String name;
@@ -25,6 +26,7 @@ public class StoreBean implements Comparator<StoreBean> {
 	private String video;
 	private String activity;
 	private int comment;
+	private String payment;
 	private int invaild; // 0 use 1 not use
 	private String description;
 	private Date create_time;
@@ -32,8 +34,10 @@ public class StoreBean implements Comparator<StoreBean> {
 	
 	private double distance;
 	
-	private MemberBean member;
+	private MerchantBean merchant;
 	private List<StoreImageBean> images;
+	
+	private int by;
 	
 	public StoreBean(){
 		name = "";
@@ -50,6 +54,7 @@ public class StoreBean implements Comparator<StoreBean> {
 		image = "";
 		video = "";
 		activity = "";
+		payment = "";
 		description = "";
 		
 		create_time = new Date();
@@ -57,6 +62,7 @@ public class StoreBean implements Comparator<StoreBean> {
 	}
 
 	public String ToId(String table){return String.format("\"%sguid\":%d", 						table, id);}
+	public String ToCurrent(String table){return String.format("\"%scurrent\":%f", 				table, current);}
 	public String ToLongitude(String table){return String.format("\"%slongitude\":%f", 			table, longitude);}
 	public String ToLatitude(String table){return String.format("\"%slatitude\":%f", 			table, latitude);}
 	public String ToName(String table){return String.format("\"%sname\":\"%s\"", 				table, name);}
@@ -75,6 +81,8 @@ public class StoreBean implements Comparator<StoreBean> {
 	public String ToVideo(String table){return String.format("\"%svideo\":\"%s\"", 				table, video);}
 	public String ToActivity(String table){return String.format("\"%sactivity\":\"%s\"", 		table, activity);}
 	public String ToComment(String table){return String.format("\"%scomment\":%d", 				table, comment);}
+	public String ToPayment(String table){return String.format("\"%spayment\":\"%s\"", 			table, payment);}
+	public String ToInvaild(String table){return String.format("\"%sinvaild\":%d", 				table, invaild);}
 	public String ToDescription(String table){return String.format("\"%sdescription\":\"%s\"", 	table, description);}
 	public String ToCreate_time(String table){return String.format("\"%screate_time\":\"%s\"", 	table, create_time);}
 	public String ToModify_time(String table){return String.format("\"%smodify_time\":\"%s\"", 	table, modify_time);}
@@ -82,7 +90,16 @@ public class StoreBean implements Comparator<StoreBean> {
 	public String ToDistance(String table){return String.format("\"%sdistance\":%f", 			table, distance);}
 
 	public int compare(StoreBean store1, StoreBean store2) {
-		return (int)(store1.getDistance() - store2.getDistance());
+		if(by == 1){
+			return (int)(store1.getDistance() - store2.getDistance());
+		}
+
+		
+		int id = store1.getInvaild() - store2.getInvaild();
+        if(id == 0)
+        	return (int)(store1.getDistance() - store2.getDistance());
+        
+        return id;
 	}
 	
 	
@@ -94,12 +111,20 @@ public class StoreBean implements Comparator<StoreBean> {
 		this.id = id;
 	}
 
-	public int getMember_id() {
-		return member_id;
+	public int getMerchant_id() {
+		return merchant_id;
 	}
 
-	public void setMember_id(int member_id) {
-		this.member_id = member_id;
+	public void setMerchant_id(int merchant_id) {
+		this.merchant_id = merchant_id;
+	}
+
+	public double getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(double current) {
+		this.current = current;
 	}
 
 	public double getLongitude() {
@@ -246,6 +271,14 @@ public class StoreBean implements Comparator<StoreBean> {
 		this.comment = comment;
 	}
 
+	public String getPayment() {
+		return payment;
+	}
+
+	public void setPayment(String payment) {
+		this.payment = payment;
+	}
+
 	public int getInvaild() {
 		return invaild;
 	}
@@ -253,7 +286,7 @@ public class StoreBean implements Comparator<StoreBean> {
 	public void setInvaild(int invaild) {
 		this.invaild = invaild;
 	}
-
+	
 	public String getDescription() {
 		return description;
 	}
@@ -286,12 +319,12 @@ public class StoreBean implements Comparator<StoreBean> {
 		this.distance = distance;
 	}
 
-	public MemberBean getMember() {
-		return member;
+	public MerchantBean getMerchant() {
+		return merchant;
 	}
 
-	public void setMember(MemberBean member) {
-		this.member = member;
+	public void setMerchant(MerchantBean merchant) {
+		this.merchant = merchant;
 	}
 
 	public List<StoreImageBean> getImages() {
@@ -300,5 +333,13 @@ public class StoreBean implements Comparator<StoreBean> {
 
 	public void setImages(List<StoreImageBean> images) {
 		this.images = images;
+	}
+
+	public int getBy() {
+		return by;
+	}
+
+	public void setBy(int by) {
+		this.by = by;
 	}
 }

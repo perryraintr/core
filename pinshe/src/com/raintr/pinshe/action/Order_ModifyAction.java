@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.raintr.pinshe.bean.CommodityBean;
 import com.raintr.pinshe.bean.OrderBean;
-import com.raintr.pinshe.service.CashService;
 import com.raintr.pinshe.service.CommodityService;
 import com.raintr.pinshe.service.MemberService;
 import com.raintr.pinshe.service.OrderService;
@@ -25,8 +24,7 @@ public class Order_ModifyAction extends BaseAction {
 	private OrderService orderService;
 	@Autowired
 	private CommodityService commodityService;
-	@Autowired
-	private CashService cashService;
+
 	@Autowired
 	private MemberService memberService;
 	

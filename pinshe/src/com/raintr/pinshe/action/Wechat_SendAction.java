@@ -30,6 +30,8 @@ public class Wechat_SendAction extends BaseAction {
 		String deliver = request.getParameter("deliver");
 		String order = request.getParameter("order");
 		String content = request.getParameter("content");
+		String storeId = request.getParameter("sid");
+		String orderId = request.getParameter("oid");
 		
 		if(!StringGlobal.IsNull(wechatId) && !StringGlobal.IsNull(message)){
 			response.getWriter().print(String.format("%s", wechatService.Send(wechatId, message)));
@@ -43,6 +45,11 @@ public class Wechat_SendAction extends BaseAction {
 				title = "";
 			
 			response.getWriter().print(String.format("{\"head\":1,\"body\":%s}", wechatService.SendTemplate(wechatId, express, title, deliver, order, content)));
+			return null;
+		}
+		
+		if(!StringGlobal.IsNull(wechatId) && !StringGlobal.IsNull(storeId)){
+			response.getWriter().print(String.format("%s", wechatService.SendStore(wechatId, storeId, orderId)));
 			return null;
 		}
 		

@@ -36,7 +36,7 @@ public class Store_ModifyAction extends BaseAction {
 			return null;
 		}
 		
-		String memberId = request.getParameter("mid");
+		String merchantId = request.getParameter("mid");
 		String longitude = request.getParameter("longitude");
 		String latitude = request.getParameter("latitude");
 		String name = request.getParameter("name");
@@ -53,6 +53,7 @@ public class Store_ModifyAction extends BaseAction {
 		String video = request.getParameter("video");
 		String activity = request.getParameter("activity");
 		String comment = request.getParameter("comment");
+		String payment = request.getParameter("payment");
 		String invaild = request.getParameter("invaild");
 		String description = request.getParameter("description");
 
@@ -69,6 +70,7 @@ public class Store_ModifyAction extends BaseAction {
 			feature2 = StringGlobal.SerializeJson(feature2);
 			feature3 = StringGlobal.SerializeJson(feature3);
 			activity = StringGlobal.SerializeJson(activity);
+			payment = StringGlobal.SerializeJson(payment);
 			description = StringGlobal.SerializeJson(description);
 			
 			MultipartFile avatar = null;
@@ -81,8 +83,8 @@ public class Store_ModifyAction extends BaseAction {
 				files = ((MultipartHttpServletRequest)request).getFiles("file");
 			}catch(Exception ex){}
 			
-			if(!StringGlobal.IsNull(memberId)) 
-				store.setMember_id(Integer.parseInt(memberId));
+			if(!StringGlobal.IsNull(merchantId)) 
+				store.setMerchant_id(Integer.parseInt(merchantId));
 			if(!StringGlobal.IsNull(longitude)) 
 				store.setLongitude(Double.parseDouble(longitude));
 			if(!StringGlobal.IsNull(latitude)) 
@@ -115,6 +117,8 @@ public class Store_ModifyAction extends BaseAction {
 				store.setActivity(activity);
 			if(!StringGlobal.IsNull(comment)) 
 				store.setComment(Integer.parseInt(comment));
+			if(!StringGlobal.IsNull(payment)) 
+				store.setPayment(payment);
 			if(!StringGlobal.IsNull(invaild)) 
 				store.setInvaild(Integer.parseInt(invaild));
 			if(!StringGlobal.IsNull(description)) 

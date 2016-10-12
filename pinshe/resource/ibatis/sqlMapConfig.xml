@@ -9,7 +9,6 @@
 	<sqlMap resource="ibatis/ad.xml"/>
 	<sqlMap resource="ibatis/admin.xml"/>
 	<sqlMap resource="ibatis/cart.xml"/>
-	<sqlMap resource="ibatis/cash.xml"/>
 	<sqlMap resource="ibatis/comment.xml"/>
 	<sqlMap resource="ibatis/commodity.xml"/>
 	<sqlMap resource="ibatis/commodityImage.xml"/>
@@ -25,6 +24,7 @@
 	<sqlMap resource="ibatis/hit.xml"/>
 	<sqlMap resource="ibatis/image.xml"/>
 	<sqlMap resource="ibatis/member.xml"/>
+	<sqlMap resource="ibatis/merchant.xml"/>
 	<sqlMap resource="ibatis/message.xml"/>
 	<sqlMap resource="ibatis/order.xml"/>
 	<sqlMap resource="ibatis/orderDetail.xml"/>
@@ -34,8 +34,10 @@
 	<sqlMap resource="ibatis/pv.xml"/>
 	<sqlMap resource="ibatis/recommend.xml"/>
 	<sqlMap resource="ibatis/store.xml"/>
+	<sqlMap resource="ibatis/storeCash.xml"/>
 	<sqlMap resource="ibatis/storeComment.xml"/>
 	<sqlMap resource="ibatis/storeImage.xml"/>
+	<sqlMap resource="ibatis/storeMember.xml"/>
 	<sqlMap resource="ibatis/subscription.xml"/>
 	<sqlMap resource="ibatis/tag.xml"/>
 	<sqlMap resource="ibatis/user.xml"/>

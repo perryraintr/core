@@ -8,18 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript">
 		function payCall(){
-			WeixinJSBridge.invoke(
-				'getBrandWCPayRequest',{
-				${data}
-				},
-				function(res){
-					//WeixinJSBridge.log(res.err_msg);
-		            //alert(res.err_code + " " + res.err_desc + " " + res.err_msg);
-					if(res.err_msg == "get_brand_wcpay_request:ok"){
-						location.href = "http://www.pinshe.org/html/v1/coffee/coupon_share.html?from=${from}&id=${id}&orderno=${orderno}";
-					}
+			WeixinJSBridge.invoke('getBrandWCPayRequest', {${data}}, function(res){
+				//WeixinJSBridge.log(res.err_msg);
+				//alert(res.err_code + " " + res.err_desc + " " + res.err_msg);
+				if(res.err_msg == "get_brand_wcpay_request:ok"){
+					//location.href = "http://www.pinshe.org/html/v1/coffee/coupon_share.html?from=${from}&id=${id}&orderno=${orderno}";
+					location.href = "${url}";
 				}
-			);
+			});
 		}
 		
 		if(typeof WeixinJSBridge == "undefined"){

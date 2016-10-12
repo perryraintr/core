@@ -40,7 +40,16 @@ public class Wechat_CallBackAction{
 	    	String eventKey = null;
 	    	
 	    	String xml = IOUtils.toString(request.getInputStream(), "utf-8");
-	    	FileGlobal.AddFile(xml, "", "/opt/log/");
+	    	FileGlobal.AddFile(xml, "", "/opt/log/callback");
+	    	
+// 0
+//	    	<xml><ToUserName><![CDATA[gh_df90c2626736]]></ToUserName>
+//	    	<FromUserName><![CDATA[o1D_JwGKMNWZmBYLxghYYw0GIlUg]]></FromUserName>
+//	    	<CreateTime>1474948418</CreateTime>
+//	    	<MsgType><![CDATA[event]]></MsgType>
+//	    	<Event><![CDATA[subscribe]]></Event>
+//	    	<EventKey><![CDATA[]]></EventKey>
+//	    	</xml>
 	    	
 // 1
 //	    	<xml><ToUserName><![CDATA[gh_df90c2626736]]></ToUserName>
@@ -120,12 +129,13 @@ public class Wechat_CallBackAction{
 										return null;
 									}
 								}
-							}else{
-								response.getWriter().print(wechatService.ReplyText(fromUserName, toUserName));
-								return null;
 							}
 						}
 					}
+					
+					response.getWriter().print(wechatService.ReplyText(fromUserName, toUserName));
+					//response.getWriter().print(wechatService.ReplyRichText(fromUserName, toUserName, "【寻咖行动】- 重金悬赏：寻找帝都的好咖啡！", "为了让这些美好的咖啡馆能够为更多人知道与喜爱，品社特别推出金秋特别企划： X Coffee | 寻咖行动。这是国内独立咖啡史上最激动人心的优惠活动，只为助你喝到好咖啡，享受好时光！", "http://mmbiz.qpic.cn/mmbiz_jpg/icjGTQas0nm1ff0964JzdCYzicBkYUwA93iaQQyGClbjWibceuUE4dicMu9jlKp2gdPzar3bYXRyWCsmSCCwsSgK5tg/640?wx_fmt=jpeg&wxfrom=5&wx_lazy=1", "http://mp.weixin.qq.com/s?__biz=MzIzNDQxNDU0OA==&mid=2247483675&idx=1&sn=3e58cf4eec91c5be5ccd3e47efbf4406&chksm=e8f789a0df8000b60e51ba4fdae3ea15c3982cc1b0428b9debe4889b0f029015c894f07e6bae&scene=2&srcid=0924ui2NFYPNlIu7qv7U6PyW&from=timeline&isappinstalled=0#wechat_redirect"));
+					return null;
 				}
 				
 				if("SCAN".equals(event)){
@@ -217,153 +227,5 @@ public class Wechat_CallBackAction{
             buf.append(Long.toString((int)bytes[i] & 0xff, 16));  
         }
         return buf.toString().toUpperCase();  
-    }
-	
-	
-//	
-//	public class WeiXinHandler { 
-//	    final String TOKEN="pinshe";  
-//	    final HttpServletRequest final_request=request;   
-//	    final HttpServletResponse final_response=response; 
-//	    
-//	    public void valid(){  
-//	        String echostr=final_request.getParameter("echostr");  
-//	        if(null==echostr||echostr.isEmpty()){  
-//	            responseMsg();  
-//	        }else{  
-//	            if(this.checkSignature()){  
-//	                this.print(echostr);  
-//	            }else{  
-//	                this.print("error");                                                                                                                                                                                                                                                                                                                                           
-//	            }  
-//	        }  
-//	    }  
-//	    //自动回复内容  
-//	    public void responseMsg(){  
-//	        String postStr=null;  
-//	        try{  
-//	            postStr=this.readStreamParameter(final_request.getInputStream());  
-//	        }catch(Exception e){  
-//	            e.printStackTrace();  
-//	        }  
-//	        //System.out.println(postStr);  
-//	        if (null!=postStr&&!postStr.isEmpty()){  
-//	            Document document=null;  
-//	            try{  
-//	                document = DocumentHelper.parseText(postStr);  
-//	            }catch(Exception e){  
-//	                e.printStackTrace();  
-//	            }  
-//	            if(null==document){  
-//	                this.print("");  
-//	                return;  
-//	            }  
-//	            Element root=document.getRootElement();  
-//	            String fromUsername = root.elementText("FromUserName");  
-//	            String toUsername = root.elementText("ToUserName");  
-//	            String keyword = root.elementTextTrim("Content");  
-//	            String time = new Date().getTime()+"";  
-//	            String textTpl = "<xml>"+  
-//	                        "<ToUserName><![CDATA[%1$s]]></ToUserName>"+  
-//	                        "<FromUserName><![CDATA[%2$s]]></FromUserName>"+  
-//	                        "<CreateTime>%3$s</CreateTime>"+  
-//	                        "<MsgType><![CDATA[%4$s]]></MsgType>"+  
-//	                        "<Content><![CDATA[%5$s]]></Content>"+  
-//	                        "<FuncFlag>0</FuncFlag>"+  
-//	                        "</xml>";               
-//	              
-//	            if(null!=keyword&&!keyword.equals(""))  
-//	            {  
-//	                String msgType = "text";  
-//	                String contentStr = "Welcome to wechat world!";  
-//	                String resultStr = textTpl.format(textTpl, fromUsername, toUsername, time, msgType, contentStr);  
-//	                this.print(resultStr);  
-//	            }else{  
-//	                this.print("Input something...");  
-//	            }  
-//	  
-//	        }else {  
-//	            this.print("");  
-//	        }  
-//	    }  
-//	    //微信接口验证  
-//	    public boolean checkSignature(){  
-//	        String signature = final_request.getParameter("signature");  
-//	        String timestamp = final_request.getParameter("timestamp");  
-//	        String nonce = final_request.getParameter("nonce");  
-//	        String token=TOKEN;  
-//	        String[] tmpArr={token,timestamp,nonce};  
-//	        Arrays.sort(tmpArr);  
-//	        String tmpStr=this.ArrayToString(tmpArr);  
-//	        tmpStr=this.SHA1Encode(tmpStr);  
-//	        if(tmpStr.equalsIgnoreCase(signature)){  
-//	            return true;  
-//	        }else{  
-//	            return false;  
-//	        }  
-//	    }  
-//	    //向请求端发送返回数据  
-//	    public void print(String content){  
-//	        try{  
-//	            final_response.getWriter().print(content);  
-//	            final_response.getWriter().flush();  
-//	            final_response.getWriter().close();  
-//	        }catch(Exception e){  
-//	              
-//	        }  
-//	    }  
-//	    //数组转字符串  
-//	    public String ArrayToString(String [] arr){  
-//	        StringBuffer bf = new StringBuffer();  
-//	        for(int i = 0; i < arr.length; i++){  
-//	         bf.append(arr[i]);  
-//	        }  
-//	        return bf.toString();  
-//	    }  
-//	    //sha1加密  
-//	    public String SHA1Encode(String sourceString) {  
-//	        String resultString = null;  
-//	        try {  
-//	           resultString = new String(sourceString);  
-//	           MessageDigest md = MessageDigest.getInstance("SHA-1");  
-//	           resultString = byte2hexString(md.digest(resultString.getBytes()));  
-//	        } catch (Exception ex) {  
-//	        }  
-//	        return resultString;  
-//	    }  
-//	    public final String byte2hexString(byte[] bytes) {  
-//	        StringBuffer buf = new StringBuffer(bytes.length * 2);  
-//	        for (int i = 0; i < bytes.length; i++) {  
-//	            if (((int) bytes[i] & 0xff) < 0x10) {  
-//	                buf.append("0");  
-//	            }  
-//	            buf.append(Long.toString((int) bytes[i] & 0xff, 16));  
-//	        }  
-//	        return buf.toString().toUpperCase();  
-//	    }  
-//	    //从输入流读取post参数  
-//	    public String readStreamParameter(ServletInputStream in){  
-//	        StringBuilder buffer = new StringBuilder();  
-//	        BufferedReader reader=null;  
-//	        try{  
-//	            reader = new BufferedReader(new InputStreamReader(in));  
-//	            String line=null;  
-//	            while((line = reader.readLine())!=null){  
-//	                buffer.append(line);  
-//	            }  
-//	        }catch(Exception e){  
-//	            e.printStackTrace();  
-//	        }finally{  
-//	            if(null!=reader){  
-//	                try {  
-//	                    reader.close();  
-//	                } catch (IOException e) {  
-//	                    e.printStackTrace();  
-//	                }  
-//	            }  
-//	        }  
-//	        return buffer.toString();  
-//	    }  
-//	}
-	
+    }	
 }

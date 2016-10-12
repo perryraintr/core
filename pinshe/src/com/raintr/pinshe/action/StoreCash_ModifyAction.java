@@ -10,17 +10,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.raintr.pinshe.bean.CashBean;
-import com.raintr.pinshe.service.CashService;
+import com.raintr.pinshe.bean.StoreCashBean;
+import com.raintr.pinshe.service.StoreCashService;
 import com.raintr.pinshe.utils.StringGlobal;
 
 @Controller
 @RequestMapping(value = "/")
-public class Cash_ModifyAction extends BaseAction {
+public class StoreCash_ModifyAction extends BaseAction {
 	@Autowired
-	private CashService cashService;
+	private StoreCashService storeCashService;
 	
-	@RequestMapping(value = "/cash_modify")
+	@RequestMapping(value = "/store_cash_modify")
     public String Init(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception{
 		return super.Init(request, response, model);
 	}
@@ -40,31 +40,32 @@ public class Cash_ModifyAction extends BaseAction {
 		String type = request.getParameter("type");
 		String status = request.getParameter("status");
 		
-		CashBean cash = cashService.ById(Integer.parseInt(id));
-		if(cash != null){
+		StoreCashBean storeCash = storeCashService.ById(Integer.parseInt(id));
+		if(storeCash != null){
 			if(!StringGlobal.IsNull(storeId))
-				cash.setStore_id(Integer.parseInt(storeId));
+				storeCash.setStore_id(Integer.parseInt(storeId));
 			if(!StringGlobal.IsNull(memberId))
-				cash.setMember_id(Integer.parseInt(memberId));
+				storeCash.setMember_id(Integer.parseInt(memberId));
 			if(!StringGlobal.IsNull(orderId))
-				cash.setOrder_id(Integer.parseInt(orderId));
+				storeCash.setOrder_id(Integer.parseInt(orderId));
 			if(!StringGlobal.IsNull(amount))
-				cash.setAmount(Double.parseDouble(amount));
+				storeCash.setAmount(Double.parseDouble(amount));
 			if(!StringGlobal.IsNull(type))
-				cash.setType(Integer.parseInt(type));
+				storeCash.setType(Integer.parseInt(type));
 			if(!StringGlobal.IsNull(status))
-				cash.setStatus(Integer.parseInt(status));
-			cash.setModify_time(new Date());
-			cashService.Modify(cash);
+				storeCash.setStatus(Integer.parseInt(status));
+			storeCash.setModify_time(new Date());
+			storeCashService.Modify(storeCash);
 
 			
 			StringBuffer json = new StringBuffer();
-			json.append(String.format("%s,%s,%s,%s,%s,%s", 	cash.ToId(""),
-															cash.ToAmount(""),
-															cash.ToType(""),
-															cash.ToStatus(""),
-															cash.ToCreate_time(""),
-															cash.ToModify_time("")));
+			json.append(String.format("%s,%s,%s,%s,%s,%s,%s", 	storeCash.ToId(""),
+																storeCash.ToAmount(""),
+																storeCash.ToTotal(""),
+																storeCash.ToType(""),
+																storeCash.ToStatus(""),
+																storeCash.ToCreate_time(""),
+																storeCash.ToModify_time("")));
 
 			response.getWriter().print(String.format("{\"head\":1,\"body\":{%s}}", json.toString()));
 			return null;

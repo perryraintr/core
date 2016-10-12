@@ -10,7 +10,6 @@ import com.raintr.pinshe.bean.ActivityDetailBean;
 import com.raintr.pinshe.bean.AdBean;
 import com.raintr.pinshe.bean.AdminBean;
 import com.raintr.pinshe.bean.CartBean;
-import com.raintr.pinshe.bean.CashBean;
 import com.raintr.pinshe.bean.CommentBean;
 import com.raintr.pinshe.bean.CommodityBean;
 import com.raintr.pinshe.bean.CommodityImageBean;
@@ -25,6 +24,7 @@ import com.raintr.pinshe.bean.HistoryBean;
 import com.raintr.pinshe.bean.HitBean;
 import com.raintr.pinshe.bean.ImageBean;
 import com.raintr.pinshe.bean.MemberBean;
+import com.raintr.pinshe.bean.MerchantBean;
 import com.raintr.pinshe.bean.MessageBean;
 import com.raintr.pinshe.bean.OrderBean;
 import com.raintr.pinshe.bean.OrderDetailBean;
@@ -34,8 +34,10 @@ import com.raintr.pinshe.bean.ProductBean;
 import com.raintr.pinshe.bean.PublishBean;
 import com.raintr.pinshe.bean.RecommendBean;
 import com.raintr.pinshe.bean.StoreBean;
+import com.raintr.pinshe.bean.StoreCashBean;
 import com.raintr.pinshe.bean.StoreCommentBean;
 import com.raintr.pinshe.bean.StoreImageBean;
+import com.raintr.pinshe.bean.StoreMemberBean;
 import com.raintr.pinshe.bean.SubscriptionBean;
 import com.raintr.pinshe.bean.TagBean;
 import com.raintr.pinshe.bean.GroupBean;
@@ -57,9 +59,6 @@ public class Cache {
 	
 	public static Map<String, CartBean> cart = new HashMap<String, CartBean>();
 	public static Map<String, List<CartBean>> carts = new HashMap<String, List<CartBean>>();
-	
-	public static Map<String, CashBean> cash = new HashMap<String, CashBean>();
-	public static Map<String, List<CashBean>> cashs = new HashMap<String, List<CashBean>>();
 	
 	public static Map<String, CommentBean> comment = new HashMap<String, CommentBean>();
 	public static Map<String, List<CommentBean>> comments = new HashMap<String, List<CommentBean>>();
@@ -105,6 +104,10 @@ public class Cache {
 	public static Map<String, MemberBean> member = new HashMap<String, MemberBean>();
 	public static Map<String, List<MemberBean>> members = new HashMap<String, List<MemberBean>>();
 
+	public static Object merchantObject = new Object();
+	public static Map<String, MerchantBean> merchant = new HashMap<String, MerchantBean>();
+	public static Map<String, List<MerchantBean>> merchants = new HashMap<String, List<MerchantBean>>();
+	
 	public static Map<String, MessageBean> message = new HashMap<String, MessageBean>();
 	public static Map<String, List<MessageBean>> messages = new HashMap<String, List<MessageBean>>();
 	
@@ -132,11 +135,18 @@ public class Cache {
 	public static Map<String, StoreCommentBean> storeComment = new HashMap<String, StoreCommentBean>();
 	public static Map<String, List<StoreCommentBean>> storeComments = new HashMap<String, List<StoreCommentBean>>();
 	
+	public static Object storeObject = new Object();
 	public static Map<String, StoreBean> store = new HashMap<String, StoreBean>();
 	public static Map<String, List<StoreBean>> stores = new HashMap<String, List<StoreBean>>();
 	
+	public static Map<String, StoreCashBean> storeCash = new HashMap<String, StoreCashBean>();
+	public static Map<String, List<StoreCashBean>> storeCashs = new HashMap<String, List<StoreCashBean>>();
+	
 	public static Map<String, StoreImageBean> storeImage = new HashMap<String, StoreImageBean>();
 	public static Map<String, List<StoreImageBean>> storeImages = new HashMap<String, List<StoreImageBean>>();
+	
+	public static Map<String, StoreMemberBean> storeMember = new HashMap<String, StoreMemberBean>();
+	public static Map<String, List<StoreMemberBean>> storeMembers = new HashMap<String, List<StoreMemberBean>>();
 	
 	public static Map<String, SubscriptionBean> subscription = new HashMap<String, SubscriptionBean>();
 	public static Map<String, List<SubscriptionBean>> subscriptions = new HashMap<String, List<SubscriptionBean>>();

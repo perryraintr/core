@@ -63,12 +63,6 @@
 		</property>
 	</bean>
 	
-	<bean id="cashDao" class="com.raintr.pinshe.dao.CashDao">
-		<property name="sqlMapClientTemplate">
-			<ref bean="sqlMapClientTemplate" />
-		</property>
-	</bean>
-	
 	<bean id="commentDao" class="com.raintr.pinshe.dao.CommentDao">
 		<property name="sqlMapClientTemplate">
 			<ref bean="sqlMapClientTemplate" />
@@ -159,6 +153,12 @@
 		</property>
 	</bean>
 	
+	<bean id="merchantDao" class="com.raintr.pinshe.dao.MerchantDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
 	<bean id="messageDao" class="com.raintr.pinshe.dao.MessageDao">
 		<property name="sqlMapClientTemplate">
 			<ref bean="sqlMapClientTemplate" />
@@ -213,6 +213,12 @@
 		</property>
 	</bean>
 	
+	<bean id="storeCashDao" class="com.raintr.pinshe.dao.StoreCashDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
 	<bean id="storeCommentDao" class="com.raintr.pinshe.dao.StoreCommentDao">
 		<property name="sqlMapClientTemplate">
 			<ref bean="sqlMapClientTemplate" />
@@ -220,6 +226,12 @@
 	</bean>
 	
 	<bean id="storeImageDao" class="com.raintr.pinshe.dao.StoreImageDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="storeMemberDao" class="com.raintr.pinshe.dao.StoreMemberDao">
 		<property name="sqlMapClientTemplate">
 			<ref bean="sqlMapClientTemplate" />
 		</property>

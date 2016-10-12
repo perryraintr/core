@@ -10,6 +10,7 @@ public class ConsigneeBean {
 	private String address;
 	private String zip;
 	private int status;
+	private int is_delete;
 	private Date create_time;
 	private Date modify_time;
 	
@@ -29,6 +30,7 @@ public class ConsigneeBean {
 	public String ToAddress(String table){return String.format("\"%saddress\":\"%s\"", 			table, address);}
 	public String ToZip(String table){return String.format("\"%szip\":\"%s\"", 					table, zip);}
 	public String ToStatus(String table){return String.format("\"%sstatus\":%d", 				table, status);}
+	public String ToIsDelete(String table){return String.format("\"%sis_delete\":%d", 			table, is_delete);}
 	public String ToCreate_time(String table){return String.format("\"%screate_time\":\"%s\"", 	table, create_time);}
 	public String ToModify_time(String table){return String.format("\"%smodify_time\":\"%s\"", 	table, modify_time);}
 
@@ -88,6 +90,14 @@ public class ConsigneeBean {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public int getIs_delete() {
+		return is_delete;
+	}
+
+	public void setIs_delete(int is_delete) {
+		this.is_delete = is_delete;
 	}
 
 	public Date getCreate_time() {

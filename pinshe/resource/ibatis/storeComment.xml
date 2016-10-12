@@ -5,13 +5,16 @@
     
 <sqlMap namespace="storeComment">
 	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreCommentBean">
-	<![CDATA[select id,store_id,member_id,star,message,create_time,modify_time from pinshe.store_comment where id=#id#]]>
+	<![CDATA[select id,store_id,member_id,order_id,star,message,create_time,modify_time from pinshe.store_comment where id=#id#]]>
+	</select>
+	<select id="byStoreIdOrderIdMemberId" parameterClass="com.raintr.pinshe.bean.StoreCommentBean" resultClass="com.raintr.pinshe.bean.StoreCommentBean">
+	<![CDATA[select id,store_id,member_id,order_id,star,message,create_time,modify_time from pinshe.store_comment where store_id=#store_id# and member_id=#member_id# and order_id=#order_id#]]>
 	</select>
 	<select id="byStoreId" parameterClass="com.raintr.pinshe.bean.StoreCommentBean" resultClass="com.raintr.pinshe.bean.StoreCommentBean">
-	<![CDATA[select id,store_id,member_id,star,message,create_time,modify_time from pinshe.store_comment where store_id=#store_id# and message != "" and modify_time>=(select modify_time from pinshe.store_comment where store_id=#store_id# and message != "" order by modify_time limit #id#,1) order by modify_time limit 100]]>
+	<![CDATA[select id,store_id,member_id,order_id,star,message,create_time,modify_time from pinshe.store_comment where store_id=#store_id# and message != "" and modify_time>=(select modify_time from pinshe.store_comment where store_id=#store_id# and message != "" order by modify_time limit #id#,1) order by modify_time limit 100]]>
 	</select>
 	<insert id="add" parameterClass="com.raintr.pinshe.bean.StoreCommentBean">
-	<![CDATA[insert into pinshe.store_comment(store_id,member_id,star,message,create_time,modify_time) values(#store_id#,#member_id#,#star#,#message#,#create_time#,#modify_time#)]]>
+	<![CDATA[insert into pinshe.store_comment(store_id,member_id,order_id,star,message,create_time,modify_time) values(#store_id#,#member_id#,#order_id#,#star#,#message#,#create_time#,#modify_time#)]]>
 	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
 	</insert>
 </sqlMap>

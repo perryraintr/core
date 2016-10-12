@@ -16,16 +16,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.raintr.pinshe.bean.CashBean;
 import com.raintr.pinshe.bean.MemberBean;
 import com.raintr.pinshe.bean.OrderBean;
 import com.raintr.pinshe.bean.OrderDetailBean;
 import com.raintr.pinshe.bean.StoreBean;
+import com.raintr.pinshe.bean.StoreCashBean;
 import com.raintr.pinshe.service.CartService;
-import com.raintr.pinshe.service.CashService;
 import com.raintr.pinshe.service.MemberService;
 import com.raintr.pinshe.service.OrderDetailService;
 import com.raintr.pinshe.service.OrderService;
+import com.raintr.pinshe.service.StoreCashService;
+import com.raintr.pinshe.service.StoreService;
 import com.raintr.pinshe.utils.FileGlobal;
 import com.raintr.pinshe.utils.StringGlobal;
 
@@ -41,7 +42,9 @@ public class Wechat_NotifyAction extends BaseAction {
 	@Autowired
 	private CartService cartService;
 	@Autowired
-	private CashService cashService;
+	private StoreCashService storeCashService;
+	@Autowired
+	private StoreService storeService;
 	
 	@RequestMapping(value = "/wechat_notify")
     public String Init(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception{
@@ -56,7 +59,7 @@ public class Wechat_NotifyAction extends BaseAction {
 		
 		String xml = IOUtils.toString(request.getInputStream());
 		
-		FileGlobal.AddFile(xml, "", "/opt/pinshe/");
+		FileGlobal.AddFile(xml, "", "/opt/log/notify");
 		
 //		String wechatId = null;
 		String orderNo = null;
@@ -80,18 +83,18 @@ public class Wechat_NotifyAction extends BaseAction {
 			}
 		}
 		
-		//orderNo = "1474366330039-2-126";
+		//orderNo = "1476204768412-3-83";
 		
 		if(!StringGlobal.IsNull(orderNo)){
 			String[] rows = orderNo.split("-");
 			if(rows.length == 3){
 				OrderBean order = orderService.ByOrderNo(rows[0]);
 				if(order != null && order.getStatus() == 0){
-					order.setType(2);
-					order.setStatus(1);
-					orderService.Modify(order);
-
 					if("1".equals(rows[1])){
+						order.setType(2);
+						order.setStatus(1);
+						orderService.Modify(order);
+						
 						MemberBean member = order.getMember();
 						if(member != null){
 							OrderDetailBean orderDetail;
@@ -108,6 +111,10 @@ public class Wechat_NotifyAction extends BaseAction {
 					}
 					
 					if("2".equals(rows[1])){
+						order.setType(2);
+						order.setStatus(3);
+						orderService.Modify(order);
+						
 						MemberBean member = order.getMember();
 						if(member != null){
 							if("114".equals(rows[2])){
@@ -162,31 +169,33 @@ public class Wechat_NotifyAction extends BaseAction {
 					}
 					
 					if("3".equals(rows[1])){
+						order.setType(2);
+						order.setStatus(3);
+						orderService.Modify(order);
+						
 						List<OrderDetailBean> orderDetails = order.getOrderDetails();
 						if(orderDetails != null && orderDetails.size() > 0){
 							OrderDetailBean orderDetail = orderDetails.get(0);
 							if(orderDetail != null){
-								CashBean cash = cashService.ByOrderId(order.getId());
-								if(cash == null){
-									cash = new CashBean();
-									cash.setStore_id(orderDetail.getStore_id());
-									cash.setMember_id(order.getMember_id());
-									cash.setOrder_id(order.getId());
-									cash.setAmount(order.getAmount());
-									cash.setType(1);
-									cash.setStatus(1);
-									cash.setCreate_time(new Date());
-									cash.setModify_time(new Date());
-									cashService.Add(cash);
+								StoreBean store = orderDetail.getStore();
+								if(store != null){
+									store.setCurrent(store.getCurrent() + order.getAmount());
+									storeService.Modify(store, null, null);
 									
-									StoreBean store = orderDetail.getStore();
-									if(store != null){
-										MemberBean member = store.getMember();
-										if(member != null){
-											member.setCurrent(member.getCurrent() + cash.getAmount());
-											member.setAmount(member.getAmount() + cash.getAmount());
-											memberService.Modify(member);
-										}
+									StoreCashBean storeCash = storeCashService.ByOrderId(order.getId());
+									if(storeCash == null){
+										storeCash = new StoreCashBean();
+										storeCash.setStore_id(store.getId());
+										storeCash.setMember_id(order.getMember_id());
+										storeCash.setMerchant_id(0);
+										storeCash.setOrder_id(order.getId());
+										storeCash.setAmount(order.getAmount());
+										storeCash.setTotal(store.getCurrent());
+										storeCash.setType(1);
+										storeCash.setStatus(1);
+										storeCash.setCreate_time(new Date());
+										storeCash.setModify_time(new Date());
+										storeCashService.Add(storeCash);
 									}
 								}
 							}

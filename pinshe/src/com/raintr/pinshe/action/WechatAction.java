@@ -50,6 +50,7 @@ public class WechatAction extends BaseAction {
 					memberService.Add(member);
 				}else{
 					if(!member.getAvatar().equals(user.getAvatar())){
+						member.setName(StringGlobal.SerializeJson(user.getName()));
 						member.setAvatar(user.getAvatar());
 						member.setModify_time(new Date());
 						memberService.Modify(member);

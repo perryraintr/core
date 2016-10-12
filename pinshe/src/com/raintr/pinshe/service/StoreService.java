@@ -22,14 +22,18 @@ public class StoreService {
 		return storeDao.By(page);
 	}
 	
+	public List<StoreBean> ByInvaild(int page){
+		return storeDao.ByInvaild(page);
+	}
+	
 	public StoreBean ById(int id){
 		StoreBean store = storeDao.ById(id);
 		store.setImages(storeImageDao.ByStoreId(store.getId()));
 		return store;
 	}
 	
-	public StoreBean ByMemberId(int memberId){
-		return storeDao.ByMemberId(memberId);
+	public List<StoreBean> ByMerchantId(int merchantId){
+		return storeDao.ByMerchantId(merchantId);
 	}
 	
 	public int Add(StoreBean store, MultipartFile avatar, List<MultipartFile> files) throws Exception{

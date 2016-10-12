@@ -70,6 +70,28 @@ public class OrderDao extends SqlMapClientDaoSupport {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<OrderBean> ByCommodity(int page){
+		String key = "order.byCommodity" + page;
+		if(Cache.orders.containsKey(key))
+	    	return Cache.orders.get(key);
+		
+		List<OrderBean> orders = (List<OrderBean>)getSqlMapClientTemplate().queryForList("order.byCommodity", page);
+		Cache.orders.put(key, orders);
+		return orders;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<OrderBean> ByVip(int page){
+		String key = "order.byVip" + page;
+		if(Cache.orders.containsKey(key))
+	    	return Cache.orders.get(key);
+		
+		List<OrderBean> orders = (List<OrderBean>)getSqlMapClientTemplate().queryForList("order.byVip", page);
+		Cache.orders.put(key, orders);
+		return orders;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<OrderBean> ByStore(int page){
 		String key = "order.byStore" + page;
 		if(Cache.orders.containsKey(key))

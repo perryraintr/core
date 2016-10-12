@@ -8,16 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.raintr.pinshe.service.CashService;
+import com.raintr.pinshe.service.StoreMemberService;
 import com.raintr.pinshe.utils.StringGlobal;
 
 @Controller
 @RequestMapping(value = "/")
-public class Cash_RemoveAction extends BaseAction {
+public class StoreMember_RemoveAction extends BaseAction {
 	@Autowired
-	private CashService cashService;
+	private StoreMemberService storeMemberService;
 	
-	@RequestMapping(value = "/cash_remove")
+	@RequestMapping(value = "/store_member_remove")
     public String Init(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception{
 		return super.Init(request, response, model);
 	}
@@ -25,8 +25,11 @@ public class Cash_RemoveAction extends BaseAction {
 	protected String Action(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {	
 		String id = request.getParameter("id");
 
-		if(!StringGlobal.IsNull(id))
-			cashService.Remove(Integer.parseInt(id));
+		if(!StringGlobal.IsNull(id)){
+			storeMemberService.Remove(Integer.parseInt(id));
+			response.getWriter().print(String.format("{\"head\":1,\"body\":{\"guid\":%s}}", id));
+			return null;
+		}
 		
 		response.getWriter().print("{\"head\":1,\"body\":{}}");
 		return null;

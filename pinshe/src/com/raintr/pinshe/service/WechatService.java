@@ -73,6 +73,26 @@ public class WechatService {
 		return xml.toString();
 	}
 	
+	public String ReplyRichText(String toUser, String fromUser, String name, String description, String image, String url) throws Exception{
+		StringBuffer xml = new StringBuffer();
+		xml.append("<xml>");
+		xml.append(String.format("<ToUserName><![CDATA[%s]]></ToUserName>", toUser));
+		xml.append(String.format("<FromUserName><![CDATA[%s]]></FromUserName>", fromUser));
+		xml.append(String.format("<CreateTime>%d</CreateTime>", new Date().getTime()));
+		xml.append(String.format("<MsgType><![CDATA[%s]]></MsgType>", "news"));
+		xml.append(String.format("<ArticleCount>%s</ArticleCount>", "1"));
+		xml.append(String.format("<Articles>"));
+		xml.append(String.format("<item>"));
+		xml.append(String.format("<Title><![CDATA[%s]]></Title>", name));
+		xml.append(String.format("<Description><![CDATA[%s]]></Description>", description));
+		xml.append(String.format("<PicUrl><![CDATA[%s]]></PicUrl>", image));
+		xml.append(String.format("<Url><![CDATA[%s]]></Url>", url));
+		xml.append(String.format("</item>"));
+		xml.append(String.format("</Articles>"));
+		xml.append("</xml>");
+		return xml.toString();
+	}	
+	
 	public String ReplyCommodity(String toUser, String fromUser, String commodityId) throws Exception{
 		if(!StringGlobal.IsNull(commodityId)){
 			CommodityBean commodity = commodityService.ById(Integer.parseInt(commodityId));
@@ -99,6 +119,14 @@ public class WechatService {
 				xml.append(String.format("<PicUrl><![CDATA[%s]]></PicUrl>", image.getUrl()));
 				xml.append(String.format("<Url><![CDATA[%s]]></Url>", "http://www.pinshe.org/html/v1/coffee/product_detail.html?id=" + commodity.getId()));
 				xml.append(String.format("</item>"));
+				
+//				xml.append(String.format("<item>"));
+//				xml.append(String.format("<Title><![CDATA[%s]]></Title>", "【寻咖行动】- 重金悬赏：寻找帝都的好咖啡！"));
+//				xml.append(String.format("<Description><![CDATA[%s]]></Description>", "为了让这些美好的咖啡馆能够为更多人知道与喜爱，品社特别推出金秋特别企划： X Coffee | 寻咖行动。这是国内独立咖啡史上最激动人心的优惠活动，只为助你喝到好咖啡，享受好时光！"));
+//				xml.append(String.format("<PicUrl><![CDATA[%s]]></PicUrl>", "http://mmbiz.qpic.cn/mmbiz_jpg/icjGTQas0nm1ff0964JzdCYzicBkYUwA93iaQQyGClbjWibceuUE4dicMu9jlKp2gdPzar3bYXRyWCsmSCCwsSgK5tg/640?wx_fmt=jpeg&wxfrom=5&wx_lazy=1"));
+//				xml.append(String.format("<Url><![CDATA[%s]]></Url>", "http://mp.weixin.qq.com/s?__biz=MzIzNDQxNDU0OA==&mid=2247483675&idx=1&sn=3e58cf4eec91c5be5ccd3e47efbf4406&chksm=e8f789a0df8000b60e51ba4fdae3ea15c3982cc1b0428b9debe4889b0f029015c894f07e6bae&scene=2&srcid=0924ui2NFYPNlIu7qv7U6PyW&from=timeline&isappinstalled=0#wechat_redirect"));
+//				xml.append(String.format("</item>"));
+				
 				xml.append(String.format("</Articles>"));
 				xml.append("</xml>");
 				return xml.toString();
@@ -126,14 +154,23 @@ public class WechatService {
 				xml.append(String.format("<FromUserName><![CDATA[%s]]></FromUserName>", fromUser));
 				xml.append(String.format("<CreateTime>%d</CreateTime>", new Date().getTime()));
 				xml.append(String.format("<MsgType><![CDATA[%s]]></MsgType>", "news"));
-				xml.append(String.format("<ArticleCount>%s</ArticleCount>", "1"));
+				xml.append(String.format("<ArticleCount>%s</ArticleCount>", "2"));
 				xml.append(String.format("<Articles>"));
 				xml.append(String.format("<item>"));
-				xml.append(String.format("<Title><![CDATA[%s]]></Title>", store.getName()));
-				xml.append(String.format("<Description><![CDATA[%s]]></Description>", "点击图片进入"));
+				//xml.append(String.format("<Title><![CDATA[%s]]></Title>", store.getName()));
+				xml.append(String.format("<Title><![CDATA[%s]]></Title>", store.getSlogan()));
+				xml.append(String.format("<Description><![CDATA[%s]]></Description>", store.getSlogan()));
 				xml.append(String.format("<PicUrl><![CDATA[%s]]></PicUrl>", image.getUrl()));
 				xml.append(String.format("<Url><![CDATA[%s]]></Url>", "http://www.pinshe.org/html/v1/coffee/nearby_cafedetail.html?id=" + store.getId()));
 				xml.append(String.format("</item>"));
+				
+				xml.append(String.format("<item>"));
+				xml.append(String.format("<Title><![CDATA[%s]]></Title>", "😇别忘了评价本次体验, 获得品社心意馈赠"));
+				xml.append(String.format("<Description><![CDATA[%s]]></Description>", ""));
+				xml.append(String.format("<PicUrl><![CDATA[%s]]></PicUrl>", ""));
+				xml.append(String.format("<Url><![CDATA[%s]]></Url>", "http://www.pinshe.org/html/v1/coffee/qrcode_cafecomment.html?id=" + store.getId()));
+				xml.append(String.format("</item>"));
+				
 				xml.append(String.format("</Articles>"));
 				xml.append("</xml>");
 				return xml.toString();
@@ -211,6 +248,52 @@ public class WechatService {
 		String body = String.format("{\"touser\":\"%s\",\"template_id\":\"CYUGEFz4V5Wr_dbp5vmWQ3jnS0zCla6VfzHjd3wqoOY\",\"url\":\"%s\",\"data\":{\"first\": {\"value\":\"%s\",\"color\":\"#173177\"},\"delivername\":{\"value\":\"%s\",\"color\":\"#173177\"},\"ordername\": {\"value\":\"%s\",\"color\":\"#173177\"},\"remark\": {\"value\":\"%s\",\"color\":\"#173177\"}}}", wechat_id, express, title, deliver, order, content);
 		return NetGlobal.HttpPost(url, headers, body, null);
 	}
+	
+	
+	public String SendStore(String wechatId, String storeId, String orderId) throws Exception{
+		if(!StringGlobal.IsNull(storeId)){
+			StoreBean store = storeService.ById(Integer.parseInt(storeId));
+			if(store != null){
+				StoreImageBean image = null;
+				List<StoreImageBean> images = store.getImages();
+				if(images != null && images.size() > 0)
+					image = images.get(0);
+				
+				if(image == null)
+					image = new StoreImageBean();
+				
+				String url = String.format("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s", GetToken());
+				Map<String, String> headers = new HashMap<String, String>();  
+				headers.put("Content-Type", "application/json");
+				String body = String.format("{\"touser\":\"%s\",\"msgtype\":\"news\",\"news\":{\"articles\": [{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"}]}}", 
+											wechatId,
+											store.getSlogan(), 
+											"", 
+											"http://www.pinshe.org/html/v1/coffee/nearby_cafedetail.html?id=" + store.getId(),
+											image.getUrl(),
+											"😇别忘了评价本次体验, 获得品社心意馈赠", 
+											"", 
+											"http://www.pinshe.org/html/v1/coffee/qrcode_cafecomment.html?id=" + store.getId() + "&oid=" + orderId, 
+											"");
+				return NetGlobal.HttpPost(url, headers, body, "utf-8");
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	public String SendRichText(String wechat_id, String title1, String description1, String url1, String picurl1, String title2, String description2, String url2, String picurl2) throws Exception{
+		String url = String.format("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s", GetToken());
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("Content-Type", "application/json");
+		String body = String.format("{\"touser\":\"OPENID\",\"msgtype\":\"news\",\"news\":{\"articles\": [{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"}]}}", wechat_id, title1, description1, url1, picurl1, title2, description2, url2, picurl2);
+		return NetGlobal.HttpPost(url, headers, body, null);
+	}
+	
+	
+	
+	
 	
 	public String GetJsapiTicket() throws Exception{
 		String url = String.format("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi", GetToken());

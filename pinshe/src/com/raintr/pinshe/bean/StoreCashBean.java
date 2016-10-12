@@ -3,12 +3,14 @@ package com.raintr.pinshe.bean;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CashBean {
+public class StoreCashBean {
 	private int id;
 	private int store_id;
 	private int member_id;
+	private int merchant_id;
 	private int order_id;
 	private double amount;
+	private double total;
 	private int type; // -1 out 1 in
 	private int status;// 0 not pay 1 paid 2 send 3 finish 4 user cancel
 	private Date create_time;
@@ -16,17 +18,19 @@ public class CashBean {
 	
 	private StoreBean store;
 	private MemberBean member;
+	private MerchantBean merchant;
 	private OrderBean order;
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
-	public CashBean(){
+	public StoreCashBean(){
 		create_time = new Date();
 		modify_time = new Date();
 	}
 	
 	public String ToId(String table){return String.format("\"%sguid\":%d", 									table, id);}
 	public String ToAmount(String table){return String.format("\"%samount\":%.2f", 							table, amount);}
+	public String ToTotal(String table){return String.format("\"%stotal\":%.2f", 							table, total);}
 	public String ToType(String table){return String.format("\"%stype\":%d", 								table, type);}
 	public String ToStatus(String table){return String.format("\"%sstatus\":%d", 							table, status);}
 	public String ToCreate_time(String table){return String.format("\"%screate_time\":\"%s\"", 				table, sdf.format(create_time));}
@@ -59,6 +63,14 @@ public class CashBean {
 		this.member_id = member_id;
 	}
 
+	public int getMerchant_id() {
+		return merchant_id;
+	}
+
+	public void setMerchant_id(int merchant_id) {
+		this.merchant_id = merchant_id;
+	}
+
 	public int getOrder_id() {
 		return order_id;
 	}
@@ -73,6 +85,14 @@ public class CashBean {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
 	}
 
 	public int getType() {
@@ -121,6 +141,14 @@ public class CashBean {
 
 	public void setMember(MemberBean member) {
 		this.member = member;
+	}
+
+	public MerchantBean getMerchant() {
+		return merchant;
+	}
+
+	public void setMerchant(MerchantBean merchant) {
+		this.merchant = merchant;
 	}
 
 	public OrderBean getOrder() {

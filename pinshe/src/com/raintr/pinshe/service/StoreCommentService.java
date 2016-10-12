@@ -14,6 +14,10 @@ public class StoreCommentService {
 		return storeCommentDao.ById(id); 
 	}
 	
+	public StoreCommentBean ByStoreIdOrderIdMemberId(int storeId, int memberId, int orderId){
+		return storeCommentDao.ByStoreIdOrderIdMemberId(storeId, memberId, orderId);
+	}
+	
 	public List<StoreCommentBean> ByStoreId(int postId, int page) throws Exception{
 		StoreCommentBean storeComment;
 		List<StoreCommentBean> storeComments = storeCommentDao.ByStoreId(postId, page);

@@ -41,13 +41,14 @@ public class ConsigneeAction extends BaseAction {
 					consignee = consignees.get(i);
 					
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", 	consignee.ToId(""),
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 	consignee.ToId(""),
 																				consignee.ToMember_id(""),
 																				consignee.ToName(""),
 																				consignee.ToPhone(""),
 																				consignee.ToAddress(""),
 																				consignee.ToZip(""),
 																				consignee.ToStatus(""),
+																				consignee.ToIsDelete(""),
 																				consignee.ToCreate_time(""),
 																				consignee.ToModify_time("")));
 					json.append("},");
@@ -65,13 +66,14 @@ public class ConsigneeAction extends BaseAction {
 		if(!StringGlobal.IsNull(id)){
 			consignee = consigneeService.ById(Integer.parseInt(id));
 			StringBuffer json = new StringBuffer();
-			json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", 	consignee.ToId(""),
+			json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 	consignee.ToId(""),
 																		consignee.ToMember_id(""),
 																		consignee.ToName(""),
 																		consignee.ToPhone(""),
 																		consignee.ToAddress(""),
 																		consignee.ToZip(""),
 																		consignee.ToStatus(""),
+																		consignee.ToIsDelete(""),
 																		consignee.ToCreate_time(""),
 																		consignee.ToModify_time("")));
 
@@ -87,13 +89,14 @@ public class ConsigneeAction extends BaseAction {
 					consignee = consignees.get(i);
 					
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", 	consignee.ToId(""),
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 	consignee.ToId(""),
 																				consignee.ToMember_id(""),
 																				consignee.ToName(""),
 																				consignee.ToPhone(""),
 																				consignee.ToAddress(""),
 																				consignee.ToZip(""),
 																				consignee.ToStatus(""),
+																				consignee.ToIsDelete(""),
 																				consignee.ToCreate_time(""),
 																				consignee.ToModify_time("")));
 					json.append("},");

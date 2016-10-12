@@ -33,13 +33,6 @@
 		<property name="commodityImageDao" ref="commodityImageDao" />
 	</bean>
 	
-	<bean id="cashService" class="com.raintr.pinshe.service.CashService">
-		<property name="cashDao" ref="cashDao" />
-		<property name="storeDao" ref="storeDao" />
-		<property name="orderDao" ref="orderDao" />
-		<property name="memberDao" ref="memberDao" />
-	</bean>
-	
 	<bean id="commentService" class="com.raintr.pinshe.service.CommentService">
 		<property name="userDao" ref="userDao" />
 		<property name="postDao" ref="postDao" />
@@ -115,6 +108,10 @@
 	<bean id="memberService" class="com.raintr.pinshe.service.MemberService">
 		<property name="memberDao" ref="memberDao" />
 	</bean>
+	
+	<bean id="merchantService" class="com.raintr.pinshe.service.MerchantService">
+		<property name="merchantDao" ref="merchantDao" />
+	</bean>
 
 	<bean id="messageService" class="com.raintr.pinshe.service.MessageService">
 		<property name="userDao" ref="userDao" />
@@ -134,6 +131,7 @@
 		<property name="storeDao" ref="storeDao" />
 		<property name="storeImageDao" ref="storeImageDao" />
 		<property name="memberDao" ref="memberDao" />
+		<property name="merchantDao" ref="merchantDao" />
 	</bean>
 	
 	<bean id="orderDetailService" class="com.raintr.pinshe.service.OrderDetailService">
@@ -176,6 +174,10 @@
 		<property name="productDao" ref="productDao" />
 	</bean>
 	
+	<bean id="qRCodeService" class="com.raintr.pinshe.service.QRCodeService">
+		<property name="logo" value="${logo}" />
+	</bean>
+	
 	<bean id="recommendService" class="com.raintr.pinshe.service.RecommendService">
 		<property name="recommendDao" ref="recommendDao" />
 		<property name="storeDao" ref="storeDao" />
@@ -189,6 +191,14 @@
 		<property name="local" value="${image.local}" />
 	</bean>
 	
+	<bean id="storeCashService" class="com.raintr.pinshe.service.StoreCashService">
+		<property name="storeCashDao" ref="storeCashDao" />
+		<property name="storeDao" ref="storeDao" />
+		<property name="orderDao" ref="orderDao" />
+		<property name="memberDao" ref="memberDao" />
+		<property name="merchantDao" ref="merchantDao" />
+	</bean>
+	
 	<bean id="storeCommentService" class="com.raintr.pinshe.service.StoreCommentService">
 		<property name="storeCommentDao" ref="storeCommentDao" />
 		<property name="memberDao" ref="memberDao" />
@@ -196,6 +206,12 @@
 	
 	<bean id="storeImageService" class="com.raintr.pinshe.service.StoreImageService">
 		<property name="storeImageDao" ref="storeImageDao" />
+	</bean>
+	
+	<bean id="storeMemberService" class="com.raintr.pinshe.service.StoreMemberService">
+		<property name="merchantDao" ref="merchantDao" />
+		<property name="storeDao" ref="storeDao" />
+		<property name="storeMemberDao" ref="storeMemberDao" />
 	</bean>
 	
 	<bean id="subscriptionService" class="com.raintr.pinshe.service.SubscriptionService">

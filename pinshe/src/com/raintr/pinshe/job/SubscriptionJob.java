@@ -35,7 +35,7 @@ public class SubscriptionJob {
 	private Log log = LogFactory.getLog("subscription");
 	
 	public void execute() {
-		int page = 0;
+		int page = 1;
 		Calendar now;
 		OrderBean order;
 		MemberBean member;
@@ -48,33 +48,32 @@ public class SubscriptionJob {
 		try{
 			log.info("start--------------------------");
 
-			while(true){
-				log.info(" while start");
-				subscriptions = subscriptionService.By(page++ * 100);
-				if(subscriptions == null || subscriptions.size() == 0){
-					log.info("  subscriptions is null");
-					break;
-				}
-				
-				log.info("  subscriptions start");
+			subscriptions = subscriptionService.By((page - 1) * 100);
+			
+			log.info(" while start");
+			while(subscriptions != null && subscriptions.size() > 0){
+				log.info("  subscriptions page=" + page);
 				for(int i = 0; i < subscriptions.size(); i++){
 					log.info("   " + i + " start");
 					subscription = subscriptions.get(i);
 					if(subscription == null){
 						log.info("   " + i + " subscription is null");
+						log.info("   " + i + " ended");
 						continue;
 					}
 					
 					log.info("   " + i + " subscription id=" + subscription.getId());
+					log.info("   " + i + " now=" + new Date() + " next=" + subscription.getNext_time());
 					
 					if((new Date()).getTime() < subscription.getNext_time().getTime()){
-						log.info("   " + i + " now=" + new Date() + " Next_time=" + subscription.getNext_time());
+						log.info("   " + i + " ended");
 						continue;
 					}
 					
 					consignee = subscription.getConsignee();
 					if(consignee == null){
 						log.info("   " + i + " consignee is null");
+						log.info("   " + i + " ended");
 						continue;
 					}
 					
@@ -110,6 +109,7 @@ public class SubscriptionJob {
 					
 					if(commodity == null){
 						log.info("   " + i + " commodity is null");
+						log.info("   " + i + " ended");
 						continue;
 					}
 					
@@ -117,26 +117,33 @@ public class SubscriptionJob {
 					
 					if(member == null){
 						log.info("   " + i + " member is null");
+						log.info("   " + i + " ended");
 						continue;
 					}
 					
 					if(commodity.getPrice() > member.getCurrent()){
 						log.info("   " + i + " money is not enough");
+						log.info("   " + i + " ended");
 						continue;
 					}
 					
+					log.info("   " + i + " order start");
 					// order
 					order = new OrderBean();
 					order.setMember_id(subscription.getMember_id());
 					order.setConsignee_id(consignee.getId());
+					order.setCoupon_id(0);
 					order.setOrder_no(order.MadeOrderNo());
 					order.setCount(1);
 					order.setCurrent(commodity.getPrice());
 					order.setAmount(commodity.getPrice());
+					order.setType(1);
 					order.setStatus(1);
 					order.setCreate_time(new Date());
 					order.setModify_time(new Date());
 					order.setId(orderService.Add(order));
+					
+					log.info("   " + i + " order id=" + order.getId());
 					
 					// order detail
 					orderDetail = new OrderDetailBean();
@@ -149,19 +156,31 @@ public class SubscriptionJob {
 					orderDetail.setModify_time(new Date());
 					orderDetailService.Add(orderDetail);
 
+					log.info("   " + i + " member id=" + member.getId());
+					log.info("   " + i + " member current=" + member.getCurrent());
+					log.info("   " + i + " commodity price=" + commodity.getPrice());
+					
 					member.setCurrent(member.getCurrent() - commodity.getPrice());
 					memberService.Modify(member);
+					
+					log.info("   " + i + " member current=" + member.getCurrent());
+					
 					
 					now = Calendar.getInstance();
 					now.add(Calendar.DAY_OF_YEAR, subscription.getDay());
 					subscription.setNext_time(now.getTime());
-					
 					subscriptionService.Modify(subscription);
+					
+					log.info("   " + i + " order ended");
 					
 					log.info("   " + i + " ended");
 				}
-				log.info("  subscriptions ended");
+				
+				log.info("  subscriptions page=" + page);
+				
+				subscriptions = subscriptionService.By((++page - 1) * 100);
 			}
+			
 			log.info(" while ended");
 		}catch(Exception e){
 			log.info("exception start");

@@ -28,14 +28,38 @@ public class ActivityAction extends BaseAction {
 	
 	protected String Action(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {	
 		String memberId = request.getParameter("mid");
+		String sharerId = request.getParameter("sharerid");
 		String page = request.getParameter("page");
+		
+		if(!StringGlobal.IsNull(memberId) && !StringGlobal.IsNull(sharerId)){
+			ActivityBean activity = activityService.ByMemberId(Integer.parseInt(memberId));
+			if(activity != null){
+				if(activity.getSharer_id() == Integer.parseInt(sharerId)){
+					response.getWriter().print(String.format("{\"head\":1,\"body\":{%s}}", activity.ToId("")));
+					return null;
+				}
+			}
+
+			String tmp = memberId;
+			memberId = sharerId;
+			sharerId = tmp;
+			
+			activity = activityService.ByMemberId(Integer.parseInt(memberId));
+			if(activity != null){
+				if(activity.getSharer_id() == Integer.parseInt(sharerId)){
+					response.getWriter().print(String.format("{\"head\":1,\"body\":{%s}}", activity.ToId("")));
+					return null;
+				}
+			}
+			
+			response.getWriter().print("{\"head\":1,\"body\":{}}");
+			return null;
+		}
 		
 		if(!StringGlobal.IsNull(memberId)){
 			ActivityBean activity = activityService.ByMemberId(Integer.parseInt(memberId));
 			if(activity != null){
-				StringBuffer json = new StringBuffer();
-				json.append(String.format("%s", activity.ToId("")));
-				response.getWriter().print(String.format("{\"head\":1,\"body\":{%s}}", json.toString()));
+				response.getWriter().print(String.format("{\"head\":1,\"body\":{%s}}", activity.ToId("")));
 				return null;
 			}
 			

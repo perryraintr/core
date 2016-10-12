@@ -19,8 +19,10 @@ import com.raintr.pinshe.bean.MemberBean;
 import com.raintr.pinshe.bean.OrderBean;
 import com.raintr.pinshe.bean.OrderDetailBean;
 import com.raintr.pinshe.bean.StoreBean;
+import com.raintr.pinshe.bean.StoreCommentBean;
 import com.raintr.pinshe.bean.StoreImageBean;
 import com.raintr.pinshe.service.OrderService;
+import com.raintr.pinshe.service.StoreCommentService;
 import com.raintr.pinshe.utils.StringGlobal;
 
 @Controller
@@ -28,6 +30,8 @@ import com.raintr.pinshe.utils.StringGlobal;
 public class OrderAction extends BaseAction {
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private StoreCommentService storeCommentService;
 	
 	@RequestMapping(value = "/order")
     public String Init(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception{
@@ -39,6 +43,8 @@ public class OrderAction extends BaseAction {
 		String memberId = request.getParameter("mid");
 		String page = request.getParameter("page");
 		String status = request.getParameter("status");
+		String commodityId = request.getParameter("cid");
+		String vip = request.getParameter("vip");
 		String storeId = request.getParameter("sid");
 		String orderNo = request.getParameter("orderno");
 		
@@ -53,6 +59,7 @@ public class OrderAction extends BaseAction {
 		List<CommodityImageBean> commodityImages;
 		StoreBean store;
 		List<StoreImageBean> storeImages;
+		StoreCommentBean storeComment;
 		
 		if(!StringGlobal.IsNull(orderNo)){
 			order = orderService.ByOrderNo(orderNo);
@@ -153,6 +160,10 @@ public class OrderAction extends BaseAction {
 							storeImages.add(new StoreImageBean());
 						}
 						
+						storeComment = storeCommentService.ByStoreIdOrderIdMemberId(store.getId(), member.getId(), order.getId());
+						if(storeComment == null)
+							storeComment = new StoreCommentBean();
+						
 						
 						json.append("{");
 						json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,", 	orderDetail.ToId(""),
@@ -175,8 +186,9 @@ public class OrderAction extends BaseAction {
 //						json.append("],");
 						
 						
-						json.append(String.format("%s,%s,", 	store.ToId("store_"),
-																store.ToName("store_")));
+						json.append(String.format("%s,%s,%s,", 	store.ToId("store_"),
+																store.ToName("store_"),
+																storeComment.ToId("store_comment_")));
 						json.append(String.format("\"store_image\":\"%s\"", storeImages.get(0).getUrl()));
 						//json.append("\"store_images\":[");
 						//if(storeImages != null && storeImages.size() > 0){
@@ -213,6 +225,9 @@ public class OrderAction extends BaseAction {
 								storeImages.add(new StoreImageBean());
 							}
 							
+							storeComment = storeCommentService.ByStoreIdOrderIdMemberId(store.getId(), member.getId(), order.getId());
+							if(storeComment == null)
+								storeComment = new StoreCommentBean();
 							
 							json.append(",{");
 							
@@ -236,8 +251,9 @@ public class OrderAction extends BaseAction {
 //							json.append("],");
 							
 							
-							json.append(String.format("%s,%s,", 	store.ToId("store_"),
-																	store.ToName("store_")));
+							json.append(String.format("%s,%s,%s,", 	store.ToId("store_"),
+																	store.ToName("store_"),
+																	storeComment.ToId("store_comment_")));
 							json.append(String.format("\"store_image\":\"%s\"", storeImages.get(0).getUrl()));
 //							json.append("\"store_images\":[");
 //							if(storeImages != null && storeImages.size() > 0){
@@ -267,6 +283,262 @@ public class OrderAction extends BaseAction {
 			return null;
 		}
 		
+		if(!StringGlobal.IsNull(commodityId) && !StringGlobal.IsNull(page)){
+			orders = orderService.ByCommodity(page == null ? 0 : (Integer.parseInt(page) - 1) * 100);
+
+			if(orders != null && orders.size() > 0){
+				StringBuffer json = new StringBuffer();
+				for(int i = 0; i < orders.size(); i++){
+					order = orders.get(i);
+					
+					consignee = order.getConsignee();
+					if(consignee == null)
+						consignee = new ConsigneeBean();
+					
+					member = order.getMember();
+					if(member == null)
+						member = new MemberBean();
+					
+					orderDetails = order.getOrderDetails();
+
+					json.append("{");
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", order.ToId(""),
+																										order.ToOrder_no(""),
+																										order.ToCount(""),
+																										order.ToCurrent(""),
+																										order.ToAmount(""),
+																										order.ToType(""),
+																										order.ToStatus(""),
+																										order.ToGrind(""),
+																										order.ToCost(""),
+																										order.ToMemo(""),
+																										order.ToCreate_time(""),
+																										order.ToModify_time(""),
+																										consignee.ToName("consignee_"),
+																										consignee.ToPhone("consignee_"),
+																										consignee.ToAddress("consignee_"),
+																										member.ToId("member_"),
+																										member.ToName("member_"),
+																										member.ToWechat_id("member_")));
+
+					json.append("\"details\":[");
+					if(orderDetails != null && orderDetails.size() > 0){
+						orderDetail = orderDetails.get(0);
+						if(orderDetail == null)
+							orderDetail = new OrderDetailBean();
+						
+						commodity = orderDetail.getCommodity();
+						if(commodity == null)
+							commodity = new CommodityBean();
+
+						store = orderDetail.getStore();
+						if(store == null)
+							store = new StoreBean();
+
+						storeImages = store.getImages();
+						if(storeImages == null){
+							storeImages = new ArrayList<StoreImageBean>();
+							storeImages.add(new StoreImageBean());
+						}
+						
+						json.append("{");
+						json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", orderDetail.ToId(""),
+																					orderDetail.ToCount(""),
+																					orderDetail.ToAmount(""),
+																					commodity.ToId("commodity_"),
+																					commodity.ToName("commodity_"),
+																					commodity.ToPrice("commodity_"),
+																					commodity.ToCount("commodity_"),
+																					commodity.ToDescription("commodity_"),
+																					store.ToId("store_"),
+																					store.ToName("store_")));
+						json.append(String.format("\"store_image\":\"%s\"", storeImages.get(0).getUrl()));
+						
+						json.append("}");
+						
+						for(int j = 1; j < orderDetails.size(); j++){
+							orderDetail = orderDetails.get(j);
+							if(orderDetail == null)
+								orderDetail = new OrderDetailBean();
+								
+							commodity = orderDetail.getCommodity();
+							if(commodity == null)
+								commodity = new CommodityBean();
+							
+							store = orderDetail.getStore();
+							if(store == null)
+								store = new StoreBean();
+
+							storeImages = store.getImages();
+							if(storeImages == null){
+								storeImages = new ArrayList<StoreImageBean>();
+								storeImages.add(new StoreImageBean());
+							}
+							
+							json.append(",{");
+							
+							json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", orderDetail.ToId(""),
+																						orderDetail.ToCount(""),
+																						orderDetail.ToAmount(""),
+																						commodity.ToId("commodity_"),
+																						commodity.ToName("commodity_"),
+																						commodity.ToPrice("commodity_"),
+																						commodity.ToCount("commodity_"),
+																						commodity.ToDescription("commodity_"),
+																						store.ToId("store_"),
+																						store.ToName("store_")));
+							
+							json.append(String.format("\"store_image\":\"%s\"", storeImages.get(0).getUrl()));
+							
+							json.append("}");
+						}
+					}
+					json.append("]");
+					
+					
+					json.append("},");
+					
+				}
+				
+				if(json.length() > 0)
+					json.setLength(json.length() - 1);
+				
+				response.getWriter().print(String.format("{\"head\":1,\"body\":{\"array\":[%s]}}", json.toString()));
+				return null;
+			}
+			
+			response.getWriter().print("{\"head\":1,\"body\":{}}");
+			return null;
+		}
+		
+		if(!StringGlobal.IsNull(vip) && !StringGlobal.IsNull(page)){
+			orders = orderService.ByVip(page == null ? 0 : (Integer.parseInt(page) - 1) * 100);
+
+			if(orders != null && orders.size() > 0){
+				StringBuffer json = new StringBuffer();
+				for(int i = 0; i < orders.size(); i++){
+					order = orders.get(i);
+					
+					consignee = order.getConsignee();
+					if(consignee == null)
+						consignee = new ConsigneeBean();
+					
+					member = order.getMember();
+					if(member == null)
+						member = new MemberBean();
+					
+					orderDetails = order.getOrderDetails();
+
+					json.append("{");
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", order.ToId(""),
+																										order.ToOrder_no(""),
+																										order.ToCount(""),
+																										order.ToCurrent(""),
+																										order.ToAmount(""),
+																										order.ToType(""),
+																										order.ToStatus(""),
+																										order.ToGrind(""),
+																										order.ToCost(""),
+																										order.ToMemo(""),
+																										order.ToCreate_time(""),
+																										order.ToModify_time(""),
+																										consignee.ToName("consignee_"),
+																										consignee.ToPhone("consignee_"),
+																										consignee.ToAddress("consignee_"),
+																										member.ToId("member_"),
+																										member.ToName("member_"),
+																										member.ToWechat_id("member_")));
+
+					json.append("\"details\":[");
+					if(orderDetails != null && orderDetails.size() > 0){
+						orderDetail = orderDetails.get(0);
+						if(orderDetail == null)
+							orderDetail = new OrderDetailBean();
+						
+						commodity = orderDetail.getCommodity();
+						if(commodity == null)
+							commodity = new CommodityBean();
+
+						store = orderDetail.getStore();
+						if(store == null)
+							store = new StoreBean();
+
+						storeImages = store.getImages();
+						if(storeImages == null){
+							storeImages = new ArrayList<StoreImageBean>();
+							storeImages.add(new StoreImageBean());
+						}
+						
+						json.append("{");
+						json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", orderDetail.ToId(""),
+																					orderDetail.ToCount(""),
+																					orderDetail.ToAmount(""),
+																					commodity.ToId("commodity_"),
+																					commodity.ToName("commodity_"),
+																					commodity.ToPrice("commodity_"),
+																					commodity.ToCount("commodity_"),
+																					commodity.ToDescription("commodity_"),
+																					store.ToId("store_"),
+																					store.ToName("store_")));
+						json.append(String.format("\"store_image\":\"%s\"", storeImages.get(0).getUrl()));
+						
+						json.append("}");
+						
+						for(int j = 1; j < orderDetails.size(); j++){
+							orderDetail = orderDetails.get(j);
+							if(orderDetail == null)
+								orderDetail = new OrderDetailBean();
+								
+							commodity = orderDetail.getCommodity();
+							if(commodity == null)
+								commodity = new CommodityBean();
+							
+							store = orderDetail.getStore();
+							if(store == null)
+								store = new StoreBean();
+
+							storeImages = store.getImages();
+							if(storeImages == null){
+								storeImages = new ArrayList<StoreImageBean>();
+								storeImages.add(new StoreImageBean());
+							}
+							
+							json.append(",{");
+							
+							json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", orderDetail.ToId(""),
+																						orderDetail.ToCount(""),
+																						orderDetail.ToAmount(""),
+																						commodity.ToId("commodity_"),
+																						commodity.ToName("commodity_"),
+																						commodity.ToPrice("commodity_"),
+																						commodity.ToCount("commodity_"),
+																						commodity.ToDescription("commodity_"),
+																						store.ToId("store_"),
+																						store.ToName("store_")));
+							
+							json.append(String.format("\"store_image\":\"%s\"", storeImages.get(0).getUrl()));
+							
+							json.append("}");
+						}
+					}
+					json.append("]");
+					
+					
+					json.append("},");
+					
+				}
+				
+				if(json.length() > 0)
+					json.setLength(json.length() - 1);
+				
+				response.getWriter().print(String.format("{\"head\":1,\"body\":{\"array\":[%s]}}", json.toString()));
+				return null;
+			}
+			
+			response.getWriter().print("{\"head\":1,\"body\":{}}");
+			return null;
+		}
+		
 		if(!StringGlobal.IsNull(storeId) && !StringGlobal.IsNull(page)){
 			if("all".equals(storeId))
 				orders = orderService.ByStore(page == null ? 0 : (Integer.parseInt(page) - 1) * 100);
@@ -276,29 +548,36 @@ public class OrderAction extends BaseAction {
 				StringBuffer json = new StringBuffer();
 				for(int i = 0; i < orders.size(); i++){
 					order = orders.get(i);
-					member = order.getMember();
 					
+					consignee = order.getConsignee();
+					if(consignee == null)
+						consignee = new ConsigneeBean();
+					
+					member = order.getMember();
 					if(member == null)
 						member = new MemberBean();
 					
 					orderDetails = order.getOrderDetails();
 
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", order.ToId(""),
-																								order.ToOrder_no(""),
-																								order.ToCount(""),
-																								order.ToCurrent(""),
-																								order.ToAmount(""),
-																								order.ToType(""),
-																								order.ToStatus(""),
-																								order.ToGrind(""),
-																								order.ToCost(""),
-																								order.ToMemo(""),
-																								order.ToCreate_time(""),
-																								order.ToModify_time(""),
-																								member.ToId("member_"),
-																								member.ToName("member_"),
-																								member.ToWechat_id("member_")));
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", order.ToId(""),
+																										order.ToOrder_no(""),
+																										order.ToCount(""),
+																										order.ToCurrent(""),
+																										order.ToAmount(""),
+																										order.ToType(""),
+																										order.ToStatus(""),
+																										order.ToGrind(""),
+																										order.ToCost(""),
+																										order.ToMemo(""),
+																										order.ToCreate_time(""),
+																										order.ToModify_time(""),
+																										consignee.ToName("consignee_"),
+																										consignee.ToPhone("consignee_"),
+																										consignee.ToAddress("consignee_"),
+																										member.ToId("member_"),
+																										member.ToName("member_"),
+																										member.ToWechat_id("member_")));
 					
 					
 					json.append("\"details\":[");
@@ -357,7 +636,7 @@ public class OrderAction extends BaseAction {
 							
 							json.append(",{");
 							
-							json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 	orderDetail.ToId(""),
+							json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", orderDetail.ToId(""),
 																						orderDetail.ToCount(""),
 																						orderDetail.ToAmount(""),
 																						commodity.ToId("commodity_"),
@@ -673,17 +952,22 @@ public class OrderAction extends BaseAction {
 				if(store == null)
 					store = new StoreBean();
 				
-				json.append(String.format("{%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s}", orderDetail.ToId(""),
-																				orderDetail.ToCount(""),
-																				orderDetail.ToAmount(""),
-																				commodity.ToId("commodity_"),
-																				commodity.ToName("commodity_"),
-																				commodity.ToPrice("commodity_"),
-																				commodity.ToCount("commodity_"),
-																				commodity.ToDescription("commodity_"),
-																				store.ToId("store_"),
-																				store.ToName("store_"),
-																				"\"store_member_guid\":" + store.getMember_id()));
+				storeComment = storeCommentService.ByStoreIdOrderIdMemberId(store.getId(), member.getId(), order.getId());
+				if(storeComment == null)
+					storeComment = new StoreCommentBean();
+				
+				json.append(String.format("{%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s}", 	orderDetail.ToId(""),
+																					orderDetail.ToCount(""),
+																					orderDetail.ToAmount(""),
+																					commodity.ToId("commodity_"),
+																					commodity.ToName("commodity_"),
+																					commodity.ToPrice("commodity_"),
+																					commodity.ToCount("commodity_"),
+																					commodity.ToDescription("commodity_"),
+																					store.ToId("store_"),
+																					store.ToName("store_"),
+																					"\"store_merchant_guid\":" + store.getMerchant_id(),
+																					storeComment.ToId("store_comment_")));
 
 				for(int i = 1; i < orderDetails.size(); i++){
 					orderDetail = orderDetails.get(i);
@@ -698,7 +982,11 @@ public class OrderAction extends BaseAction {
 					if(store == null)
 						store = new StoreBean();
 					
-					json.append(String.format(",{%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s}", 	orderDetail.ToId(""),
+					storeComment = storeCommentService.ByStoreIdOrderIdMemberId(store.getId(), member.getId(), order.getId());
+					if(storeComment == null)
+						storeComment = new StoreCommentBean();
+					
+					json.append(String.format(",{%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s}", orderDetail.ToId(""),
 																						orderDetail.ToCount(""),
 																						orderDetail.ToAmount(""),
 																						commodity.ToId("commodity_"),
@@ -708,7 +996,8 @@ public class OrderAction extends BaseAction {
 																						commodity.ToDescription("commodity_"),
 																						store.ToId("store_"),
 																						store.ToName("store_"),
-																						"\"store_member_guid\":" + store.getMember_id()));
+																						"\"store_merchant_guid\":" + store.getMerchant_id(),
+																						storeComment.ToId("store_comment_")));
 				}
 			}
 			json.append("]");

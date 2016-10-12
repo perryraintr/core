@@ -18,6 +18,21 @@ public class StoreCommentDao extends SqlMapClientDaoSupport {
 		return storeComment;
 	}
 	
+	public StoreCommentBean ByStoreIdOrderIdMemberId(int storeId, int memberId, int orderId){
+		String key = "storeComment.byStoreIdOrderIdMemberId" + storeId + memberId + orderId;
+		if(Cache.storeComment.containsKey(key))
+	    	return Cache.storeComment.get(key);
+		
+		StoreCommentBean storeComment = new StoreCommentBean();
+		storeComment.setStore_id(storeId);
+		storeComment.setMember_id(memberId);
+		storeComment.setOrder_id(orderId);
+		
+		storeComment = (StoreCommentBean)getSqlMapClientTemplate().queryForObject("storeComment.byStoreIdOrderIdMemberId", storeComment);
+		Cache.storeComment.put(key, storeComment);
+		return storeComment;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<StoreCommentBean> ByStoreId(int storeId, int page){
 		String key = "storeComment.byStoreId" + storeId + page;

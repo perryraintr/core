@@ -11,6 +11,7 @@ import com.raintr.pinshe.dao.CommodityImageDao;
 import com.raintr.pinshe.dao.ConsigneeDao;
 import com.raintr.pinshe.dao.CouponDao;
 import com.raintr.pinshe.dao.MemberDao;
+import com.raintr.pinshe.dao.MerchantDao;
 import com.raintr.pinshe.dao.OrderDao;
 import com.raintr.pinshe.dao.OrderDetailDao;
 import com.raintr.pinshe.dao.StoreDao;
@@ -26,6 +27,7 @@ public class OrderService {
 	private StoreDao storeDao;
 	private StoreImageDao storeImageDao;
 	private MemberDao memberDao;
+	private MerchantDao merchantDao;
 	
 	public List<OrderBean> By(int page){
 		OrderBean order;
@@ -74,7 +76,7 @@ public class OrderService {
 						orderDetail.setStore(storeDao.ById(orderDetail.getStore_id()));
 						store = orderDetail.getStore();
 						if(store != null)
-							store.setMember(memberDao.ById(store.getMember_id()));
+							store.setMerchant(merchantDao.ById(store.getMerchant_id()));
 					}
 				}
 			}
@@ -94,6 +96,7 @@ public class OrderService {
 				order = orders.get(i);
 				order.setCoupon(couponDao.ById(order.getCoupon_id()));
 				order.setConsignee(consigneeDao.ById(order.getConsignee_id()));
+				order.setMember(memberDao.ById(order.getMember_id()));
 				
 				order.setOrderDetails(orderDetailDao.ByOrderId(order.getId()));
 				List<OrderDetailBean> orderDetails = order.getOrderDetails();
@@ -139,7 +142,7 @@ public class OrderService {
 					orderDetail.setStore(storeDao.ById(orderDetail.getStore_id()));
 					store = orderDetail.getStore();
 					if(store != null)
-						store.setMember(memberDao.ById(store.getMember_id()));
+						store.setMerchant(merchantDao.ById(store.getMerchant_id()));
 				}
 			}
 		}
@@ -156,6 +159,7 @@ public class OrderService {
 			for(int i = 0; i < orders.size(); i++){
 				order = orders.get(i);
 				order.setMember(memberDao.ById(order.getMember_id()));
+				order.setConsignee(consigneeDao.ById(order.getConsignee_id()));
 				order.setOrderDetails(orderDetailDao.ByOrderId(order.getId()));
 				
 				List<OrderDetailBean> orderDetails = order.getOrderDetails();
@@ -179,6 +183,72 @@ public class OrderService {
 		
 		return orders;
 	}
+	
+	
+	public List<OrderBean> ByCommodity(int page){
+		StoreBean store;
+		OrderBean order;
+		OrderDetailBean orderDetail;
+		List<OrderBean> orders = orderDao.ByCommodity(page);
+		if(orders != null && orders.size() > 0){
+			for(int i = 0; i < orders.size(); i++){
+				order = orders.get(i);
+				order.setMember(memberDao.ById(order.getMember_id()));
+				order.setConsignee(consigneeDao.ById(order.getConsignee_id()));
+				order.setOrderDetails(orderDetailDao.ByOrderId(order.getId()));
+				
+				List<OrderDetailBean> orderDetails = order.getOrderDetails();
+				if(orderDetails != null && orderDetails.size() > 0){
+					for(int j = 0; j < orderDetails.size(); j++){
+						orderDetail = orderDetails.get(j);
+						if(orderDetail.getCommodity_id() > 0)
+							orderDetail.setCommodity(commodityDao.ById(orderDetail.getCommodity_id()));
+						if(orderDetail.getStore_id() > 0){
+							orderDetail.setStore(storeDao.ById(orderDetail.getStore_id()));
+							store = orderDetail.getStore();
+							if(store != null)
+								store.setImages(storeImageDao.ByStoreId(orderDetail.getStore_id()));
+						}
+					}
+				}
+			}
+		}
+		
+		return orders;
+	}
+	
+	public List<OrderBean> ByVip(int page){
+		StoreBean store;
+		OrderBean order;
+		OrderDetailBean orderDetail;
+		List<OrderBean> orders = orderDao.ByVip(page);
+		if(orders != null && orders.size() > 0){
+			for(int i = 0; i < orders.size(); i++){
+				order = orders.get(i);
+				order.setMember(memberDao.ById(order.getMember_id()));
+				order.setConsignee(consigneeDao.ById(order.getConsignee_id()));
+				order.setOrderDetails(orderDetailDao.ByOrderId(order.getId()));
+				
+				List<OrderDetailBean> orderDetails = order.getOrderDetails();
+				if(orderDetails != null && orderDetails.size() > 0){
+					for(int j = 0; j < orderDetails.size(); j++){
+						orderDetail = orderDetails.get(j);
+						if(orderDetail.getCommodity_id() > 0)
+							orderDetail.setCommodity(commodityDao.ById(orderDetail.getCommodity_id()));
+						if(orderDetail.getStore_id() > 0){
+							orderDetail.setStore(storeDao.ById(orderDetail.getStore_id()));
+							store = orderDetail.getStore();
+							if(store != null)
+								store.setImages(storeImageDao.ByStoreId(orderDetail.getStore_id()));
+						}
+					}
+				}
+			}
+		}
+		
+		return orders;
+	}
+	
 	
 	public List<OrderBean> ByStore(int page){
 		StoreBean store;
@@ -322,5 +392,13 @@ public class OrderService {
 
 	public void setMemberDao(MemberDao memberDao) {
 		this.memberDao = memberDao;
+	}
+
+	public MerchantDao getMerchantDao() {
+		return merchantDao;
+	}
+
+	public void setMerchantDao(MerchantDao merchantDao) {
+		this.merchantDao = merchantDao;
 	}
 }

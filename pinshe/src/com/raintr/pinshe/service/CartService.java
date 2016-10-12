@@ -14,15 +14,20 @@ public class CartService {
 	private CommodityImageDao commodityImageDao;
 	
 	public List<CartBean> By(int page){	
-//		CartBean cart;
+		CartBean cart;
 		List<CartBean> carts = cartDao.By(page);
-//		for(int i = 0; i < carts.size(); i++){
-//			cart = carts.get(i);
-//			if(cart != null){
-//				if(cart.getMember_id() > 0)
-//					cart.setMemeber(memberDao.ById(cart.getMember_id()));
-//			}
-//		}
+		if(carts != null && carts.size() > 0){
+			for(int i = 0; i < carts.size(); i++){
+				cart = carts.get(i);
+				if(cart != null){
+					if(cart.getCommodity_id() > 0){
+						cart.setCommodity(commodityDao.ById(cart.getCommodity_id()));
+						cart.getCommodity().setImages(commodityImageDao.ByCommodityId(cart.getCommodity_id()));
+					}
+				}
+			}
+		}
+		
 		return carts;
 	}
 	

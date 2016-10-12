@@ -38,6 +38,7 @@ public class Consignee_AddAction extends BaseAction {
 		String address = request.getParameter("address");
 		String zip = request.getParameter("zip");
 		String status = request.getParameter("status");
+		String isDelete = request.getParameter("is_delete");
 		
 		ConsigneeBean consignee = new ConsigneeBean();
 		if(!StringGlobal.IsNull(memberId))
@@ -52,6 +53,8 @@ public class Consignee_AddAction extends BaseAction {
 			consignee.setZip(zip);
 		if(!StringGlobal.IsNull(status))
 			consignee.setStatus(Integer.parseInt(status));
+		if(!StringGlobal.IsNull(isDelete))
+			consignee.setIs_delete(Integer.parseInt(isDelete));
 		consignee.setCreate_time(new Date());
 		consignee.setModify_time(new Date());
 		consignee.setId(consigneeService.Add(consignee));

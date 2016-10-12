@@ -32,6 +32,7 @@ public class StoreComment_AddAction extends BaseAction {
 	protected String Action(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		String storeId = request.getParameter("sid");
 		String memberId = request.getParameter("mid");
+		String orderId = request.getParameter("oid");
 		String star = request.getParameter("star");
 		String message = request.getParameter("m");
 
@@ -45,11 +46,23 @@ public class StoreComment_AddAction extends BaseAction {
 			return null;
 		}
 		
-		StoreCommentBean storeComment = new StoreCommentBean();
+		StoreCommentBean storeComment = null;
+		
+		if(!StringGlobal.IsNull(orderId)){
+			storeComment = storeCommentService.ByStoreIdOrderIdMemberId(Integer.parseInt(storeId), Integer.parseInt(memberId), Integer.parseInt(orderId));
+			if(storeComment != null){
+				response.getWriter().print("{\"head\":1,\"body\":{}}");
+				return null;
+			}
+		}
+		
+		storeComment = new StoreCommentBean();
 		if(!StringGlobal.IsNull(storeId))
 			storeComment.setStore_id(Integer.parseInt(storeId));
 		if(!StringGlobal.IsNull(memberId))
 			storeComment.setMember_id(Integer.parseInt(memberId));
+		if(!StringGlobal.IsNull(orderId))
+			storeComment.setOrder_id(Integer.parseInt(orderId));
 		if(!StringGlobal.IsNull(star))
 			storeComment.setStar(Integer.parseInt(star));
 		if(!StringGlobal.IsNull(message)){

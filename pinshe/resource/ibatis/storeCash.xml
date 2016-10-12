@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="storeCash">
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreCashBean">
+	<![CDATA[select id,store_id,member_id,merchant_id,order_id,amount,total,type,status,create_time,modify_time from pinshe.store_cash where create_time<=(select create_time from pinshe.store_cash order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	</select>
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreCashBean">
+	<![CDATA[select id,store_id,member_id,merchant_id,order_id,amount,total,type,status,create_time,modify_time from pinshe.store_cash where id=#id#]]>
+	</select>
+	<select id="byOrderId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreCashBean">
+	<![CDATA[select id,store_id,member_id,merchant_id,order_id,amount,total,type,status,create_time,modify_time from pinshe.store_cash where order_id=#order_id#]]>
+	</select>
+	<select id="byStoreId" parameterClass="com.raintr.pinshe.bean.StoreCashBean" resultClass="com.raintr.pinshe.bean.StoreCashBean">
+	<![CDATA[select id,store_id,member_id,merchant_id,order_id,amount,total,type,status,create_time,modify_time from pinshe.store_cash where store_id=#store_id# and create_time<=(select create_time from pinshe.store_cash where store_id=#store_id# order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	</select>
+	<select id="byType" parameterClass="com.raintr.pinshe.bean.StoreCashBean" resultClass="com.raintr.pinshe.bean.StoreCashBean">
+	<![CDATA[select id,store_id,member_id,merchant_id,order_id,amount,total,type,status,create_time,modify_time from pinshe.store_cash where type=#type# and create_time<=(select create_time from pinshe.store_cash where type=#type# order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.StoreCashBean">
+	<![CDATA[insert into pinshe.store_cash(store_id,member_id,merchant_id,order_id,amount,total,type,status,create_time,modify_time) values(#store_id#,#member_id#,#merchant_id#,#order_id#,#amount#,#total#,#type#,#status#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.StoreCashBean">
+	<![CDATA[update pinshe.store_cash set store_id=#store_id#,member_id=#member_id#,merchant_id=#merchant_id#,order_id=#order_id#,amount=#amount#,total=#total#,type=#type#,status=#status#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.store_cash where id=#id#]]>
+	</delete>
+</sqlMap>

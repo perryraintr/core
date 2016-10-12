@@ -29,7 +29,7 @@ public class Store_AddAction extends BaseAction {
 	}
 	
 	protected String Action(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
-		String memberId = request.getParameter("mid");
+		String merchantId = request.getParameter("mid");
 		String longitude = request.getParameter("longitude");
 		String latitude = request.getParameter("latitude");
 		String name = request.getParameter("name");
@@ -47,6 +47,7 @@ public class Store_AddAction extends BaseAction {
 		String video = request.getParameter("video");
 		String activity = request.getParameter("activity");
 		String comment = request.getParameter("comment");
+		String payment = request.getParameter("payment");
 		String invaild = request.getParameter("invaild");
 		String description = request.getParameter("description");
 		
@@ -86,11 +87,12 @@ public class Store_AddAction extends BaseAction {
 		feature2 = StringGlobal.SerializeJson(feature2);
 		feature3 = StringGlobal.SerializeJson(feature3);
 		activity = StringGlobal.SerializeJson(activity);
+		payment = StringGlobal.SerializeJson(payment);
 		description = StringGlobal.SerializeJson(description);
 		
 		StoreBean store = new StoreBean();
-		if(!StringGlobal.IsNull(memberId)) 
-			store.setMember_id(Integer.parseInt(memberId));
+		if(!StringGlobal.IsNull(merchantId)) 
+			store.setMerchant_id(Integer.parseInt(merchantId));
 		if(!StringGlobal.IsNull(longitude)) 
 			store.setLongitude(Double.parseDouble(longitude));
 		if(!StringGlobal.IsNull(latitude)) 
@@ -123,6 +125,8 @@ public class Store_AddAction extends BaseAction {
 			store.setActivity(activity);
 		if(!StringGlobal.IsNull(comment)) 
 			store.setComment(Integer.parseInt(comment));
+		if(!StringGlobal.IsNull(payment)) 
+			store.setPayment(payment);
 		if(!StringGlobal.IsNull(invaild)) 
 			store.setInvaild(Integer.parseInt(invaild));
 		if(!StringGlobal.IsNull(description)) 
@@ -132,8 +136,8 @@ public class Store_AddAction extends BaseAction {
 		store.setId(storeService.Add(store, avatar, files));
 		
 		StringBuffer json = new StringBuffer();
-		json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 	store.ToId(""),
-																												"\"member_guid\":" + store.getMember_id(),
+		json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", store.ToId(""),
+																												"\"merchant_guid\":" + store.getMerchant_id(),
 																												store.ToLongitude(""),
 																												store.ToLatitude(""),
 																												store.ToName(""),
@@ -152,6 +156,7 @@ public class Store_AddAction extends BaseAction {
 																												store.ToVideo(""),
 																												store.ToActivity(""),
 																												store.ToComment(""),
+																												store.ToPayment(""),
 																												store.ToDescription(""),
 																												store.ToCreate_time(""),
 																												store.ToModify_time(""),
