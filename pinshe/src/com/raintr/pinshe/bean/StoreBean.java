@@ -27,6 +27,9 @@ public class StoreBean implements Comparator<StoreBean> {
 	private String activity;
 	private int comment;
 	private String payment;
+	private String wifi;
+	private String wifi_password;
+	private int is_delete;
 	private int invaild; // 0 use 1 not use
 	private String description;
 	private Date create_time;
@@ -35,7 +38,9 @@ public class StoreBean implements Comparator<StoreBean> {
 	private double distance;
 	
 	private MerchantBean merchant;
+	private List<StoreMemberBean> storeMembers;
 	private List<StoreImageBean> images;
+	private List<StorePushBean> storePushs;
 	
 	private int by;
 	
@@ -55,39 +60,44 @@ public class StoreBean implements Comparator<StoreBean> {
 		video = "";
 		activity = "";
 		payment = "";
+		wifi = "";
+		wifi_password = "";
 		description = "";
 		
 		create_time = new Date();
 		modify_time = new Date();
 	}
 
-	public String ToId(String table){return String.format("\"%sguid\":%d", 						table, id);}
-	public String ToCurrent(String table){return String.format("\"%scurrent\":%f", 				table, current);}
-	public String ToLongitude(String table){return String.format("\"%slongitude\":%f", 			table, longitude);}
-	public String ToLatitude(String table){return String.format("\"%slatitude\":%f", 			table, latitude);}
-	public String ToName(String table){return String.format("\"%sname\":\"%s\"", 				table, name);}
-	public String ToStar(String table){return String.format("\"%sstar\":%d", 					table, star);}
-	public String ToAddress(String table){return String.format("\"%saddress\":\"%s\"", 			table, address);}
-	public String ToPhone(String table){return String.format("\"%sphone\":\"%s\"", 				table, phone);}
-	public String ToDate(String table){return String.format("\"%sdate\":\"%s\"", 				table, date);}
-	public String ToSlogan(String table){return String.format("\"%sslogan\":\"%s\"", 			table, slogan);}
-	public String ToOwner(String table){return String.format("\"%sowner\":\"%s\"", 				table, owner);}
-	public String ToAvatar(String table){return String.format("\"%savatar\":\"%s\"", 			table, avatar);}
-	public String ToRecommend(String table){return String.format("\"%srecommend\":\"%s\"", 		table, recommend);}
-	public String ToFeature1(String table){return String.format("\"%sfeature1\":\"%s\"", 		table, feature1);}
-	public String ToFeature2(String table){return String.format("\"%sfeature2\":\"%s\"", 		table, feature2);}
-	public String ToFeature3(String table){return String.format("\"%sfeature3\":\"%s\"", 		table, feature3);}
-	public String ToImage(String table){return String.format("\"%simage\":\"%s\"", 				table, image);}
-	public String ToVideo(String table){return String.format("\"%svideo\":\"%s\"", 				table, video);}
-	public String ToActivity(String table){return String.format("\"%sactivity\":\"%s\"", 		table, activity);}
-	public String ToComment(String table){return String.format("\"%scomment\":%d", 				table, comment);}
-	public String ToPayment(String table){return String.format("\"%spayment\":\"%s\"", 			table, payment);}
-	public String ToInvaild(String table){return String.format("\"%sinvaild\":%d", 				table, invaild);}
-	public String ToDescription(String table){return String.format("\"%sdescription\":\"%s\"", 	table, description);}
-	public String ToCreate_time(String table){return String.format("\"%screate_time\":\"%s\"", 	table, create_time);}
-	public String ToModify_time(String table){return String.format("\"%smodify_time\":\"%s\"", 	table, modify_time);}
+	public String ToId(String table){return String.format("\"%sguid\":%d", 							table, id);}
+	public String ToCurrent(String table){return String.format("\"%scurrent\":%f", 					table, current);}
+	public String ToLongitude(String table){return String.format("\"%slongitude\":%f", 				table, longitude);}
+	public String ToLatitude(String table){return String.format("\"%slatitude\":%f", 				table, latitude);}
+	public String ToName(String table){return String.format("\"%sname\":\"%s\"", 					table, name);}
+	public String ToStar(String table){return String.format("\"%sstar\":%d", 						table, star);}
+	public String ToAddress(String table){return String.format("\"%saddress\":\"%s\"", 				table, address);}
+	public String ToPhone(String table){return String.format("\"%sphone\":\"%s\"", 					table, phone);}
+	public String ToDate(String table){return String.format("\"%sdate\":\"%s\"", 					table, date);}
+	public String ToSlogan(String table){return String.format("\"%sslogan\":\"%s\"", 				table, slogan);}
+	public String ToOwner(String table){return String.format("\"%sowner\":\"%s\"", 					table, owner);}
+	public String ToAvatar(String table){return String.format("\"%savatar\":\"%s\"", 				table, avatar);}
+	public String ToRecommend(String table){return String.format("\"%srecommend\":\"%s\"", 			table, recommend);}
+	public String ToFeature1(String table){return String.format("\"%sfeature1\":\"%s\"", 			table, feature1);}
+	public String ToFeature2(String table){return String.format("\"%sfeature2\":\"%s\"", 			table, feature2);}
+	public String ToFeature3(String table){return String.format("\"%sfeature3\":\"%s\"", 			table, feature3);}
+	public String ToImage(String table){return String.format("\"%simage\":\"%s\"", 					table, image);}
+	public String ToVideo(String table){return String.format("\"%svideo\":\"%s\"", 					table, video);}
+	public String ToActivity(String table){return String.format("\"%sactivity\":\"%s\"", 			table, activity);}
+	public String ToComment(String table){return String.format("\"%scomment\":%d", 					table, comment);}
+	public String ToPayment(String table){return String.format("\"%spayment\":\"%s\"", 				table, payment);}
+	public String ToWifi(String table){return String.format("\"%swifi\":\"%s\"", 					table, wifi);}
+	public String ToWifi_password(String table){return String.format("\"%swifi_password\":\"%s\"",	table, wifi_password);}
+	public String ToIs_delete(String table){return String.format("\"%sis_delete\":%d", 				table, is_delete);}
+	public String ToInvaild(String table){return String.format("\"%sinvaild\":%d", 					table, invaild);}
+	public String ToDescription(String table){return String.format("\"%sdescription\":\"%s\"", 		table, description);}
+	public String ToCreate_time(String table){return String.format("\"%screate_time\":\"%s\"", 		table, create_time);}
+	public String ToModify_time(String table){return String.format("\"%smodify_time\":\"%s\"", 		table, modify_time);}
 
-	public String ToDistance(String table){return String.format("\"%sdistance\":%f", 			table, distance);}
+	public String ToDistance(String table){return String.format("\"%sdistance\":%f", 				table, distance);}
 
 	public int compare(StoreBean store1, StoreBean store2) {
 		if(by == 1){
@@ -279,6 +289,30 @@ public class StoreBean implements Comparator<StoreBean> {
 		this.payment = payment;
 	}
 
+	public String getWifi() {
+		return wifi;
+	}
+
+	public void setWifi(String wifi) {
+		this.wifi = wifi;
+	}
+
+	public String getWifi_password() {
+		return wifi_password;
+	}
+
+	public void setWifi_password(String wifi_password) {
+		this.wifi_password = wifi_password;
+	}
+
+	public int getIs_delete() {
+		return is_delete;
+	}
+
+	public void setIs_delete(int is_delete) {
+		this.is_delete = is_delete;
+	}
+
 	public int getInvaild() {
 		return invaild;
 	}
@@ -327,12 +361,28 @@ public class StoreBean implements Comparator<StoreBean> {
 		this.merchant = merchant;
 	}
 
+	public List<StoreMemberBean> getStoreMembers() {
+		return storeMembers;
+	}
+
+	public void setStoreMembers(List<StoreMemberBean> storeMembers) {
+		this.storeMembers = storeMembers;
+	}
+
 	public List<StoreImageBean> getImages() {
 		return images;
 	}
 
 	public void setImages(List<StoreImageBean> images) {
 		this.images = images;
+	}
+
+	public List<StorePushBean> getStorePushs() {
+		return storePushs;
+	}
+
+	public void setStorePushs(List<StorePushBean> storePushs) {
+		this.storePushs = storePushs;
 	}
 
 	public int getBy() {

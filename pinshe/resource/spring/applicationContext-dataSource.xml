@@ -237,6 +237,12 @@
 		</property>
 	</bean>
 	
+	<bean id="storePushDao" class="com.raintr.pinshe.dao.StorePushDao">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
 	<bean id="subscriptionDao" class="com.raintr.pinshe.dao.SubscriptionDao">
 		<property name="sqlMapClientTemplate">
 			<ref bean="sqlMapClientTemplate" />

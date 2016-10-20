@@ -31,6 +31,7 @@ public class Merchant_AddAction extends BaseAction {
 		String wechatId = request.getParameter("wcid");
 		String name = request.getParameter("name");
 		String phone = request.getParameter("phone");
+		String getuiId = request.getParameter("getui");
 		String avatar = request.getParameter("avatar");
 		String current = request.getParameter("current");
 		String amount = request.getParameter("amount");
@@ -54,10 +55,13 @@ public class Merchant_AddAction extends BaseAction {
 		
 		MerchantBean merchant = null;
 		
-		if(!StringGlobal.IsNull(wechatId))
-			merchant = merchantService.ByWechatId(wechatId);
-		else if(!StringGlobal.IsNull(phone))
+		if(!StringGlobal.IsNull(phone))
 			merchant = merchantService.ByPhone(phone);
+		
+		if(merchant == null){
+			if(!StringGlobal.IsNull(wechatId))
+				merchant = merchantService.ByWechatId(wechatId);
+		}
 		
 		if(merchant == null){
 			merchant = new MerchantBean();
@@ -69,6 +73,8 @@ public class Merchant_AddAction extends BaseAction {
 				merchant.setPassword(Md5Utils.Md5(password));
 			if(!StringGlobal.IsNull(phone))
 				merchant.setPhone(phone);
+			if(!StringGlobal.IsNull(getuiId))
+				merchant.setGetui_id(getuiId);
 			if(!StringGlobal.IsNull(avatar))
 				merchant.setAvatar(avatar);
 			if(!StringGlobal.IsNull(current))

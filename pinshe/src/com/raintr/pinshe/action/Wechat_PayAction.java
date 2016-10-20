@@ -49,7 +49,7 @@ public class Wechat_PayAction extends BaseAction {
 		}
 		
 		if(StringGlobal.IsNull(type)){
-			model.put("url", String.format("http://www.pinshe.org/html/v1/coffee/coupon_share.html?from=%s&id=%s&orderno=%s&time=%d", from, id, orderno, new Date().getTime()));
+			model.put("url", String.format("http://www.pinshe.org/html/v1/coffee/order_done.html?from=%s&id=%s&orderno=%s&time=%d", from, id, orderno, new Date().getTime()));
 		}else{
 			if("1".equals(type))
 				model.put("url", String.format("http://www.pinshe.org/html/v1/coffee/qrcode_done.html?from=%s&id=%s&orderno=%s&time=%d", from, id, orderno, new Date().getTime()));

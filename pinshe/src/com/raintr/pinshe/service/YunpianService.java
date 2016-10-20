@@ -23,7 +23,7 @@ public class YunpianService {
 		Map<String, String> bodys = new HashMap<String, String>();
 		bodys.put("apikey", apikey);
 		bodys.put("mobile", phone);
-		bodys.put("text", "【品社咖啡】您的验证码是" + code);
+		bodys.put("text", "【雨树科技】您的品社验证码为" + code);
 	
 		return NetGlobal.HttpPost(url, null, bodys, "utf-8");
 	}

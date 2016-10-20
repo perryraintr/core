@@ -13,9 +13,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.raintr.pinshe.bean.CommodityBean;
+import com.raintr.pinshe.bean.CommodityImageBean;
+import com.raintr.pinshe.bean.MerchantBean;
 import com.raintr.pinshe.bean.RecommendBean;
 import com.raintr.pinshe.bean.StoreBean;
 import com.raintr.pinshe.bean.StoreImageBean;
+import com.raintr.pinshe.bean.StoreMemberBean;
 import com.raintr.pinshe.service.RecommendService;
 import com.raintr.pinshe.service.StoreService;
 import com.raintr.pinshe.utils.MathGlobal;
@@ -52,6 +55,11 @@ public class StoreAction extends BaseAction {
 		CommodityBean commodity;
 		RecommendBean recommend;
 		List<RecommendBean> recommends;
+		CommodityImageBean commodityImage = null;
+		List<CommodityImageBean> commodityImages = null;
+		MerchantBean merchant = null;
+		StoreMemberBean storeMember;
+		List<StoreMemberBean> storeMembers = null;
 		
 		if(!StringGlobal.IsNull(merchantId)){
 			String row;
@@ -115,7 +123,7 @@ public class StoreAction extends BaseAction {
 
 			List<StoreBean> collection = new ArrayList<StoreBean>();
 			for(int i = 0; i < 20; i++){
-				stores = storeService.By(i * 100);
+				stores = storeService.ByIsDelete(i * 100);
 				if(stores == null || stores.size() == 0)
 					break;
 				
@@ -193,31 +201,65 @@ public class StoreAction extends BaseAction {
 				if(images == null)
 					images = new ArrayList<StoreImageBean>();
 			
-				json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", store.ToId(""),
-																														store.ToCurrent(""),
-																														store.ToLongitude(""),
-																														store.ToLatitude(""),
-																														store.ToName(""),
-																														store.ToStar(""),
-																														store.ToAddress(""),
-																														store.ToPhone(""),
-																														store.ToDate(""),
-																														store.ToSlogan(""),
-																														store.ToOwner(""),
-																														store.ToAvatar(""),
-																														store.ToRecommend(""),
-																														store.ToFeature1(""),
-																														store.ToFeature2(""),
-																														store.ToFeature3(""),
-																														store.ToImage(""),
-																														store.ToVideo(""),
-																														store.ToActivity(""),
-																														store.ToComment(""),
-																														store.ToInvaild(""),
-																														store.ToDescription(""),
-																														store.ToCreate_time(""),
-																														store.ToModify_time(""),
-																														store.ToDistance("")));
+				merchant = store.getMerchant();
+				if(merchant == null)
+					merchant = new MerchantBean();
+				
+				storeMembers = store.getStoreMembers();
+				
+				json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", 	store.ToId(""),
+																																			store.ToCurrent(""),
+																																			store.ToLongitude(""),
+																																			store.ToLatitude(""),
+																																			store.ToName(""),
+																																			store.ToStar(""),
+																																			store.ToAddress(""),
+																																			store.ToPhone(""),
+																																			store.ToDate(""),
+																																			store.ToSlogan(""),
+																																			store.ToOwner(""),
+																																			store.ToAvatar(""),
+																																			store.ToRecommend(""),
+																																			store.ToFeature1(""),
+																																			store.ToFeature2(""),
+																																			store.ToFeature3(""),
+																																			store.ToImage(""),
+																																			store.ToVideo(""),
+																																			store.ToActivity(""),
+																																			store.ToComment(""),
+																																			store.ToWifi(""),
+																																			store.ToWifi_password(""),
+																																			store.ToInvaild(""),
+																																			store.ToDescription(""),
+																																			store.ToCreate_time(""),
+																																			store.ToModify_time(""),
+																																			store.ToDistance(""),
+																																			merchant.ToId("merchant_"),
+																																			merchant.ToWechat_id("merchant_"),
+																																			merchant.ToPhone("merchant_"),
+																																			merchant.ToGetui_id("merchant_")));
+				json.append("\"store_member\":[");
+				if(storeMembers != null && storeMembers.size() > 0){
+					storeMember = storeMembers.get(0);
+					
+					if(storeMember != null && storeMember.getMerchant() != null){
+						json.append(String.format("{%s,%s,%s,%s}", 	storeMember.getMerchant().ToId(""), 
+																	storeMember.getMerchant().ToWechat_id(""),
+																	storeMember.getMerchant().ToPhone(""),
+																	storeMember.getMerchant().ToGetui_id("")));
+					}
+					
+					for(int i = 1; i < storeMembers.size(); i++){
+						storeMember = storeMembers.get(i);
+						if(storeMember != null && storeMember.getMerchant() != null){
+							json.append(String.format(",{%s,%s,%s,%s}", storeMember.getMerchant().ToId(""), 
+																		storeMember.getMerchant().ToWechat_id(""),
+																		storeMember.getMerchant().ToPhone(""),
+																		storeMember.getMerchant().ToGetui_id("")));
+						}
+					}
+				}
+				json.append("],");
 				
 				
 				recommends = recommendService.ByStoreId(store.getId(), 0);
@@ -227,11 +269,20 @@ public class StoreAction extends BaseAction {
 					commodity = recommend.getCommodity();
 					if(commodity == null)
 						commodity = new CommodityBean();
-					json.append(String.format("{%s,%s,%s,%s,%s}", 	recommend.ToId(""),
-																	recommend.ToMessage(""),
-																	commodity.ToId("commodity_"),
-																	commodity.ToName("commodity_"),
-																	commodity.ToDescription("commodity_")));
+					
+					commodityImages = commodity.getImages();
+					if(commodityImages != null && commodityImages.size() > 0)
+						commodityImage = commodityImages.get(0);
+					
+					if(commodityImage == null)
+						commodityImage = new CommodityImageBean();
+					
+					json.append(String.format("{%s,%s,%s,%s,%s,%s}", 	recommend.ToId(""),
+																		recommend.ToMessage(""),
+																		commodity.ToId("commodity_"),
+																		commodity.ToName("commodity_"),
+																		commodity.ToDescription("commodity_"),
+																		commodityImage.ToUrl("commodity_image_")));
 					
 					for(int i = 1; i < recommends.size(); i++){
 						recommend = recommends.get(i);
@@ -239,11 +290,19 @@ public class StoreAction extends BaseAction {
 						if(commodity == null)
 							commodity = new CommodityBean();
 						
-						json.append(String.format(",{%s,%s,%s,%s,%s}", 	recommend.ToId(""),
-																		recommend.ToMessage(""),
-																		commodity.ToId("commodity_"),
-																		commodity.ToName("commodity_"),
-																		commodity.ToDescription("commodity_")));
+						commodityImages = commodity.getImages();
+						if(commodityImages != null && commodityImages.size() > 0)
+							commodityImage = commodityImages.get(0);
+						
+						if(commodityImage == null)
+							commodityImage = new CommodityImageBean();
+						
+						json.append(String.format(",{%s,%s,%s,%s,%s,%s}", 	recommend.ToId(""),
+																			recommend.ToMessage(""),
+																			commodity.ToId("commodity_"),
+																			commodity.ToName("commodity_"),
+																			commodity.ToDescription("commodity_"),
+																			commodityImage.ToUrl("commodity_image_")));
 					}
 				}
 				json.append("],");
@@ -272,33 +331,36 @@ public class StoreAction extends BaseAction {
 				for(int i = 0; i < stores.size(); i++){
 					store = stores.get(i);
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", store.ToId(""),
-																																store.ToCurrent(""),
-																																"\"merchant_guid\":" + store.getMerchant_id(),
-																																store.ToLongitude(""),
-																																store.ToLatitude(""),
-																																store.ToName(""),
-																																store.ToStar(""),
-																																store.ToAddress(""),
-																																store.ToPhone(""),
-																																store.ToDate(""),
-																																store.ToSlogan(""),
-																																store.ToOwner(""),
-																																store.ToAvatar(""),
-																																store.ToRecommend(""),
-																																store.ToFeature1(""),
-																																store.ToFeature2(""),
-																																store.ToFeature3(""),
-																																store.ToImage(""),
-																																store.ToVideo(""),
-																																store.ToActivity(""),
-																																store.ToComment(""),
-																																store.ToPayment(""),
-																																store.ToInvaild(""),
-																																store.ToDescription(""),
-																																store.ToCreate_time(""),
-																																store.ToModify_time(""),
-																																store.ToDistance("")));
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", store.ToId(""),
+																																			store.ToCurrent(""),
+																																			"\"merchant_guid\":" + store.getMerchant_id(),
+																																			store.ToLongitude(""),
+																																			store.ToLatitude(""),
+																																			store.ToName(""),
+																																			store.ToStar(""),
+																																			store.ToAddress(""),
+																																			store.ToPhone(""),
+																																			store.ToDate(""),
+																																			store.ToSlogan(""),
+																																			store.ToOwner(""),
+																																			store.ToAvatar(""),
+																																			store.ToRecommend(""),
+																																			store.ToFeature1(""),
+																																			store.ToFeature2(""),
+																																			store.ToFeature3(""),
+																																			store.ToImage(""),
+																																			store.ToVideo(""),
+																																			store.ToActivity(""),
+																																			store.ToComment(""),
+																																			store.ToPayment(""),
+																																			store.ToWifi(""),
+																																			store.ToWifi_password(""),
+																																			store.ToIs_delete(""),
+																																			store.ToInvaild(""),
+																																			store.ToDescription(""),
+																																			store.ToCreate_time(""),
+																																			store.ToModify_time(""),
+																																			store.ToDistance("")));
 
 					recommends = recommendService.ByStoreId(store.getId(), 0);
 					json.append("\"recommends\":[");

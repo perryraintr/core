@@ -5,26 +5,26 @@
     
 <sqlMap namespace="merchant">
 	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.MerchantBean">
-	<![CDATA[select id,wechat_id,name,password,phone,avatar,current,amount,create_time,modify_time from pinshe.merchant where create_time<=(select create_time from pinshe.merchant order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	<![CDATA[select id,wechat_id,name,password,phone,getui_id,avatar,current,amount,create_time,modify_time from pinshe.merchant where create_time<=(select create_time from pinshe.merchant order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
 	</select>
 	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.MerchantBean">
-	<![CDATA[select id,wechat_id,name,password,phone,avatar,current,amount,create_time,modify_time from pinshe.merchant where id=#id#]]>
+	<![CDATA[select id,wechat_id,name,password,phone,getui_id,avatar,current,amount,create_time,modify_time from pinshe.merchant where id=#id#]]>
 	</select>
 	<select id="byWechatId" parameterClass="String" resultClass="com.raintr.pinshe.bean.MerchantBean">
-	<![CDATA[select id,wechat_id,name,password,phone,avatar,current,amount,create_time,modify_time from pinshe.merchant where wechat_id=#wechat_id#]]>
+	<![CDATA[select id,wechat_id,name,password,phone,getui_id,avatar,current,amount,create_time,modify_time from pinshe.merchant where wechat_id=#wechat_id#]]>
 	</select>
 	<select id="byPhone" parameterClass="String" resultClass="com.raintr.pinshe.bean.MerchantBean">
-	<![CDATA[select id,wechat_id,name,password,phone,avatar,current,amount,create_time,modify_time from pinshe.merchant where phone=#phone#]]>
+	<![CDATA[select id,wechat_id,name,password,phone,getui_id,avatar,current,amount,create_time,modify_time from pinshe.merchant where phone=#phone#]]>
 	</select>
 	<select id="byPhonePassword" parameterClass="com.raintr.pinshe.bean.MerchantBean" resultClass="com.raintr.pinshe.bean.MerchantBean">
-	<![CDATA[select id,wechat_id,name,password,phone,avatar,current,amount,create_time,modify_time from pinshe.merchant where phone=#phone# and password=#password#]]>
+	<![CDATA[select id,wechat_id,name,password,phone,getui_id,avatar,current,amount,create_time,modify_time from pinshe.merchant where phone=#phone# and password=#password#]]>
 	</select>
 	<insert id="add" parameterClass="com.raintr.pinshe.bean.MerchantBean">
-	<![CDATA[insert into pinshe.merchant(wechat_id,name,password,phone,avatar,current,amount,create_time,modify_time) values(#wechat_id#,#name#,#password#,#phone#,#avatar#,#current#,#amount#,#create_time#,#modify_time#)]]>
+	<![CDATA[insert into pinshe.merchant(wechat_id,name,password,phone,getui_id,avatar,current,amount,create_time,modify_time) values(#wechat_id#,#name#,#password#,#phone#,#getui_id#,#avatar#,#current#,#amount#,#create_time#,#modify_time#)]]>
 	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
 	</insert>
 	<update id="modify" parameterClass="com.raintr.pinshe.bean.MerchantBean">
-	<![CDATA[update pinshe.merchant set wechat_id=#wechat_id#,name=#name#,password=#password#,phone=#phone#,avatar=#avatar#,current=#current#,amount=#amount#,create_time=#create_time#,modify_time=#modify_time# where id=#id#]]>
+	<![CDATA[update pinshe.merchant set wechat_id=#wechat_id#,name=#name#,password=#password#,phone=#phone#,getui_id=#getui_id#,avatar=#avatar#,current=#current#,amount=#amount#,create_time=#create_time#,modify_time=#modify_time# where id=#id#]]>
 	</update>
 	<delete id="remove" parameterClass="Integer">
 	<![CDATA[delete from pinshe.merchant where id=#id#]]>

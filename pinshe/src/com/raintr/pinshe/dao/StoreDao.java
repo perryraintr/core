@@ -21,6 +21,17 @@ public class StoreDao extends SqlMapClientDaoSupport {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<StoreBean> ByIsDelete(int page){
+		String key = "store.byIsDelete" + page;
+		if(Cache.stores.containsKey(key))
+	    	return Cache.stores.get(key);
+		
+		List<StoreBean> stores = (List<StoreBean>)getSqlMapClientTemplate().queryForList("store.byIsDelete", page);
+		Cache.stores.put(key, stores);
+		return stores;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<StoreBean> ByInvaild(int page){
 		String key = "store.byInvaild" + page;
 		if(Cache.stores.containsKey(key))

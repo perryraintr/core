@@ -30,6 +30,7 @@ public class MemberAction extends BaseAction {
 		String page = request.getParameter("page");
 		String wechatId = request.getParameter("wcid");
 		String phone = request.getParameter("phone");
+		String name = request.getParameter("name");
 
 		MemberBean member;
 		List<MemberBean> members;
@@ -102,6 +103,26 @@ public class MemberAction extends BaseAction {
 		
 		if(!StringGlobal.IsNull(phone)){
 			member = memberService.ByPhone(phone);
+			if(member != null){
+				StringBuffer json = new StringBuffer();
+				json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", member.ToId(""),
+																		member.ToWechat_id(""),
+																		member.ToName(""),
+																		member.ToPhone(""),
+																		member.ToAvatar(""),
+																		member.ToCurrent(""),
+																		member.ToAmount(""),
+																		member.ToCreate_time(""),
+																		member.ToModify_time("")));
+	
+				response.getWriter().print(String.format("{\"head\":1,\"body\":{%s}}", json.toString()));
+				return null;
+			}
+		}
+		
+		if(!StringGlobal.IsNull(name)){
+			name = new String(name.getBytes("ISO-8859-1"), "utf-8");
+			member = memberService.ByName(name);
 			if(member != null){
 				StringBuffer json = new StringBuffer();
 				json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", member.ToId(""),

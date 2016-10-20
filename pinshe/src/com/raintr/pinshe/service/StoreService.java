@@ -5,10 +5,15 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
+
 import com.raintr.pinshe.bean.StoreBean;
 import com.raintr.pinshe.bean.StoreImageBean;
+import com.raintr.pinshe.bean.StoreMemberBean;
+import com.raintr.pinshe.dao.MerchantDao;
 import com.raintr.pinshe.dao.StoreDao;
 import com.raintr.pinshe.dao.StoreImageDao;
+import com.raintr.pinshe.dao.StoreMemberDao;
+import com.raintr.pinshe.dao.StorePushDao;
 import com.raintr.pinshe.utils.FileGlobal;
 
 public class StoreService {
@@ -17,9 +22,16 @@ public class StoreService {
 	
 	private StoreDao storeDao;
 	private StoreImageDao storeImageDao;
+	private MerchantDao merchantDao;
+	private StoreMemberDao storeMemberDao;
+	private StorePushDao storePushDao;
 	
 	public List<StoreBean> By(int page){
 		return storeDao.By(page);
+	}
+	
+	public List<StoreBean> ByIsDelete(int page){
+		return storeDao.ByIsDelete(page);
 	}
 	
 	public List<StoreBean> ByInvaild(int page){
@@ -27,8 +39,27 @@ public class StoreService {
 	}
 	
 	public StoreBean ById(int id){
+		StoreMemberBean storeMember;
+		List<StoreMemberBean> storeMembers;
+		
 		StoreBean store = storeDao.ById(id);
-		store.setImages(storeImageDao.ByStoreId(store.getId()));
+		if(store != null){
+			store.setMerchant(merchantDao.ById(store.getMerchant_id()));
+			store.setStorePushs(storePushDao.ByStoreId(store.getId()));
+			
+			storeMembers = storeMemberDao.ByStoreId(store.getId());
+			
+			if(storeMembers != null && storeMembers.size() > 0){
+				for(int i = 0; i < storeMembers.size(); i++){
+					storeMember = storeMembers.get(i);
+					if(storeMember != null)
+						storeMember.setMerchant(merchantDao.ById(storeMember.getMerchant_id()));
+				}
+				store.setStoreMembers(storeMembers);
+			}
+			
+			store.setImages(storeImageDao.ByStoreId(store.getId()));
+		}
 		return store;
 	}
 	
@@ -199,5 +230,29 @@ public class StoreService {
 
 	public void setStoreImageDao(StoreImageDao storeImageDao) {
 		this.storeImageDao = storeImageDao;
+	}
+
+	public MerchantDao getMerchantDao() {
+		return merchantDao;
+	}
+
+	public void setMerchantDao(MerchantDao merchantDao) {
+		this.merchantDao = merchantDao;
+	}
+
+	public StoreMemberDao getStoreMemberDao() {
+		return storeMemberDao;
+	}
+
+	public void setStoreMemberDao(StoreMemberDao storeMemberDao) {
+		this.storeMemberDao = storeMemberDao;
+	}
+
+	public StorePushDao getStorePushDao() {
+		return storePushDao;
+	}
+
+	public void setStorePushDao(StorePushDao storePushDao) {
+		this.storePushDao = storePushDao;
 	}
 }

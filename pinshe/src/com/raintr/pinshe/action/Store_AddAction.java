@@ -30,6 +30,7 @@ public class Store_AddAction extends BaseAction {
 	
 	protected String Action(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		String merchantId = request.getParameter("mid");
+		String current = request.getParameter("current");
 		String longitude = request.getParameter("longitude");
 		String latitude = request.getParameter("latitude");
 		String name = request.getParameter("name");
@@ -48,6 +49,9 @@ public class Store_AddAction extends BaseAction {
 		String activity = request.getParameter("activity");
 		String comment = request.getParameter("comment");
 		String payment = request.getParameter("payment");
+		String wifi = request.getParameter("wifi");
+		String wifi_password = request.getParameter("wifi_password");
+		String is_delete = request.getParameter("is_delete");
 		String invaild = request.getParameter("invaild");
 		String description = request.getParameter("description");
 		
@@ -93,6 +97,8 @@ public class Store_AddAction extends BaseAction {
 		StoreBean store = new StoreBean();
 		if(!StringGlobal.IsNull(merchantId)) 
 			store.setMerchant_id(Integer.parseInt(merchantId));
+		if(!StringGlobal.IsNull(current)) 
+			store.setCurrent(Double.parseDouble(current));
 		if(!StringGlobal.IsNull(longitude)) 
 			store.setLongitude(Double.parseDouble(longitude));
 		if(!StringGlobal.IsNull(latitude)) 
@@ -127,6 +133,12 @@ public class Store_AddAction extends BaseAction {
 			store.setComment(Integer.parseInt(comment));
 		if(!StringGlobal.IsNull(payment)) 
 			store.setPayment(payment);
+		if(!StringGlobal.IsNull(wifi)) 
+			store.setWifi(wifi);
+		if(!StringGlobal.IsNull(wifi_password)) 
+			store.setWifi_password(wifi_password);
+		if(!StringGlobal.IsNull(is_delete)) 
+			store.setIs_delete(Integer.parseInt(is_delete));
 		if(!StringGlobal.IsNull(invaild)) 
 			store.setInvaild(Integer.parseInt(invaild));
 		if(!StringGlobal.IsNull(description)) 
@@ -136,8 +148,9 @@ public class Store_AddAction extends BaseAction {
 		store.setId(storeService.Add(store, avatar, files));
 		
 		StringBuffer json = new StringBuffer();
-		json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", store.ToId(""),
+		json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", store.ToId(""),
 																												"\"merchant_guid\":" + store.getMerchant_id(),
+																												store.ToCurrent(""),
 																												store.ToLongitude(""),
 																												store.ToLatitude(""),
 																												store.ToName(""),

@@ -19,6 +19,9 @@
 	<select id="byPhonePassword" parameterClass="com.raintr.pinshe.bean.MemberBean" resultClass="com.raintr.pinshe.bean.MemberBean">
 	<![CDATA[select id,wechat_id,name,password,phone,avatar,current,amount,create_time,modify_time from pinshe.member where phone=#phone# and password=#password#]]>
 	</select>
+	<select id="byName" parameterClass="String" resultClass="com.raintr.pinshe.bean.MemberBean">
+	<![CDATA[select id,wechat_id,name,password,phone,avatar,current,amount,create_time,modify_time from pinshe.member where name=#name#]]>
+	</select>
 	<insert id="add" parameterClass="com.raintr.pinshe.bean.MemberBean">
 	<![CDATA[insert into pinshe.member(wechat_id,name,password,phone,avatar,current,amount,create_time,modify_time) values(#wechat_id#,#name#,#password#,#phone#,#avatar#,#current#,#amount#,#create_time#,#modify_time#)]]>
 	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>

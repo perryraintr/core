@@ -67,6 +67,15 @@ public class MemberDao extends SqlMapClientDaoSupport {
 		return member;
 	}
 	
+	public MemberBean ByName(String name){
+		String key = "member.byName" + name;
+		if(Cache.member.containsKey(key))
+	    	return Cache.member.get(key);
+		
+		MemberBean member = (MemberBean)getSqlMapClientTemplate().queryForObject("member.byName", name);
+		Cache.member.put(key, member);
+		return member;
+	}
 	
 	public int Add(MemberBean member){
 		int id = (Integer)getSqlMapClientTemplate().insert("member.add", member);

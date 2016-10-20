@@ -1,5 +1,6 @@
 package com.raintr.pinshe.action;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,7 @@ import com.raintr.pinshe.utils.StringGlobal;
 public class StoreCashAction extends BaseAction {
 	@Autowired
 	private StoreCashService storeCashService;
-	
+
 	@RequestMapping(value = "/store_cash")
     public String Init(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception{
 		return super.Init(request, response, model);
@@ -34,6 +35,7 @@ public class StoreCashAction extends BaseAction {
 		String storeId = request.getParameter("sid");
 		String type = request.getParameter("type");
 		String page = request.getParameter("page");
+		String date = request.getParameter("date");
 
 		StoreCashBean storeCash;
 		List<StoreCashBean> storeCashs;
@@ -42,6 +44,74 @@ public class StoreCashAction extends BaseAction {
 		MemberBean member;
 		MerchantBean merchant;
 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		
+		if(!StringGlobal.IsNull(storeId) && !StringGlobal.IsNull(date)){
+			double amount = 0;
+			int count = 0;
+			storeCashs = storeCashService.ByStoreIdCreateTime(Integer.parseInt(storeId), sdf.parse(date));
+			if(storeCashs != null && storeCashs.size() > 0){
+				StringBuffer json = new StringBuffer();
+				for(int i = 0; i < storeCashs.size(); i++){
+					storeCash = storeCashs.get(i);
+					
+					store = storeCash.getStore();
+					if(store == null)
+						store = new StoreBean();
+					
+					order = storeCash.getOrder();
+					if(order == null)
+						order = new OrderBean();
+					
+					member = storeCash.getMember();
+					if(member == null)
+						member = new MemberBean();
+					
+					merchant = storeCash.getMerchant();
+					if(merchant == null)
+						merchant = new MerchantBean();
+					
+					if(storeCash.getType() == 1){
+						amount += storeCash.getAmount();
+						count++;
+					}
+					
+					json.append("{");
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 	storeCash.ToId(""),
+																											storeCash.ToAmount(""),
+																											storeCash.ToTotal(""),
+																											storeCash.ToType(""),
+																											storeCash.ToStatus(""),
+																											storeCash.ToCreate_time(""),
+																											storeCash.ToModify_time(""),
+																											store.ToId("store_"),
+																											store.ToName("store_"),
+																											store.ToPayment(""),
+																											member.ToId("member_"),
+																											member.ToName("member_"),
+																											member.ToWechat_id("member_"),
+																											member.ToPhone("member_"),
+																											merchant.ToId("merchant_"),
+																											merchant.ToName("merchant_"),
+																											merchant.ToWechat_id("merchant_"),
+																											merchant.ToPhone("merchant_"),
+																											order.ToOrder_no("order_")));
+				
+					json.append("},");
+				}
+				
+				if(json.length() > 0)
+					json.setLength(json.length() - 1);
+				
+				response.getWriter().print(String.format("{\"head\":1,\"body\":{\"amount\":%.2f,\"count\":%d,\"array\":[%s]}}", amount, count, json.toString()));
+				return null;
+			}
+			
+			response.getWriter().print("{\"head\":1,\"body\":{}}");
+			return null;
+		}
+		
+		
 		if(!StringGlobal.IsNull(storeId)){
 			storeCashs = storeCashService.ByStoreId(Integer.parseInt(storeId), page == null ? 0 : (Integer.parseInt(page) - 1) * 100);
 			if(storeCashs != null && storeCashs.size() > 0){
@@ -124,7 +194,7 @@ public class StoreCashAction extends BaseAction {
 						merchant = new MerchantBean();
 					
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 	storeCash.ToId(""),
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", storeCash.ToId(""),
 																											storeCash.ToAmount(""),
 																											storeCash.ToTotal(""),
 																											storeCash.ToType(""),
@@ -142,6 +212,7 @@ public class StoreCashAction extends BaseAction {
 																											merchant.ToName("merchant_"),
 																											merchant.ToWechat_id("merchant_"),
 																											merchant.ToPhone("merchant_"),
+																											merchant.ToGetui_id("merchant_"),
 																											order.ToOrder_no("order_")));
 				
 					json.append("},");
@@ -238,7 +309,7 @@ public class StoreCashAction extends BaseAction {
 				merchant = new MerchantBean();
 			
 			StringBuffer json = new StringBuffer();
-			json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 	storeCash.ToId(""),
+			json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", storeCash.ToId(""),
 																									storeCash.ToAmount(""),
 																									storeCash.ToTotal(""),
 																									storeCash.ToType(""),
@@ -256,6 +327,7 @@ public class StoreCashAction extends BaseAction {
 																									merchant.ToName("merchant_"),
 																									merchant.ToWechat_id("merchant_"),
 																									merchant.ToPhone("merchant_"),
+																									merchant.ToGetui_id("merchant_"),
 																									order.ToOrder_no("order_")));
 		
 				

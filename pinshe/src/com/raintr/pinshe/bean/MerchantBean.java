@@ -8,6 +8,7 @@ public class MerchantBean {
 	private String name;
 	private String password;
 	private String phone;
+	private String getui_id;
 	private String avatar;
 	private double current;
 	private double amount;
@@ -19,6 +20,7 @@ public class MerchantBean {
 		name = "";
 		password = "";
 		phone = "";
+		getui_id = "";
 		avatar = "";
 		create_time = new Date();
 		modify_time = new Date();
@@ -28,6 +30,7 @@ public class MerchantBean {
 	public String ToWechat_id(String table){return String.format("\"%swechat_id\":\"%s\"", 		table, wechat_id);}
 	public String ToName(String table){return String.format("\"%sname\":\"%s\"", 				table, name);}
 	public String ToPhone(String table){return String.format("\"%sphone\":\"%s\"", 				table, phone);}
+	public String ToGetui_id(String table){return String.format("\"%sgetui_id\":\"%s\"", 		table, getui_id);}
 	public String ToAvatar(String table){return String.format("\"%savatar\":\"%s\"", 			table, avatar);}
 	public String ToCurrent(String table){return String.format("\"%scurrent\":%.2f", 			table, current);}
 	public String ToAmount(String table){return String.format("\"%samount\":%.2f", 				table, amount);}
@@ -74,6 +77,14 @@ public class MerchantBean {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getGetui_id() {
+		return getui_id;
+	}
+
+	public void setGetui_id(String getui_id) {
+		this.getui_id = getui_id;
 	}
 
 	public String getAvatar() {

@@ -38,6 +38,7 @@
 	<sqlMap resource="ibatis/storeComment.xml"/>
 	<sqlMap resource="ibatis/storeImage.xml"/>
 	<sqlMap resource="ibatis/storeMember.xml"/>
+	<sqlMap resource="ibatis/storePush.xml"/>
 	<sqlMap resource="ibatis/subscription.xml"/>
 	<sqlMap resource="ibatis/tag.xml"/>
 	<sqlMap resource="ibatis/user.xml"/>

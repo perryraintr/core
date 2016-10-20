@@ -34,6 +34,7 @@ public class Merchant_LoginAction extends BaseAction {
 		String wechatId = request.getParameter("wcid");
 		String password = request.getParameter("password");
 		String reset = request.getParameter("reset");
+		String getuiId = request.getParameter("getui");
 		
 		if(!StringGlobal.IsNull(reset) && !StringGlobal.IsNull(phone)){
 			MerchantBean merchant = merchantService.ByPhone(phone);
@@ -79,6 +80,8 @@ public class Merchant_LoginAction extends BaseAction {
 				merchant = merchantService.ByWechatId(wechatId);
 				if(merchant != null){
 					merchant.setPhone(phone);
+					if(!StringGlobal.IsNull(getuiId))
+						merchant.setGetui_id(getuiId);
 					merchant.setModify_time(new Date());
 					merchantService.Modify(merchant);
 					
@@ -103,6 +106,8 @@ public class Merchant_LoginAction extends BaseAction {
 						merchant.setWechat_id(other.getWechat_id());
 						merchant.setName(other.getName());
 						merchant.setAvatar(other.getAvatar());
+						if(!StringGlobal.IsNull(getuiId))
+							merchant.setGetui_id(getuiId);
 						merchantService.Modify(merchant);
 						merchantService.Remove(other.getId());
 					}

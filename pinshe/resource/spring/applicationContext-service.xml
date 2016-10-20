@@ -71,6 +71,12 @@
 		<property name="feedbackDao" ref="feedbackDao" />
 	</bean>
 	
+	<bean id="getuiService" class="com.raintr.pinshe.service.GetuiService">
+		<property name="appId" value="${getui.AppId}" />
+		<property name="appKey" value="${getui.AppKey}" />
+		<property name="masterSecret" value="${getui.MasterSecret}" />
+	</bean>
+	
 	<bean id="groupService" class="com.raintr.pinshe.service.GroupService">
 		<property name="groupDao" ref="groupDao" />
 		<property name="remote" value="${image.remote}" />
@@ -182,6 +188,7 @@
 		<property name="recommendDao" ref="recommendDao" />
 		<property name="storeDao" ref="storeDao" />
 		<property name="commodityDao" ref="commodityDao" />
+		<property name="commodityImageDao" ref="commodityImageDao" />
 	</bean>
 
 	<bean id="storeService" class="com.raintr.pinshe.service.StoreService">
@@ -189,6 +196,9 @@
 		<property name="storeImageDao" ref="storeImageDao" />
 		<property name="remote" value="${image.remote}" />
 		<property name="local" value="${image.local}" />
+		<property name="merchantDao" ref="merchantDao" />
+		<property name="storeMemberDao" ref="storeMemberDao" />
+		<property name="storePushDao" ref="storePushDao" />
 	</bean>
 	
 	<bean id="storeCashService" class="com.raintr.pinshe.service.StoreCashService">
@@ -212,6 +222,12 @@
 		<property name="merchantDao" ref="merchantDao" />
 		<property name="storeDao" ref="storeDao" />
 		<property name="storeMemberDao" ref="storeMemberDao" />
+	</bean>
+	
+	<bean id="storePushService" class="com.raintr.pinshe.service.StorePushService">
+		<property name="storePushDao" ref="storePushDao" />
+		<property name="remote" value="${image.remote}" />
+		<property name="local" value="${image.local}" />
 	</bean>
 	
 	<bean id="subscriptionService" class="com.raintr.pinshe.service.SubscriptionService">

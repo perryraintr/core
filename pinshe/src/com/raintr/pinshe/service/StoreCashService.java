@@ -1,5 +1,6 @@
 package com.raintr.pinshe.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.raintr.pinshe.bean.StoreCashBean;
@@ -66,6 +67,23 @@ public class StoreCashService {
 	public List<StoreCashBean> ByStoreId(int storeId, int page){
 		StoreCashBean storeCash;
 		List<StoreCashBean> storeCashs = storeCashDao.ByStoreId(storeId, page);
+		if(storeCashs != null && storeCashs.size() > 0){
+			for(int i = 0; i < storeCashs.size(); i++){
+				storeCash = storeCashs.get(i);
+				if(storeCash != null){
+					storeCash.setMember(memberDao.ById(storeCash.getMember_id()));
+					storeCash.setMerchant(merchantDao.ById(storeCash.getMerchant_id()));
+					storeCash.setStore(storeDao.ById(storeCash.getStore_id()));
+					storeCash.setOrder(orderDao.ById(storeCash.getOrder_id()));
+				}
+			}
+		}
+		return storeCashs;
+	}
+	
+	public List<StoreCashBean> ByStoreIdCreateTime(int storeId, Date date){
+		StoreCashBean storeCash;
+		List<StoreCashBean> storeCashs = storeCashDao.ByStoreIdCreateTime(storeId, date);
 		if(storeCashs != null && storeCashs.size() > 0){
 			for(int i = 0; i < storeCashs.size(); i++){
 				storeCash = storeCashs.get(i);

@@ -29,6 +29,10 @@ public class MemberService {
 		return memberDao.ByPhonePassword(phone, password);
 	}
 	
+	public MemberBean ByName(String name){
+		return memberDao.ByName(name);
+	}
+	
 	public int Add(MemberBean member){
 		return memberDao.Add(member);
 		

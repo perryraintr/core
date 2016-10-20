@@ -37,6 +37,7 @@ public class StoreCash_ModifyAction extends BaseAction {
 		String memberId = request.getParameter("mid");
 		String orderId = request.getParameter("oid");
 		String amount = request.getParameter("amount");
+		String total = request.getParameter("total");
 		String type = request.getParameter("type");
 		String status = request.getParameter("status");
 		
@@ -50,6 +51,8 @@ public class StoreCash_ModifyAction extends BaseAction {
 				storeCash.setOrder_id(Integer.parseInt(orderId));
 			if(!StringGlobal.IsNull(amount))
 				storeCash.setAmount(Double.parseDouble(amount));
+			if(!StringGlobal.IsNull(total))
+				storeCash.setTotal(Double.parseDouble(total));
 			if(!StringGlobal.IsNull(type))
 				storeCash.setType(Integer.parseInt(type));
 			if(!StringGlobal.IsNull(status))

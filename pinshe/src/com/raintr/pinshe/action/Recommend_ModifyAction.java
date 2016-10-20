@@ -41,10 +41,10 @@ public class Recommend_ModifyAction extends BaseAction {
 		message = StringGlobal.SerializeJson(message);
 		
 		
-		RecommendBean recommend = RecommendService.ByStoreIdCommodityId(Integer.parseInt(storeId), Integer.parseInt(commodityId));
-		if(recommend == null){
+//		RecommendBean recommend = RecommendService.ByStoreIdCommodityId(Integer.parseInt(storeId), Integer.parseInt(commodityId));
+//		if(recommend != null){
 		
-			recommend = RecommendService.ById(Integer.parseInt(id));
+		RecommendBean recommend = RecommendService.ById(Integer.parseInt(id));
 
 			if(recommend != null){
 				if(!StringGlobal.IsNull(storeId))
@@ -59,7 +59,7 @@ public class Recommend_ModifyAction extends BaseAction {
 				response.getWriter().print(String.format("{\"head\":1,\"body\":{%s}}", recommend.ToId("")));
 				return null;
 			}
-		}
+//		}
 
 		response.getWriter().print("{\"head\":1,\"body\":{}}");
 		return null;

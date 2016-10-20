@@ -2,8 +2,10 @@ package com.raintr.pinshe.service;
 
 import java.util.List;
 
+import com.raintr.pinshe.bean.CommodityBean;
 import com.raintr.pinshe.bean.RecommendBean;
 import com.raintr.pinshe.dao.CommodityDao;
+import com.raintr.pinshe.dao.CommodityImageDao;
 import com.raintr.pinshe.dao.RecommendDao;
 import com.raintr.pinshe.dao.StoreDao;
 
@@ -11,6 +13,7 @@ public class RecommendService {
 	private RecommendDao recommendDao;
 	private StoreDao storeDao;
 	private CommodityDao commodityDao;
+	private CommodityImageDao commodityImageDao;
 	
 	public RecommendBean ById(int id){
 		return recommendDao.ById(id); 
@@ -22,11 +25,15 @@ public class RecommendService {
 	
 	public List<RecommendBean> ByStoreId(int storeId, int page){
 		RecommendBean recommend;
+		CommodityBean commodity;
 		List<RecommendBean> recommends = recommendDao.ByStoreId(storeId, page);
 		if(recommends != null && recommends.size() > 0){
 			for(int i = 0; i < recommends.size(); i++){
 				recommend = recommends.get(i);
 				recommend.setCommodity(commodityDao.ById(recommend.getCommodity_id()));
+				commodity = recommend.getCommodity();
+				if(commodity != null)
+					commodity.setImages(commodityImageDao.ByCommodityId(commodity.getId()));
 			}
 		}
 		
@@ -83,5 +90,13 @@ public class RecommendService {
 
 	public void setCommodityDao(CommodityDao commodityDao) {
 		this.commodityDao = commodityDao;
+	}
+
+	public CommodityImageDao getCommodityImageDao() {
+		return commodityImageDao;
+	}
+
+	public void setCommodityImageDao(CommodityImageDao commodityImageDao) {
+		this.commodityImageDao = commodityImageDao;
 	}
 }

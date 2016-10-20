@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="storePush">
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StorePushBean">
+	<![CDATA[select id,store_id,name,image,url,create_time,modify_time from pinshe.store_push where create_time<=(select create_time from pinshe.store_push order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	</select>
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StorePushBean">
+	<![CDATA[select id,store_id,name,image,url,create_time,modify_time from pinshe.store_push where id=#id#]]>
+	</select>
+	<select id="byStoreId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StorePushBean">
+	<![CDATA[select id,store_id,name,image,url,create_time,modify_time from pinshe.store_push where store_id=#store_id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.StorePushBean">
+	<![CDATA[insert into pinshe.store_push(store_id,name,image,url,create_time,modify_time) values(#store_id#,#name#,#image#,#url#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.StorePushBean">
+	<![CDATA[update pinshe.store_push set store_id=#store_id#,name=#name#,image=#image#,url=#url#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.store_push where id=#id#]]>
+	</delete>
+</sqlMap>

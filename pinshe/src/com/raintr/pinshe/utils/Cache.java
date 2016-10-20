@@ -38,6 +38,7 @@ import com.raintr.pinshe.bean.StoreCashBean;
 import com.raintr.pinshe.bean.StoreCommentBean;
 import com.raintr.pinshe.bean.StoreImageBean;
 import com.raintr.pinshe.bean.StoreMemberBean;
+import com.raintr.pinshe.bean.StorePushBean;
 import com.raintr.pinshe.bean.SubscriptionBean;
 import com.raintr.pinshe.bean.TagBean;
 import com.raintr.pinshe.bean.GroupBean;
@@ -147,6 +148,9 @@ public class Cache {
 	
 	public static Map<String, StoreMemberBean> storeMember = new HashMap<String, StoreMemberBean>();
 	public static Map<String, List<StoreMemberBean>> storeMembers = new HashMap<String, List<StoreMemberBean>>();
+	
+	public static Map<String, StorePushBean> storePush = new HashMap<String, StorePushBean>();
+	public static Map<String, List<StorePushBean>> storePushs = new HashMap<String, List<StorePushBean>>();
 	
 	public static Map<String, SubscriptionBean> subscription = new HashMap<String, SubscriptionBean>();
 	public static Map<String, List<SubscriptionBean>> subscriptions = new HashMap<String, List<SubscriptionBean>>();

@@ -15,8 +15,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.raintr.pinshe.bean.CommodityBean;
 import com.raintr.pinshe.bean.CommodityImageBean;
+import com.raintr.pinshe.bean.RecommendBean;
 import com.raintr.pinshe.bean.StoreBean;
 import com.raintr.pinshe.bean.StoreImageBean;
+import com.raintr.pinshe.bean.StorePushBean;
 import com.raintr.pinshe.bean.UserBean;
 import com.raintr.pinshe.bean.WechatPayBean;
 import com.raintr.pinshe.utils.Cache;
@@ -31,6 +33,8 @@ public class WechatService {
 	private CommodityService commodityService;
 	@Autowired
 	private StoreService storeService;
+	@Autowired
+	private RecommendService recommendService;
 	
 	public WechatService(){}
 	
@@ -165,7 +169,7 @@ public class WechatService {
 				xml.append(String.format("</item>"));
 				
 				xml.append(String.format("<item>"));
-				xml.append(String.format("<Title><![CDATA[%s]]></Title>", "😇别忘了评价本次体验, 获得品社心意馈赠"));
+				xml.append(String.format("<Title><![CDATA[%s]]></Title>", "😇别忘了评价本次体验"));
 				xml.append(String.format("<Description><![CDATA[%s]]></Description>", ""));
 				xml.append(String.format("<PicUrl><![CDATA[%s]]></PicUrl>", ""));
 				xml.append(String.format("<Url><![CDATA[%s]]></Url>", "http://www.pinshe.org/html/v1/coffee/qrcode_cafecomment.html?id=" + store.getId()));
@@ -262,20 +266,98 @@ public class WechatService {
 				if(image == null)
 					image = new StoreImageBean();
 				
-				String url = String.format("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s", GetToken());
-				Map<String, String> headers = new HashMap<String, String>();  
-				headers.put("Content-Type", "application/json");
-				String body = String.format("{\"touser\":\"%s\",\"msgtype\":\"news\",\"news\":{\"articles\": [{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"}]}}", 
-											wechatId,
-											store.getSlogan(), 
-											"", 
-											"http://www.pinshe.org/html/v1/coffee/nearby_cafedetail.html?id=" + store.getId(),
-											image.getUrl(),
-											"😇别忘了评价本次体验, 获得品社心意馈赠", 
-											"", 
-											"http://www.pinshe.org/html/v1/coffee/qrcode_cafecomment.html?id=" + store.getId() + "&oid=" + orderId, 
-											"");
-				return NetGlobal.HttpPost(url, headers, body, "utf-8");
+				RecommendBean recommend = null;
+				CommodityBean commodity = null;
+				CommodityImageBean commodityImage = null;
+				List<RecommendBean> recommends = recommendService.ByStoreId(store.getId(), 0);
+				if(recommends != null && recommends.size() > 0){
+					recommend = recommends.get(0);
+					if(recommend != null){
+						commodity = recommend.getCommodity();
+						if(commodity != null){
+							List<CommodityImageBean> commodityImages = commodity.getImages();
+							if(commodityImages != null && commodityImages.size() > 0)
+								commodityImage = commodityImages.get(0);
+						}
+					}
+				}
+				
+				if(recommend == null)
+					recommend = new RecommendBean();
+				if(commodity == null)
+					commodity = new CommodityBean();
+				if(commodityImage == null)
+					commodityImage = new CommodityImageBean();
+				
+				StorePushBean storePush;
+				List<StorePushBean> storePushs = store.getStorePushs();
+				
+				StringBuffer json = new StringBuffer();
+
+				if(store.getId() > 0)
+					json.append(String.format("{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},", store.getSlogan(), "", "http://www.pinshe.org/html/v1/coffee/nearby_cafedetail.html?id=" + store.getId(), image.getUrl()));
+				
+				if(recommend.getId() > 0)
+					json.append(String.format("{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},", "店长暖心推荐：" + recommend.getMessage(), "", "http://www.pinshe.org/html/v1/coffee/product_detail.html?id=" + recommend.getCommodity_id(), commodityImage.getUrl()));
+				
+				if(!StringGlobal.IsNull(store.getWifi()))
+					json.append(String.format("{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},", "查看" + store.getName() + "的WIFI密码", "", "http://www.pinshe.org/html/v1/coffee/qrcode_wifi.html?id=" + store.getId(), "http://www.pinshe.org/v1/image/2016/10/19/wifi.jpg"));
+				
+				json.append(String.format("{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},", "别忘了评价本次体验, 获得品社心意馈赠", "", "http://www.pinshe.org/html/v1/coffee/qrcode_cafecomment.html?id=" + store.getId() + "&oid=" + orderId, "http://www.pinshe.org/v1/image/2016/10/19/logo.jpg"));
+
+				if(storePushs != null && storePushs.size() > 0){
+					for(int i = 0; i < storePushs.size(); i++){
+						storePush = storePushs.get(i);
+						json.append(String.format("{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},", storePush.getName(), "", storePush.getUrl(), storePush.getImage()));
+					}
+				}
+				
+
+				if(json.length() > 0){
+					json.setLength(json.length() - 1);
+					String url = String.format("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s", GetToken());
+					String body = String.format("{\"touser\":\"%s\",\"msgtype\":\"news\",\"news\":{\"articles\": [%s]}}", wechatId, json.toString());
+					Map<String, String> headers = new HashMap<String, String>();  
+					headers.put("Content-Type", "application/json");
+					return NetGlobal.HttpPost(url, headers, body, "utf-8");
+				}
+				
+//				if(recommend.getId() > 0){
+//					String url = String.format("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s", GetToken());
+//					Map<String, String> headers = new HashMap<String, String>();  
+//					headers.put("Content-Type", "application/json");
+//					String body = String.format("{\"touser\":\"%s\",\"msgtype\":\"news\",\"news\":{\"articles\": [{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"}]}}", 
+//												wechatId,
+//												store.getSlogan(), 
+//												"", 
+//												"http://www.pinshe.org/html/v1/coffee/nearby_cafedetail.html?id=" + store.getId(),
+//												image.getUrl(),
+//												"😇别忘了评价本次体验, 获得品社心意馈赠", 
+//												"", 
+//												"http://www.pinshe.org/html/v1/coffee/qrcode_cafecomment.html?id=" + store.getId() + "&oid=" + orderId, 
+//												"",
+//												"店长暖心推荐：" + recommend.getMessage(),
+//												"",
+//												"http://www.pinshe.org/html/v1/coffee/product_detail.html?id=" + recommend.getCommodity_id(),
+//												commodityImage.getUrl());
+//					return NetGlobal.HttpPost(url, headers, body, "utf-8");
+//				}else{
+//					String url = String.format("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s", GetToken());
+//					Map<String, String> headers = new HashMap<String, String>();  
+//					headers.put("Content-Type", "application/json");
+//					String body = String.format("{\"touser\":\"%s\",\"msgtype\":\"news\",\"news\":{\"articles\": [{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"}]}}", 
+//												wechatId,
+//												store.getSlogan(), 
+//												"", 
+//												"http://www.pinshe.org/html/v1/coffee/nearby_cafedetail.html?id=" + store.getId(),
+//												image.getUrl(),
+//												"😇别忘了评价本次体验, 获得品社心意馈赠", 
+//												"", 
+//												"http://www.pinshe.org/html/v1/coffee/qrcode_cafecomment.html?id=" + store.getId() + "&oid=" + orderId, 
+//												"");
+//					return NetGlobal.HttpPost(url, headers, body, "utf-8");
+//				}
+				
 			}
 		}
 		
@@ -311,7 +393,7 @@ public class WechatService {
 		pay.setAppid(appid);
 		pay.setMch_id("1366650902");
 		pay.setNonce_str(String.valueOf(new java.util.Random().nextInt(100000000)));
-		pay.setBody("品社-咖啡");
+		pay.setBody("品社");
 		pay.setOut_trade_no(orderNo);
 		pay.setTotal_fee(amount);
 		pay.setSpbill_create_ip("127.0.0.1");

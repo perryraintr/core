@@ -1,5 +1,7 @@
 package com.raintr.pinshe.dao;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
@@ -55,6 +57,27 @@ public class StoreCashDao extends SqlMapClientDaoSupport {
 		return storeCashs;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<StoreCashBean> ByStoreIdCreateTime(int storeId, Date date){
+		String key = "storeCash.byStoreIdCreateTime" + storeId + date;
+		if(Cache.storeCashs.containsKey(key))
+	    	return Cache.storeCashs.get(key);
+		
+		StoreCashBean storeCash = new StoreCashBean();
+		storeCash.setStore_id(storeId);
+		storeCash.setCreate_time(date);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date); 
+		calendar.add(Calendar.DATE, 1);
+		storeCash.setModify_time(calendar.getTime());
+		
+		List<StoreCashBean> storeCashs = (List<StoreCashBean>)getSqlMapClientTemplate().queryForList("storeCash.byStoreIdCreateTime", storeCash);
+		Cache.storeCashs.put(key, storeCashs);
+		return storeCashs;
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public List<StoreCashBean> ByType(int type, int page){
 		String key = "storeCash.byType" + type + page;

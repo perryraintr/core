@@ -16,6 +16,9 @@
 	<select id="byStoreId" parameterClass="com.raintr.pinshe.bean.StoreCashBean" resultClass="com.raintr.pinshe.bean.StoreCashBean">
 	<![CDATA[select id,store_id,member_id,merchant_id,order_id,amount,total,type,status,create_time,modify_time from pinshe.store_cash where store_id=#store_id# and create_time<=(select create_time from pinshe.store_cash where store_id=#store_id# order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
 	</select>
+	<select id="byStoreIdCreateTime" parameterClass="com.raintr.pinshe.bean.StoreCashBean" resultClass="com.raintr.pinshe.bean.StoreCashBean">
+	<![CDATA[select id,store_id,member_id,merchant_id,order_id,amount,total,type,status,create_time,modify_time from pinshe.store_cash where store_id=#store_id# and create_time>=#create_time# and create_time<#modify_time# order by create_time desc]]>
+	</select>
 	<select id="byType" parameterClass="com.raintr.pinshe.bean.StoreCashBean" resultClass="com.raintr.pinshe.bean.StoreCashBean">
 	<![CDATA[select id,store_id,member_id,merchant_id,order_id,amount,total,type,status,create_time,modify_time from pinshe.store_cash where type=#type# and create_time<=(select create_time from pinshe.store_cash where type=#type# order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
 	</select>
