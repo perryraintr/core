@@ -38,6 +38,7 @@ public class Merchant_ModifyAction extends BaseAction {
 		String wechatId = request.getParameter("wcid");
 		String name = request.getParameter("name");
 		String phone = request.getParameter("phone");
+		String device = request.getParameter("device");
 		String getuiId = request.getParameter("getui");
 		String avatar = request.getParameter("avatar");
 		String current = request.getParameter("current");
@@ -65,6 +66,8 @@ public class Merchant_ModifyAction extends BaseAction {
 				merchant.setPassword(Md5Utils.Md5(password));
 			if(!StringGlobal.IsNull(phone))
 				merchant.setPhone(phone);
+			if(!StringGlobal.IsNull(device))
+				merchant.setDevice(Integer.parseInt(device));
 			if(!StringGlobal.IsNull(getuiId))
 				merchant.setGetui_id(getuiId);
 			if(!StringGlobal.IsNull(avatar))

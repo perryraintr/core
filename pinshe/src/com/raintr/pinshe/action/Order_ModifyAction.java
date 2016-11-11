@@ -48,6 +48,7 @@ public class Order_ModifyAction extends BaseAction {
 		String count = request.getParameter("count");
 		String current = request.getParameter("current");
 		String amount = request.getParameter("amount");
+		String sort = request.getParameter("sort");
 		String type = request.getParameter("type");
 		String status = request.getParameter("status");
 		String grind = request.getParameter("grind");
@@ -72,6 +73,8 @@ public class Order_ModifyAction extends BaseAction {
 				order.setCurrent(Double.parseDouble(current));
 			if(!StringGlobal.IsNull(amount))
 				order.setAmount(Double.parseDouble(amount));
+			if(!StringGlobal.IsNull(sort))
+				order.setSort(Integer.parseInt(sort));
 			if(!StringGlobal.IsNull(type))
 				order.setType(Integer.parseInt(type));
 			if(!StringGlobal.IsNull(status))

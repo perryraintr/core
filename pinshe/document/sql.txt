@@ -1,0 +1,12 @@
+DELETE FROM pinshe.`activity`;
+DELETE FROM  `pinshe`.`activity_detail`;
+DELETE FROM  `pinshe`.`order_detail` WHERE `order_id` in (SELECT id FROM `pinshe`.`order` WHERE `member_id` IN (604,601));
+DELETE FROM  `pinshe`.`order` WHERE `member_id` IN (604,601);
+DELETE FROM `pinshe`.`store_comment` WHERE `member_id` in (604,601) and id != 40 and id!= 42;
+DELETE FROM `pinshe`.`member` WHERE `id` IN (604,601);
+UPDATE  `pinshe`.`store` set `member_id` =0 WHERE `member_id` IN (604,601);
+DELETE FROM  `pinshe`.`order_detail`  WHERE `store_id` in (SELECT `id` from `pinshe`.`store` WHERE member_id=0) and `order_id` !=261;
+DELETE FROM  `pinshe`.`order` WHERE `id` in (SELECT order_id FROM `pinshe`.`order_detail`  WHERE `store_id` in (SELECT `id` from `pinshe`.`store` WHERE member_id=0) and `order_id` !=261);
+DELETE FROM `pinshe`.`order` WHERE `member_id` not in (SELECT `id` from `pinshe`.`member`);
+DELETE FROM  `pinshe`.`order_detail` WHERE `order_id` in (SELECT id FROM `pinshe`.`order` WHERE `member_id` not in (SELECT `id` from `pinshe`.`member`));
+DELETE FROM `pinshe`.`store_comment` WHERE `message` ='赞';

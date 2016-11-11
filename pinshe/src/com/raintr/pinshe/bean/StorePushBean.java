@@ -21,7 +21,7 @@ public class StorePushBean {
 	}
 
 	public String ToId(String table){return String.format("\"%sguid\":%d", 						table, id);}
-	public String ToName(String table){return String.format("\"%sname\":%d", 					table, name);}
+	public String ToName(String table){return String.format("\"%sname\":\"%s\"", 				table, name);}
 	public String ToImage(String table){return String.format("\"%simage\":\"%s\"", 				table, image);}
 	public String ToUrl(String table){return String.format("\"%surl\":\"%s\"", 					table, url);}
 	public String ToCreate_time(String table){return String.format("\"%screate_time\":\"%s\"", 	table, create_time);}

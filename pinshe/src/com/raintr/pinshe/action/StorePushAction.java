@@ -39,12 +39,12 @@ public class StorePushAction extends BaseAction {
 					storePush = storePushs.get(i);
 					
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s", 	storePush.ToId(""),
-																		storePush.ToName(""),
-																		storePush.ToImage(""),
-																		storePush.ToUrl(""),
-																		storePush.ToCreate_time(""),
-																		storePush.ToModify_time("")));
+					json.append(String.format("%s,%s,%s,%s,%s,%s", 	storePush.ToId(""),
+																	storePush.ToName(""),
+																	storePush.ToImage(""),
+																	storePush.ToUrl(""),
+																	storePush.ToCreate_time(""),
+																	storePush.ToModify_time("")));
 			
 					json.append("},");
 				}

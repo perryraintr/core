@@ -36,8 +36,13 @@
 	<sqlMap resource="ibatis/store.xml"/>
 	<sqlMap resource="ibatis/storeCash.xml"/>
 	<sqlMap resource="ibatis/storeComment.xml"/>
+	<sqlMap resource="ibatis/storeFeature1.xml"/>
+	<sqlMap resource="ibatis/storeFeature1Image.xml"/>
+	<sqlMap resource="ibatis/storeFeature2.xml"/>
+	<sqlMap resource="ibatis/storeFeature2Image.xml"/>
 	<sqlMap resource="ibatis/storeImage.xml"/>
 	<sqlMap resource="ibatis/storeMember.xml"/>
+	<sqlMap resource="ibatis/storePayment.xml"/>
 	<sqlMap resource="ibatis/storePush.xml"/>
 	<sqlMap resource="ibatis/subscription.xml"/>
 	<sqlMap resource="ibatis/tag.xml"/>

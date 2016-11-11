@@ -13,6 +13,7 @@ public class OrderBean {
 	private int count;
 	private double current;
 	private double amount;
+	private int sort; // order type 0 cafe
 	private int type; // 1 member pay 2 wechat pay
 	private int status;// 0 not pay 1 paid 2 send 3 finish 4 user cancel
 	private int grind;
@@ -39,6 +40,7 @@ public class OrderBean {
 	public String ToCount(String table){return String.format("\"%scount\":%d", 								table, count);}
 	public String ToCurrent(String table){return String.format("\"%scurrent\":%.2f", 						table, current);}
 	public String ToAmount(String table){return String.format("\"%samount\":%.2f", 							table, amount);}
+	public String ToSort(String table){return String.format("\"%ssort\":%d", 								table, sort);}
 	public String ToType(String table){return String.format("\"%stype\":%d", 								table, type);}
 	public String ToStatus(String table){return String.format("\"%sstatus\":%d", 							table, status);}
 	public String ToGrind(String table){return String.format("\"%sgrind\":%d", 								table, grind);}
@@ -114,6 +116,14 @@ public class OrderBean {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public int getSort() {
+		return sort;
+	}
+
+	public void setSort(int sort) {
+		this.sort = sort;
 	}
 
 	public int getType() {

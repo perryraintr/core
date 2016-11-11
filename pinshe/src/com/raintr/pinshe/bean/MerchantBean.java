@@ -8,6 +8,7 @@ public class MerchantBean {
 	private String name;
 	private String password;
 	private String phone;
+	private int device; // 0 ios 1 android 2 html5
 	private String getui_id;
 	private String avatar;
 	private double current;
@@ -30,6 +31,7 @@ public class MerchantBean {
 	public String ToWechat_id(String table){return String.format("\"%swechat_id\":\"%s\"", 		table, wechat_id);}
 	public String ToName(String table){return String.format("\"%sname\":\"%s\"", 				table, name);}
 	public String ToPhone(String table){return String.format("\"%sphone\":\"%s\"", 				table, phone);}
+	public String ToDevice(String table){return String.format("\"%sdevice\":%d", 				table, device);}
 	public String ToGetui_id(String table){return String.format("\"%sgetui_id\":\"%s\"", 		table, getui_id);}
 	public String ToAvatar(String table){return String.format("\"%savatar\":\"%s\"", 			table, avatar);}
 	public String ToCurrent(String table){return String.format("\"%scurrent\":%.2f", 			table, current);}
@@ -37,7 +39,6 @@ public class MerchantBean {
 	public String ToCreate_time(String table){return String.format("\"%screate_time\":\"%s\"", 	table, create_time);}
 	public String ToModify_time(String table){return String.format("\"%smodify_time\":\"%s\"", 	table, modify_time);}
 
-	
 	
 	public int getId() {
 		return id;
@@ -77,6 +78,14 @@ public class MerchantBean {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public int getDevice() {
+		return device;
+	}
+
+	public void setDevice(int device) {
+		this.device = device;
 	}
 
 	public String getGetui_id() {

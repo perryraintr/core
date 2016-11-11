@@ -46,21 +46,25 @@ public class StorePush_AddAction extends BaseAction {
 		StorePushBean storePush = new StorePushBean();
 		if(!StringGlobal.IsNull(storeId))
 			storePush.setStore_id(Integer.parseInt(storeId));
-		if(!StringGlobal.IsNull(name))
+		if(!StringGlobal.IsNull(name)){
+			name = StringGlobal.SerializeJson(name);
 			storePush.setName(name);
-		if(!StringGlobal.IsNull(url))
+		}
+		if(!StringGlobal.IsNull(url)){
+			url = StringGlobal.SerializeJson(url);
 			storePush.setUrl(url);
+		}
 		storePush.setCreate_time(new Date());
 		storePush.setModify_time(new Date());
 		storePush.setId(storePushService.Add(storePush, image));
 		
 		StringBuffer json = new StringBuffer();
-		json.append(String.format("%s,%s,%s,%s,%s,%s,%s", 	storePush.ToId(""),
-															storePush.ToName(""),
-															storePush.ToImage(""),
-															storePush.ToUrl(""),
-															storePush.ToCreate_time(""),
-															storePush.ToModify_time("")));
+		json.append(String.format("%s,%s,%s,%s,%s,%s", 	storePush.ToId(""),
+														storePush.ToName(""),
+														storePush.ToImage(""),
+														storePush.ToUrl(""),
+														storePush.ToCreate_time(""),
+														storePush.ToModify_time("")));
 
 		response.getWriter().print(String.format("{\"head\":1,\"body\":{%s}}", json.toString()));
 		return null;

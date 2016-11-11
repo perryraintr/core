@@ -65,10 +65,11 @@ public class OrderAction extends BaseAction {
 			order = orderService.ByOrderNo(orderNo);
 			if(order != null){
 				StringBuffer json = new StringBuffer();
-				json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s", 	order.ToId(""),
+				json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", order.ToId(""),
 																		order.ToOrder_no(""),
 																		order.ToCurrent(""),
 																		order.ToAmount(""),
+																		order.ToSort(""),
 																		order.ToType(""),
 																		order.ToStatus(""),
 																		order.ToCreate_time(""),
@@ -122,10 +123,11 @@ public class OrderAction extends BaseAction {
 					orderDetails = order.getOrderDetails();
 
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", 	order.ToId(""),
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", order.ToId(""),
 																							order.ToOrder_no(""),
 																							order.ToCurrent(""),
 																							order.ToAmount(""),
+																							order.ToSort(""),
 																							order.ToType(""),
 																							order.ToStatus(""),
 																							order.ToCreate_time(""),
@@ -302,24 +304,25 @@ public class OrderAction extends BaseAction {
 					orderDetails = order.getOrderDetails();
 
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", order.ToId(""),
-																										order.ToOrder_no(""),
-																										order.ToCount(""),
-																										order.ToCurrent(""),
-																										order.ToAmount(""),
-																										order.ToType(""),
-																										order.ToStatus(""),
-																										order.ToGrind(""),
-																										order.ToCost(""),
-																										order.ToMemo(""),
-																										order.ToCreate_time(""),
-																										order.ToModify_time(""),
-																										consignee.ToName("consignee_"),
-																										consignee.ToPhone("consignee_"),
-																										consignee.ToAddress("consignee_"),
-																										member.ToId("member_"),
-																										member.ToName("member_"),
-																										member.ToWechat_id("member_")));
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", 	order.ToId(""),
+																											order.ToOrder_no(""),
+																											order.ToCount(""),
+																											order.ToCurrent(""),
+																											order.ToAmount(""),
+																											order.ToSort(""),
+																											order.ToType(""),
+																											order.ToStatus(""),
+																											order.ToGrind(""),
+																											order.ToCost(""),
+																											order.ToMemo(""),
+																											order.ToCreate_time(""),
+																											order.ToModify_time(""),
+																											consignee.ToName("consignee_"),
+																											consignee.ToPhone("consignee_"),
+																											consignee.ToAddress("consignee_"),
+																											member.ToId("member_"),
+																											member.ToName("member_"),
+																											member.ToWechat_id("member_")));
 
 					json.append("\"details\":[");
 					if(orderDetails != null && orderDetails.size() > 0){
@@ -430,24 +433,25 @@ public class OrderAction extends BaseAction {
 					orderDetails = order.getOrderDetails();
 
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", order.ToId(""),
-																										order.ToOrder_no(""),
-																										order.ToCount(""),
-																										order.ToCurrent(""),
-																										order.ToAmount(""),
-																										order.ToType(""),
-																										order.ToStatus(""),
-																										order.ToGrind(""),
-																										order.ToCost(""),
-																										order.ToMemo(""),
-																										order.ToCreate_time(""),
-																										order.ToModify_time(""),
-																										consignee.ToName("consignee_"),
-																										consignee.ToPhone("consignee_"),
-																										consignee.ToAddress("consignee_"),
-																										member.ToId("member_"),
-																										member.ToName("member_"),
-																										member.ToWechat_id("member_")));
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", 	order.ToId(""),
+																											order.ToOrder_no(""),
+																											order.ToCount(""),
+																											order.ToCurrent(""),
+																											order.ToAmount(""),
+																											order.ToSort(""),
+																											order.ToType(""),
+																											order.ToStatus(""),
+																											order.ToGrind(""),
+																											order.ToCost(""),
+																											order.ToMemo(""),
+																											order.ToCreate_time(""),
+																											order.ToModify_time(""),
+																											consignee.ToName("consignee_"),
+																											consignee.ToPhone("consignee_"),
+																											consignee.ToAddress("consignee_"),
+																											member.ToId("member_"),
+																											member.ToName("member_"),
+																											member.ToWechat_id("member_")));
 
 					json.append("\"details\":[");
 					if(orderDetails != null && orderDetails.size() > 0){
@@ -560,24 +564,25 @@ public class OrderAction extends BaseAction {
 					orderDetails = order.getOrderDetails();
 
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", order.ToId(""),
-																										order.ToOrder_no(""),
-																										order.ToCount(""),
-																										order.ToCurrent(""),
-																										order.ToAmount(""),
-																										order.ToType(""),
-																										order.ToStatus(""),
-																										order.ToGrind(""),
-																										order.ToCost(""),
-																										order.ToMemo(""),
-																										order.ToCreate_time(""),
-																										order.ToModify_time(""),
-																										consignee.ToName("consignee_"),
-																										consignee.ToPhone("consignee_"),
-																										consignee.ToAddress("consignee_"),
-																										member.ToId("member_"),
-																										member.ToName("member_"),
-																										member.ToWechat_id("member_")));
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", 	order.ToId(""),
+																											order.ToOrder_no(""),
+																											order.ToCount(""),
+																											order.ToCurrent(""),
+																											order.ToAmount(""),
+																											order.ToSort(""),
+																											order.ToType(""),
+																											order.ToStatus(""),
+																											order.ToGrind(""),
+																											order.ToCost(""),
+																											order.ToMemo(""),
+																											order.ToCreate_time(""),
+																											order.ToModify_time(""),
+																											consignee.ToName("consignee_"),
+																											consignee.ToPhone("consignee_"),
+																											consignee.ToAddress("consignee_"),
+																											member.ToId("member_"),
+																											member.ToName("member_"),
+																											member.ToWechat_id("member_")));
 					
 					
 					json.append("\"details\":[");
@@ -611,7 +616,11 @@ public class OrderAction extends BaseAction {
 																					commodity.ToDescription("commodity_"),
 																					store.ToId("store_"),
 																					store.ToName("store_")));
-						json.append(String.format("\"store_image\":\"%s\"", storeImages.get(0).getUrl()));
+						
+						if(storeImages != null && storeImages.size() > 0)
+							json.append(String.format("\"store_image\":\"%s\"", storeImages.get(0).getUrl()));
+						else
+							json.append(String.format("\"store_image\":\"%s\"", ""));
 						
 						json.append("}");
 						
@@ -690,11 +699,12 @@ public class OrderAction extends BaseAction {
 					orderDetails = order.getOrderDetails();
 					
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", 	order.ToId(""),
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", 	order.ToId(""),
 																											order.ToOrder_no(""),
 																											order.ToCount(""),
 																											order.ToCurrent(""),
 																											order.ToAmount(""),
+																											order.ToSort(""),
 																											order.ToType(""),
 																											order.ToStatus(""),
 																											order.ToGrind(""),
@@ -805,11 +815,12 @@ public class OrderAction extends BaseAction {
 					orderDetails = order.getOrderDetails();
 					
 					json.append("{");
-					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", 	order.ToId(""),
+					json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", 	order.ToId(""),
 																											order.ToOrder_no(""),
 																											order.ToCount(""),
 																											order.ToCurrent(""),
 																											order.ToAmount(""),
+																											order.ToSort(""),
 																											order.ToType(""),
 																											order.ToStatus(""),
 																											order.ToGrind(""),
@@ -921,22 +932,23 @@ public class OrderAction extends BaseAction {
 			orderDetails = order.getOrderDetails();
 			
 			StringBuffer json = new StringBuffer();
-			json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", 	order.ToId(""),
-																							order.ToOrder_no(""),
-																							order.ToCurrent(""),
-																							order.ToAmount(""),
-																							order.ToType(""),
-																							order.ToStatus(""),
-																							order.ToCreate_time(""),
-																							order.ToModify_time(""),
-																							coupon.ToId("coupon_"),
-																							coupon.ToAmount("coupon_"),
-																							consignee.ToName("consignee_"),
-																							consignee.ToPhone("consignee_"),
-																							consignee.ToAddress("consignee_"),
-																							member.ToId("member_"),
-																							member.ToName("member_"),
-																							member.ToWechat_id("member_")));
+			json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,", 	order.ToId(""),
+																								order.ToOrder_no(""),
+																								order.ToCurrent(""),
+																								order.ToAmount(""),
+																								order.ToSort(""),
+																								order.ToType(""),
+																								order.ToStatus(""),
+																								order.ToCreate_time(""),
+																								order.ToModify_time(""),
+																								coupon.ToId("coupon_"),
+																								coupon.ToAmount("coupon_"),
+																								consignee.ToName("consignee_"),
+																								consignee.ToPhone("consignee_"),
+																								consignee.ToAddress("consignee_"),
+																								member.ToId("member_"),
+																								member.ToName("member_"),
+																								member.ToWechat_id("member_")));
 			
 			json.append("\"details\":[");
 			if(orderDetails != null && orderDetails.size() > 0){

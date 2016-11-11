@@ -5,38 +5,38 @@
     
 <sqlMap namespace="order">
 	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.OrderBean">
-	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where create_time<=(select create_time from pinshe.order order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,sort,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where create_time<=(select create_time from pinshe.order order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
 	</select>
 	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.OrderBean">
-	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where id=#id#]]>
+	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,sort,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where id=#id#]]>
 	</select>
 	<select id="byMemberId" parameterClass="com.raintr.pinshe.bean.OrderBean" resultClass="com.raintr.pinshe.bean.OrderBean">
-	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where member_id=#member_id# and create_time<=(select create_time from pinshe.order where member_id=#member_id# order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,sort,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where member_id=#member_id# and create_time<=(select create_time from pinshe.order where member_id=#member_id# order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
 	</select>
 	<select id="byOrderNo" parameterClass="String" resultClass="com.raintr.pinshe.bean.OrderBean">
-	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where order_no=#order_no#]]>
+	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,sort,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where order_no=#order_no#]]>
 	</select>
 	<select id="byStoreId" parameterClass="com.raintr.pinshe.bean.OrderDetailBean" resultClass="com.raintr.pinshe.bean.OrderBean">
-	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where id in (select order_id from pinshe.order_detail where store_id=#store_id#) and create_time<=(select create_time from pinshe.order where id in (select order_id from pinshe.order_detail where store_id=#store_id#) order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,sort,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where id in (select order_id from pinshe.order_detail where store_id=#store_id#) and create_time<=(select create_time from pinshe.order where id in (select order_id from pinshe.order_detail where store_id=#store_id#) order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
 	</select>
 	<select id="byCommodity" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.OrderBean">
-	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where id in (select order_id from pinshe.order_detail where commodity_id>0 and commodity_id not in (111,112,113,114,115,116,126)) and create_time<=(select create_time from pinshe.order where id in (select order_id from pinshe.order_detail where commodity_id>0 and commodity_id not in (111,112,113,114,115,116,126)) order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,sort,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where id in (select order_id from pinshe.order_detail where commodity_id>0 and commodity_id not in (111,112,113,114,115,116,126)) and create_time<=(select create_time from pinshe.order where id in (select order_id from pinshe.order_detail where commodity_id>0 and commodity_id not in (111,112,113,114,115,116,126)) order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
 	</select>
 	<select id="byVip" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.OrderBean">
-	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where id in (select order_id from pinshe.order_detail where commodity_id in (111,112,113,114,115,116,126)) and create_time<=(select create_time from pinshe.order where id in (select order_id from pinshe.order_detail where commodity_id in (111,112,113,114,115,116,126)) order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,sort,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where id in (select order_id from pinshe.order_detail where commodity_id in (111,112,113,114,115,116,126)) and create_time<=(select create_time from pinshe.order where id in (select order_id from pinshe.order_detail where commodity_id in (111,112,113,114,115,116,126)) order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
 	</select>
 	<select id="byStore" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.OrderBean">
-	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where id in (select order_id from pinshe.order_detail where store_id>0) and create_time<=(select create_time from pinshe.order where id in (select order_id from pinshe.order_detail where store_id>0) order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
+	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,sort,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where id in (select order_id from pinshe.order_detail where store_id>0) and create_time<=(select create_time from pinshe.order where id in (select order_id from pinshe.order_detail where store_id>0) order by create_time desc limit #id#,1) order by create_time desc limit 100]]>
 	</select>
 	<select id="byStatus" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.OrderBean">
-	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where status=#status# and id in (select order_id from pinshe.order_detail where commodity_id>0) order by create_time desc]]>
+	<![CDATA[select id,member_id,consignee_id,coupon_id,order_no,count,current,amount,sort,type,status,grind,cost,memo,create_time,modify_time from pinshe.order where status=#status# and id in (select order_id from pinshe.order_detail where commodity_id>0) order by create_time desc]]>
 	</select>
 	<insert id="add" parameterClass="com.raintr.pinshe.bean.OrderBean">
-	<![CDATA[insert into pinshe.order(member_id,consignee_id,coupon_id,order_no,count,current,amount,type,status,grind,cost,memo,create_time,modify_time) values(#member_id#,#consignee_id#,#coupon_id#,#order_no#,#count#,#current#,#amount#,#type#,#status#,#grind#,#cost#,#memo#,#create_time#,#modify_time#)]]>
+	<![CDATA[insert into pinshe.order(member_id,consignee_id,coupon_id,order_no,count,current,amount,sort,type,status,grind,cost,memo,create_time,modify_time) values(#member_id#,#consignee_id#,#coupon_id#,#order_no#,#count#,#current#,#amount#,#sort#,#type#,#status#,#grind#,#cost#,#memo#,#create_time#,#modify_time#)]]>
 	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
 	</insert>
 	<update id="modify" parameterClass="com.raintr.pinshe.bean.OrderBean">
-	<![CDATA[update pinshe.order set member_id=#member_id#,consignee_id=#consignee_id#,coupon_id=#coupon_id#,order_no=#order_no#,count=#count#,current=#current#,amount=#amount#,type=#type#,status=#status#,grind=#grind#,cost=#cost#,memo=#memo#,modify_time=#modify_time# where id=#id#]]>
+	<![CDATA[update pinshe.order set member_id=#member_id#,consignee_id=#consignee_id#,coupon_id=#coupon_id#,order_no=#order_no#,count=#count#,current=#current#,amount=#amount#,sort=#sort#,type=#type#,status=#status#,grind=#grind#,cost=#cost#,memo=#memo#,modify_time=#modify_time# where id=#id#]]>
 	</update>
 	<delete id="remove" parameterClass="Integer">
 	<![CDATA[delete from pinshe.order where id=#id#]]>

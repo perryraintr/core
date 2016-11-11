@@ -14,6 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.raintr.pinshe.bean.StoreBean;
+import com.raintr.pinshe.bean.StoreFeature1Bean;
+import com.raintr.pinshe.bean.StoreFeature2Bean;
+import com.raintr.pinshe.service.StoreFeature1Service;
+import com.raintr.pinshe.service.StoreFeature2Service;
 import com.raintr.pinshe.service.StoreService;
 import com.raintr.pinshe.utils.StringGlobal;
 
@@ -22,6 +26,10 @@ import com.raintr.pinshe.utils.StringGlobal;
 public class Store_AddAction extends BaseAction {
 	@Autowired
 	private StoreService storeService;
+	@Autowired
+	private StoreFeature1Service storeFeature1Service;
+	@Autowired
+	private StoreFeature2Service storeFeature2Service;
 	
 	@RequestMapping(value = "/store_add")
     public String Init(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception{
@@ -54,6 +62,12 @@ public class Store_AddAction extends BaseAction {
 		String is_delete = request.getParameter("is_delete");
 		String invaild = request.getParameter("invaild");
 		String description = request.getParameter("description");
+		
+		String feature1s = request.getParameter("feature1s");
+		String feature2s = request.getParameter("feature2s");
+		
+		StoreFeature1Bean storeFeature1;
+		StoreFeature2Bean storeFeature2;
 		
 		if(StringGlobal.IsNull(longitude)){
 			response.getWriter().print(String.format("{\"head\":0,\"body\":{\"error\":\"%s\"}}", "longitude is null"));
@@ -146,6 +160,34 @@ public class Store_AddAction extends BaseAction {
 		store.setCreate_time(new Date());
 		store.setModify_time(new Date());
 		store.setId(storeService.Add(store, avatar, files));
+		
+		if(!StringGlobal.IsNull(feature1s)){
+			String[] ids = feature1s.split(",");
+			if(ids != null && ids.length > 0){
+				for(int i = 0; i < ids.length; i++){
+					storeFeature1 = new StoreFeature1Bean();
+					storeFeature1.setStore_id(store.getId());
+					storeFeature1.setStore_feature1_image_id(Integer.parseInt(ids[i]));
+					storeFeature1.setCreate_time(new Date());
+					storeFeature1.setModify_time(new Date());
+					storeFeature1.setId(storeFeature1Service.Add(storeFeature1));
+				}
+			}
+		}
+		
+		if(!StringGlobal.IsNull(feature2s)){
+			String[] ids = feature2s.split(",");
+			if(ids != null && ids.length > 0){			
+				for(int i = 0; i < ids.length; i++){
+					storeFeature2 = new StoreFeature2Bean();
+					storeFeature2.setStore_id(store.getId());
+					storeFeature2.setStore_feature2_image_id(Integer.parseInt(ids[i]));
+					storeFeature2.setCreate_time(new Date());
+					storeFeature2.setModify_time(new Date());
+					storeFeature2.setId(storeFeature2Service.Add(storeFeature2));
+				}
+			}
+		}
 		
 		StringBuffer json = new StringBuffer();
 		json.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", store.ToId(""),

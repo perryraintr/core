@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="storeFeature1Image">
+	<select id="by" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreFeature1ImageBean">
+	<![CDATA[select id,name,url,create_time,modify_time from pinshe.store_feature1_image where create_time>=(select create_time from pinshe.store_feature1_image order by create_time limit #id#,1) order by create_time limit 100]]>
+	</select>
+	<select id="byId" parameterClass="Integer" resultClass="com.raintr.pinshe.bean.StoreFeature1ImageBean">
+	<![CDATA[select id,name,url,create_time,modify_time from pinshe.store_feature1_image where id=#id#]]>
+	</select>
+	<insert id="add" parameterClass="com.raintr.pinshe.bean.StoreFeature1ImageBean">
+	<![CDATA[insert into pinshe.store_feature1_image(name,url,create_time,modify_time) values(#name#,#url#,#create_time#,#modify_time#)]]>
+	<selectKey resultClass="Integer" keyProperty="id" >select @@identity id</selectKey>
+	</insert>
+	<update id="modify" parameterClass="com.raintr.pinshe.bean.StoreFeature1ImageBean">
+	<![CDATA[update pinshe.store_feature1_image set name=#name#,url=#url#,modify_time=#modify_time# where id=#id#]]>
+	</update>
+	<delete id="remove" parameterClass="Integer">
+	<![CDATA[delete from pinshe.store_feature1_image where id=#id#]]>
+	</delete>
+</sqlMap>

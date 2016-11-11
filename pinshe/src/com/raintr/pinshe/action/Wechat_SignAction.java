@@ -1,6 +1,5 @@
 package com.raintr.pinshe.action;
 
-import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.Map;
 import java.util.HashMap;
@@ -49,9 +48,9 @@ public class Wechat_SignAction extends BaseAction {
 		String jsapi_ticket = wechatService.GetJsapiTicket();
 
         Map<String, String> ret = sign(jsapi_ticket, callBack);
-        for (Entry<String, String> entry : ret.entrySet()){
-            System.out.println(entry.getKey() + ", " + entry.getValue());
-        }
+//        for (Entry<String, String> entry : ret.entrySet()){
+//            System.out.println(entry.getKey() + ", " + entry.getValue());
+//        }
         
         response.getWriter().print(String.format("{\"appId\":\"%s\",\"timestamp\":\"%s\",\"nonceStr\":\"%s\",\"signature\":\"%s\"}", wechatService.getAppid(), ret.get("timestamp"), ret.get("nonceStr"), ret.get("signature")));
         
@@ -71,7 +70,7 @@ public class Wechat_SignAction extends BaseAction {
                   "&noncestr=" + nonce_str +
                   "&timestamp=" + timestamp +
                   "&url=" + url;
-        System.out.println(string1);
+        //System.out.println(string1);
 
         try
         {

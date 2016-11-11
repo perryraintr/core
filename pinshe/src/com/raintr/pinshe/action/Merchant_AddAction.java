@@ -31,6 +31,7 @@ public class Merchant_AddAction extends BaseAction {
 		String wechatId = request.getParameter("wcid");
 		String name = request.getParameter("name");
 		String phone = request.getParameter("phone");
+		String device = request.getParameter("device");
 		String getuiId = request.getParameter("getui");
 		String avatar = request.getParameter("avatar");
 		String current = request.getParameter("current");
@@ -73,6 +74,8 @@ public class Merchant_AddAction extends BaseAction {
 				merchant.setPassword(Md5Utils.Md5(password));
 			if(!StringGlobal.IsNull(phone))
 				merchant.setPhone(phone);
+			if(!StringGlobal.IsNull(device))
+				merchant.setDevice(Integer.parseInt(device));
 			if(!StringGlobal.IsNull(getuiId))
 				merchant.setGetui_id(getuiId);
 			if(!StringGlobal.IsNull(avatar))
@@ -93,6 +96,8 @@ public class Merchant_AddAction extends BaseAction {
 				merchant.setPassword(Md5Utils.Md5(password));
 			if(!StringGlobal.IsNull(phone))
 				merchant.setPhone(phone);
+			if(!StringGlobal.IsNull(device))
+				merchant.setDevice(Integer.parseInt(device));
 			if(!StringGlobal.IsNull(avatar))
 				merchant.setAvatar(avatar);
 			if(!StringGlobal.IsNull(current))
@@ -103,15 +108,16 @@ public class Merchant_AddAction extends BaseAction {
 			merchantService.Modify(merchant);
 		}
 		
-		response.getWriter().print(String.format("{\"head\":1,\"body\":{%s,%s,%s,%s,%s,%s,%s,%s,%s}}", 	merchant.ToId(""),
-																										merchant.ToWechat_id(""),
-																										merchant.ToName(""),
-																										merchant.ToPhone(""),
-																										merchant.ToAvatar(""),
-																										merchant.ToCurrent(""),
-																										merchant.ToAmount(""),
-																										merchant.ToCreate_time(""),
-																										merchant.ToModify_time("")));
+		response.getWriter().print(String.format("{\"head\":1,\"body\":{%s,%s,%s,%s,%s,%s,%s,%s,%s,%s}}", 	merchant.ToId(""),
+																											merchant.ToWechat_id(""),
+																											merchant.ToName(""),
+																											merchant.ToPhone(""),
+																											merchant.ToDevice(""),
+																											merchant.ToAvatar(""),
+																											merchant.ToCurrent(""),
+																											merchant.ToAmount(""),
+																											merchant.ToCreate_time(""),
+																											merchant.ToModify_time("")));
 		return null;
 	}
 }

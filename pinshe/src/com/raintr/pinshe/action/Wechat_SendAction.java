@@ -32,6 +32,12 @@ public class Wechat_SendAction extends BaseAction {
 		String content = request.getParameter("content");
 		String storeId = request.getParameter("sid");
 		String orderId = request.getParameter("oid");
+		String amount = request.getParameter("amount");
+		String url = request.getParameter("url");
+		String name = request.getParameter("name");
+		String time = request.getParameter("time");
+		String way = request.getParameter("way");
+		
 		
 		if(!StringGlobal.IsNull(wechatId) && !StringGlobal.IsNull(message)){
 			response.getWriter().print(String.format("%s", wechatService.Send(wechatId, message)));
@@ -47,6 +53,38 @@ public class Wechat_SendAction extends BaseAction {
 			response.getWriter().print(String.format("{\"head\":1,\"body\":%s}", wechatService.SendTemplate(wechatId, express, title, deliver, order, content)));
 			return null;
 		}
+		
+		if(!StringGlobal.IsNull(wechatId) && !StringGlobal.IsNull(amount) && !StringGlobal.IsNull(order)){
+			if(StringGlobal.IsNull(content))
+				content = "";
+			if(StringGlobal.IsNull(title))
+				title = "";
+			if(StringGlobal.IsNull(url))
+				url = "";
+			
+			response.getWriter().print(String.format("{\"head\":1,\"body\":%s}", wechatService.SendTemplatePaid(wechatId, url, title, amount, order, content)));
+			return null;
+		}
+		
+		if(!StringGlobal.IsNull(wechatId) && !StringGlobal.IsNull(amount) && !StringGlobal.IsNull(name) && !StringGlobal.IsNull(way) && !StringGlobal.IsNull(time)){
+			if(StringGlobal.IsNull(title))
+				title = "";
+			if(StringGlobal.IsNull(url))
+				url = "";
+			if(StringGlobal.IsNull(name))
+				name = "";
+			if(StringGlobal.IsNull(time))
+				time = "";
+			if(StringGlobal.IsNull(amount))
+				amount = "";
+			if(StringGlobal.IsNull(way))
+				way = "";
+			
+			response.getWriter().print(String.format("{\"head\":1,\"body\":%s}", wechatService.SendTemplateWithdraw(wechatId, url, title, name, time, amount, way)));
+			return null;
+		}
+		
+
 		
 		if(!StringGlobal.IsNull(wechatId) && !StringGlobal.IsNull(storeId)){
 			response.getWriter().print(String.format("%s", wechatService.SendStore(wechatId, storeId, orderId)));

@@ -253,6 +253,22 @@ public class WechatService {
 		return NetGlobal.HttpPost(url, headers, body, null);
 	}
 	
+	public String SendTemplatePaid(String wechat_id, String redirect, String title, String amount, String order, String content) throws Exception{
+		String url = String.format("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", GetToken());
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("Content-Type", "application/json");
+		String body = String.format("{\"touser\":\"%s\",\"template_id\":\"Y0z82NkCh5jo2HfOQlDfGfVyHk2vAxBIth8HvchCNdo\",\"url\":\"%s\",\"data\":{\"first\": {\"value\":\"%s\",\"color\":\"#000000\"},\"keyword1\":{\"value\":\"%s\",\"color\":\"#000000\"},\"keyword2\": {\"value\":\"%s\",\"color\":\"#000000\"},\"remark\": {\"value\":\"%s\",\"color\":\"#000000\"}}}", wechat_id, redirect, title, amount, order, content);
+		return NetGlobal.HttpPost(url, headers, body, null);
+	}
+	
+	public String SendTemplateWithdraw(String wechat_id, String redirect, String title, String name, String time, String amount, String way) throws Exception{
+		String url = String.format("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", GetToken());
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("Content-Type", "application/json");
+		String body = String.format("{\"touser\":\"%s\",\"template_id\":\"rT__CRb85PSeiGJZve8O2__3cmjDVzvyrl7PD-OIKWs\",\"url\":\"%s\",\"data\":{\"first\": {\"value\":\"%s\",\"color\":\"#000000\"},\"keyword1\":{\"value\":\"%s\",\"color\":\"#000000\"},\"keyword2\": {\"value\":\"%s\",\"color\":\"#000000\"},\"keyword3\": {\"value\":\"%s\",\"color\":\"#000000\"},\"keyword4\": {\"value\":\"%s\",\"color\":\"#000000\"}}}", wechat_id, redirect, title, name, time, amount, way);
+		return NetGlobal.HttpPost(url, headers, body, null);
+	}
+	
 	
 	public String SendStore(String wechatId, String storeId, String orderId) throws Exception{
 		if(!StringGlobal.IsNull(storeId)){
@@ -300,11 +316,6 @@ public class WechatService {
 				if(recommend.getId() > 0)
 					json.append(String.format("{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},", "店长暖心推荐：" + recommend.getMessage(), "", "http://www.pinshe.org/html/v1/coffee/product_detail.html?id=" + recommend.getCommodity_id(), commodityImage.getUrl()));
 				
-				if(!StringGlobal.IsNull(store.getWifi()))
-					json.append(String.format("{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},", "查看" + store.getName() + "的WIFI密码", "", "http://www.pinshe.org/html/v1/coffee/qrcode_wifi.html?id=" + store.getId(), "http://www.pinshe.org/v1/image/2016/10/19/wifi.jpg"));
-				
-				json.append(String.format("{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},", "别忘了评价本次体验, 获得品社心意馈赠", "", "http://www.pinshe.org/html/v1/coffee/qrcode_cafecomment.html?id=" + store.getId() + "&oid=" + orderId, "http://www.pinshe.org/v1/image/2016/10/19/logo.jpg"));
-
 				if(storePushs != null && storePushs.size() > 0){
 					for(int i = 0; i < storePushs.size(); i++){
 						storePush = storePushs.get(i);
@@ -312,6 +323,10 @@ public class WechatService {
 					}
 				}
 				
+				if(!StringGlobal.IsNull(store.getWifi()))
+					json.append(String.format("{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},", "查看" + store.getName() + "的WIFI密码", "", "http://www.pinshe.org/html/v1/coffee/qrcode_wifi.html?id=" + store.getId(), "http://www.pinshe.org/v1/image/2016/10/19/wifi.jpg"));
+				
+				json.append(String.format("{\"title\":\"%s\",\"description\":\"%s\",\"url\":\"%s\",\"picurl\":\"%s\"},", "别忘了评价本次体验, 获得品社心意馈赠", "", "http://www.pinshe.org/html/v1/coffee/qrcode_cafecomment.html?id=" + store.getId() + "&oid=" + orderId, "http://www.pinshe.org/v1/image/2016/10/19/logo.jpg"));
 
 				if(json.length() > 0){
 					json.setLength(json.length() - 1);
